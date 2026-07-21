@@ -1,0 +1,165 @@
+theory AURA_RSP_Trace_Scheme_V6
+begin
+
+/*
+  AURA-RSP conditional tracing and non-frameability aligned with the v14
+  scheme. The public network and PR forwarding are omitted in this tracing-
+  only model.
+
+  Exact symbolic relations retained:
+    Nu = nullifier(eta)
+    C  = trace_response(d,k,Gamma)
+    Gamma = H_gamma(ctx_t)
+
+  The finite-field extraction
+    k = (c-c') * (gamma-gamma')^{-1}
+  is represented by an ideal extraction rule enabled only after two distinct
+  valid responses for the same Nu.
+*/
+
+builtins: hashing, signing
+
+functions:
+  nullifier/1,
+  profile_handle/3,
+  trace_response/3,
+  capability/2
+
+restriction Inequality:
+  "All x #i. Neq(x,x) @ #i ==> F"
+
+rule Register_Device:
+  let Kidx = h(<'trace-index',~eid,~rtr>)
+  in
+  [ Fr(~eid), Fr(~x), Fr(~rtr), Fr(~cred_exp) ]
+--[ CredentialIssued(~eid,~x,Kidx,~cred_exp) ]->
+  [ !CredentialRecord(~eid,~x,Kidx,~cred_exp),
+    !TraceMap(Kidx,~eid) ]
+
+rule Issue_Ticket:
+  let Nu = nullifier(~eta)
+  in
+  [ !CredentialRecord(eid,x,k,cred_exp),
+    Fr(~Iac), Fr(~sid), Fr(~pidh), Fr(~exp), Fr(~PRaddr),
+    Fr(~eta), Fr(~d) ]
+--[ TicketIssued(eid,x,~Iac,~sid,~pidh,'download',~exp,
+                 ~PRaddr,~eta,~d) ]->
+  [ !TicketRecord(eid,x,~Iac,~sid,~pidh,'download',
+                  ~exp,~PRaddr,~eta,~d),
+    DeviceUnused(Nu), ServerUnused(Nu) ]
+
+rule Device_First_Valid_Response:
+  let Cap    = capability('caps-hybrid','hybrid')
+      Nu     = nullifier(eta)
+      Lph1   = profile_handle(pidh,~salt1,x)
+      VkT1   = pk(~skT1)
+      Ctx1   = h(<'ctx-t',~It1,~NS1,~NU1,Iac,sid,pidh,op,exp,PRaddr,
+                  ~salt1,Lph1,Nu,~opid1,h(VkT1),Cap,cred_exp>)
+      Gamma1 = h(<'gamma',Ctx1>)
+      C1     = trace_response(d,k,Gamma1)
+      Tau1   = sign(h(<'auth',Ctx1,Gamma1,C1>),~skT1)
+      Msg1   = <~salt1,Lph1,Nu,VkT1,~opid1,Gamma1,C1,
+                Tau1,~proof1,cred_exp>
+  in
+  [ !CredentialRecord(eid,x,k,cred_exp),
+    !TicketRecord(eid,x,Iac,sid,pidh,op,exp,PRaddr,eta,d),
+    DeviceUnused(Nu),
+    Fr(~It1), Fr(~NS1), Fr(~NU1), Fr(~salt1),
+    Fr(~opid1), Fr(~skT1), Fr(~proof1) ]
+--[ DeviceValidResponse(eid,Nu,~opid1,Ctx1,Gamma1,C1,k,Msg1) ]->
+  [ !FirstResponse(eid,Iac,Nu,~opid1,Ctx1,Gamma1,C1,k,Msg1),
+    !TicketProfileContext(eid,Nu,~salt1,Lph1),
+    !ValidResponse(eid,Nu,~opid1,Ctx1,Gamma1,C1,k,Msg1) ]
+
+rule Device_Return_Cached_Response:
+  [ !FirstResponse(eid,Iac,Nu,opid,Ctx,Gamma,C,k,Msg) ]
+--[ DeviceReturnedCachedResponse(eid,Nu,opid,Ctx,Msg) ]->
+  [ ]
+
+rule Device_Reuse_Ticket_For_New_Operation:
+  let Cap    = capability('caps-hybrid','hybrid')
+      VkT2   = pk(~skT2)
+      Ctx2   = h(<'ctx-t',~It2,~NS2,~NU2,Iac,sid,pidh,op,exp,PRaddr,
+                  salt_p,Lph,Nu,~opid2,h(VkT2),Cap,cred_exp>)
+      Gamma2 = h(<'gamma',Ctx2>)
+      C2     = trace_response(d,k,Gamma2)
+      Tau2   = sign(h(<'auth',Ctx2,Gamma2,C2>),~skT2)
+      Msg2   = <salt_p,Lph,Nu,VkT2,~opid2,Gamma2,C2,
+                Tau2,~proof2,cred_exp>
+  in
+  [ !CredentialRecord(eid,x,k,cred_exp),
+    !TicketRecord(eid,x,Iac,sid,pidh,op,exp,PRaddr,eta,d),
+    !FirstResponse(eid,Iac,Nu,opid1,Ctx1,Gamma1,C1,k,Msg1),
+    !TicketProfileContext(eid,Nu,salt_p,Lph),
+    Fr(~It2), Fr(~NS2), Fr(~NU2),
+    Fr(~opid2), Fr(~skT2), Fr(~proof2) ]
+--[ Neq(~opid2,opid1),
+    Neq(Gamma2,Gamma1),
+    DeviceValidResponse(eid,Nu,~opid2,Ctx2,Gamma2,C2,k,Msg2) ]->
+  [ !ValidResponse(eid,Nu,~opid2,Ctx2,Gamma2,C2,k,Msg2) ]
+
+rule Server_Accept_First_Response:
+  [ ServerUnused(Nu),
+    !FirstResponse(eid,Iac,Nu,opid,Ctx,Gamma,C,k,Msg) ]
+--[ ServerAcceptedValidResponse(Nu,opid,Ctx,Gamma,C,k,Msg),
+    FirstTicketUseAccepted(Nu,Ctx) ]->
+  [ !UsedNu(Nu,opid,Ctx,Gamma,C,k,Msg) ]
+
+rule Server_Process_Exact_Replay:
+  [ !UsedNu(Nu,opid,Ctx,Gamma,C,k,Msg),
+    !FirstResponse(eid,Iac,Nu,opid,Ctx,Gamma,C,k,Msg) ]
+--[ ExactReplayProcessed(Nu,opid,Ctx,Msg) ]->
+  [ ]
+
+rule Server_Detect_Double_Spend:
+  [ !UsedNu(Nu,opid1,Ctx1,Gamma1,C1,k,Msg1),
+    !ValidResponse(eid,Nu,opid2,Ctx2,Gamma2,C2,k,Msg2) ]
+--[ Neq(Gamma1,Gamma2),
+    ServerAcceptedValidResponse(Nu,opid2,Ctx2,Gamma2,C2,k,Msg2),
+    DoubleSpendDetected(Nu,Ctx1,Ctx2,k,Msg1,Msg2) ]->
+  [ TraceEvidence(k,Nu,Msg1,Msg2) ]
+
+rule EUM_Resolve:
+  [ TraceEvidence(k,Nu,Msg1,Msg2),
+    !TraceMap(k,eid) ]
+--[ IdentityResolved(eid,Nu,k,Msg1,Msg2),
+    ConditionalTraceComplete(eid,Nu,k) ]->
+  [ ]
+
+lemma exists_conditional_trace:
+  exists-trace
+  "Ex eid Nu k #i. ConditionalTraceComplete(eid,Nu,k) @ #i"
+
+lemma tracing_requires_two_distinct_valid_responses:
+  "All eid Nu k M1 M2 #i.
+     IdentityResolved(eid,Nu,k,M1,M2) @ #i
+     ==> (Ex opid1 opid2 Ctx1 Ctx2 G1 G2 C1 C2 #j #m.
+            ServerAcceptedValidResponse(Nu,opid1,Ctx1,G1,C1,k,M1) @ #j
+          & ServerAcceptedValidResponse(Nu,opid2,Ctx2,G2,C2,k,M2) @ #m
+          & #j < #i & #m < #i
+          & not (G1 = G2))"
+
+lemma trace_resolves_issued_device:
+  "All eid Nu k M1 M2 #i.
+     IdentityResolved(eid,Nu,k,M1,M2) @ #i
+     ==> (Ex x cred_exp #j.
+            CredentialIssued(eid,x,k,cred_exp) @ #j & #j < #i)"
+
+lemma same_opid_is_non_frameable:
+  "All eid Nu opid Ctx1 Ctx2 G1 G2 C1 C2 k M1 M2 #i #j.
+     DeviceValidResponse(eid,Nu,opid,Ctx1,G1,C1,k,M1) @ #i
+   & DeviceValidResponse(eid,Nu,opid,Ctx2,G2,C2,k,M2) @ #j
+     ==> Ctx1 = Ctx2 & M1 = M2"
+
+lemma exact_replay_does_not_create_trace:
+  "All Nu opid Ctx Msg #i.
+     ExactReplayProcessed(Nu,opid,Ctx,Msg) @ #i
+     ==> not (Ex eid k #j.
+                IdentityResolved(eid,Nu,k,Msg,Msg) @ #j)"
+
+lemma no_trace_from_single_accepted_response:
+  "All eid Nu k M1 M2 #i.
+     IdentityResolved(eid,Nu,k,M1,M2) @ #i
+     ==> not (M1 = M2)"
+
+end

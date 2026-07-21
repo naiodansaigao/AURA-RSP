@@ -1,0 +1,95 @@
+theory AURA_RSP_Profile_Binding_Scheme_V6
+begin
+
+/*
+  AURA-RSP transaction-bound Profile Binding aligned with the v14 scheme.
+
+  The preceding anonymous-authentication result is represented by an accepted
+  complete ctx_t and M_U^auth. This module then models exactly:
+
+    th_auth  = H("auth-transcript" || ctx_t || H(M_U^auth))
+    ctx_bind = H("bind" || ctx_t || th_auth)
+    Bind_t   = Sig_SKSp(ctx_bind)
+*/
+
+builtins: hashing, signing
+
+restriction Equality:
+  "All x y #i. Eq(x,y) @ #i ==> x = y"
+
+rule Setup_Profile_Binding_Key:
+  [ Fr(~sid), Fr(~serverOID), Fr(~skSp) ]
+--[ BindingInfrastructureReady(~sid,~serverOID) ]->
+  [ !BindingKey(~sid,~serverOID,~skSp),
+    !BindingPublic(~sid,~serverOID,pk(~skSp)) ]
+
+rule Establish_Accepted_Anonymous_Context:
+  let Cap   = ~cap
+      VkT   = pk(~skT)
+      Ctx   = h(<'ctx-t',~It,~NS,~NonceU,~Iac,sid,~pidh,'download',~exp,
+                 ~PRaddr,~salt_p,~lph,~Nf,~opid,h(VkT),Cap,~cred_exp>)
+      Gamma = h(<'gamma',Ctx>)
+      Tau   = sign(h(<'auth',Ctx,Gamma,~c>),~skT)
+      Mauth = <~salt_p,~lph,~Nf,VkT,~opid,Gamma,~c,
+               Tau,~proof,~cred_exp>
+      Order = <~Iac,sid,~pidh,'download',~exp,~PRaddr>
+  in
+  [ !BindingPublic(sid,serverOID,pkSp),
+    Fr(~eid), Fr(~Iac), Fr(~pidh), Fr(~exp), Fr(~PRaddr),
+    Fr(~salt_p), Fr(~lph), Fr(~Nf), Fr(~opid), Fr(~skT),
+    Fr(~cred_exp), Fr(~It), Fr(~NS), Fr(~NonceU), Fr(~cap),
+    Fr(~c), Fr(~proof) ]
+--[ AnonymousAuthenticationAccepted(~eid,sid,~Iac,~pidh,Ctx,
+                                    ~lph,~Nf,VkT,Cap) ]->
+  [ ServerAcceptedAuth(sid,serverOID,Order,Ctx,Mauth),
+    DeviceWaitingBinding(~eid,sid,serverOID,pkSp,Order,Ctx,Mauth) ]
+
+rule Server_Create_Profile_Binding:
+  let Th   = h(<'auth-transcript',Ctx,h(Mauth)>)
+      CtxB = h(<'bind',Ctx,Th>)
+      Bind = sign(CtxB,skSp)
+  in
+  [ !BindingKey(sid,serverOID,skSp),
+    ServerAcceptedAuth(sid,serverOID,Order,Ctx,Mauth) ]
+--[ ServerCreatedBinding(sid,serverOID,Order,Ctx,CtxB,Bind) ]->
+  [ Out(<'profile-binding',sid,serverOID,Order,CtxB,Bind>) ]
+
+rule Device_Accept_Profile_Binding:
+  let Th   = h(<'auth-transcript',Ctx,h(Mauth)>)
+      CtxB = h(<'bind',Ctx,Th>)
+  in
+  [ DeviceWaitingBinding(eid,sid,serverOID,pkSp,Order,Ctx,Mauth),
+    In(<'profile-binding',sid,serverOID,Order,CtxB,Bind>) ]
+--[ Eq(verify(Bind,CtxB,pkSp),true),
+    DeviceAcceptedBinding(eid,sid,serverOID,Order,Ctx,CtxB,Bind),
+    BoundProtocolComplete(eid,sid,Ctx,Bind) ]->
+  [ ]
+
+lemma exists_profile_binding:
+  exists-trace
+  "Ex eid sid Ctx Bind #i.
+     BoundProtocolComplete(eid,sid,Ctx,Bind) @ #i"
+
+lemma profile_binding_agreement:
+  "All eid sid serverOID Order Ctx CtxB Bind #i.
+     DeviceAcceptedBinding(eid,sid,serverOID,Order,Ctx,CtxB,Bind) @ #i
+     ==> (Ex #j.
+            ServerCreatedBinding(sid,serverOID,Order,Ctx,CtxB,Bind) @ #j
+          & #j < #i)"
+
+lemma binding_uses_accepted_anonymous_context:
+  "All eid sid serverOID Order Ctx CtxB Bind #i.
+     DeviceAcceptedBinding(eid,sid,serverOID,Order,Ctx,CtxB,Bind) @ #i
+     ==> (Ex Iac pidh lph nu VkT Cap #j.
+            AnonymousAuthenticationAccepted(eid,sid,Iac,pidh,Ctx,
+                                            lph,nu,VkT,Cap) @ #j
+          & #j < #i)"
+
+lemma binding_cannot_cross_contexts:
+  "All eid1 eid2 sid serverOID Order1 Order2 Ctx1 Ctx2
+       CtxB1 CtxB2 Bind #i #j.
+     DeviceAcceptedBinding(eid1,sid,serverOID,Order1,Ctx1,CtxB1,Bind) @ #i
+   & DeviceAcceptedBinding(eid2,sid,serverOID,Order2,Ctx2,CtxB2,Bind) @ #j
+     ==> Ctx1 = Ctx2 & Order1 = Order2"
+
+end

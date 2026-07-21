@@ -1,0 +1,104 @@
+theory AURA_RSP_Server_Auth_Scheme_V6
+begin
+
+/*
+  AURA-RSP server-authentication model aligned with the v14 scheme.
+
+  PR transport is intentionally omitted to keep the model lightweight.
+  PRaddr is still retained as an authorized order field and is included in
+  the server-authentication signature exactly as specified by AURA-RSP.
+
+  sigma_S^auth binds:
+    I_t, N_S, N_U, sid, serverOID, PRaddr, and cap.
+*/
+
+builtins: hashing, signing
+
+functions:
+  capability/2
+
+restriction Equality:
+  "All x y #i. Eq(x,y) @ #i ==> x = y"
+
+rule Setup_Server:
+  [ Fr(~sid), Fr(~serverOID), Fr(~skSa) ]
+--[ ServerInfrastructureReady(~sid,~serverOID) ]->
+  [ !ServerAuthKey(~sid,~serverOID,~skSa),
+    !ServerAuthPublic(~sid,~serverOID,pk(~skSa)) ]
+
+rule Create_Download_Order:
+  [ !ServerAuthPublic(sid,serverOID,pkSa),
+    Fr(~Iac), Fr(~pidh), Fr(~exp), Fr(~PRaddr) ]
+--[ OrderCreated(~Iac,sid,~pidh,'download',~exp,~PRaddr) ]->
+  [ !ServerOrder(~Iac,sid,~pidh,'download',~exp,~PRaddr),
+    !DeviceOrder(~Iac,sid,~pidh,'download',~exp,~PRaddr,
+                 serverOID,pkSa) ]
+
+rule Device_Send_Server_Authentication_Request:
+  [ !DeviceOrder(Iac,sid,pidh,'download',exp,PRaddr,
+                 serverOID,pkSa),
+    Fr(~eid), Fr(~NU) ]
+--[ DeviceSentServerAuthRequest(~eid,Iac,sid,~NU,PRaddr) ]->
+  [ DeviceWaitingServer(~eid,Iac,sid,pidh,'download',exp,
+                        PRaddr,serverOID,pkSa,~NU),
+    Out(<'server-auth-request',Iac,sid,pidh,'download',
+          exp,PRaddr,~NU,'caps-hybrid'>) ]
+
+rule Server_Send_Authentication_Response:
+  let Cap  = capability('caps-hybrid','hybrid')
+      Body = <~It,~NS,NU,sid,serverOID,PRaddr,Cap>
+      SigS = sign(Body,skSa)
+  in
+  [ !ServerAuthKey(sid,serverOID,skSa),
+    !ServerOrder(Iac,sid,pidh,'download',exp,PRaddr),
+    In(<'server-auth-request',Iac,sid,pidh,'download',
+        exp,PRaddr,NU,'caps-hybrid'>),
+    Fr(~It), Fr(~NS) ]
+--[ ServerAuthSent(Iac,sid,~It,~NS,NU,
+                   serverOID,PRaddr,Cap) ]->
+  [ Out(<'server-auth-response',Iac,sid,~It,~NS,NU,
+          serverOID,PRaddr,Cap,SigS>) ]
+
+rule Device_Accept_Authenticated_Server:
+  let Cap  = capability('caps-hybrid','hybrid')
+      Body = <It,NS,NU,sid,serverOID,PRaddr,Cap>
+  in
+  [ DeviceWaitingServer(eid,Iac,sid,pidh,'download',exp,
+                        PRaddr,serverOID,pkSa,NU),
+    In(<'server-auth-response',Iac,sid,It,NS,NU,
+        serverOID,PRaddr,Cap,SigS>) ]
+--[ Eq(verify(SigS,Body,pkSa),true),
+    DeviceAcceptedServer(eid,Iac,sid,It,NS,NU,
+                         serverOID,PRaddr,Cap),
+    ServerAuthenticationComplete(eid,Iac,sid,It) ]->
+  [ ]
+
+lemma exists_server_authentication:
+  exists-trace
+  "Ex eid Iac sid It #i.
+     ServerAuthenticationComplete(eid,Iac,sid,It) @ #i"
+
+lemma server_authentication_agreement:
+  "All eid Iac sid It NS NU serverOID PRaddr Cap #i.
+     DeviceAcceptedServer(eid,Iac,sid,It,NS,NU,
+                          serverOID,PRaddr,Cap) @ #i
+     ==> (Ex #j.
+            ServerAuthSent(Iac,sid,It,NS,NU,
+                           serverOID,PRaddr,Cap) @ #j
+          & #j < #i)"
+
+lemma server_authentication_order_binding:
+  "All eid Iac sid It NS NU serverOID PRaddr Cap #i.
+     DeviceAcceptedServer(eid,Iac,sid,It,NS,NU,
+                          serverOID,PRaddr,Cap) @ #i
+     ==> (Ex pidh exp #j.
+            OrderCreated(Iac,sid,pidh,'download',exp,PRaddr) @ #j
+          & #j < #i)"
+
+lemma capability_transcript_binding:
+  "All eid Iac sid It NS NU serverOID PRaddr Cap #i.
+     DeviceAcceptedServer(eid,Iac,sid,It,NS,NU,
+                          serverOID,PRaddr,Cap) @ #i
+     ==> Cap = capability('caps-hybrid','hybrid')"
+
+end

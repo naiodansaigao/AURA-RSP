@@ -1,0 +1,200 @@
+theory AURA_RSP_Hybrid_Scheme_V6
+begin
+
+/*
+  AURA-RSP classic and optional hybrid authenticated key establishment aligned
+  with the v14 scheme.
+
+  The complete ctx_t and Bind_t are abstracted as an already accepted bound
+  context. The selected cap is incorporated into ctx_t and therefore bound by
+  Bind_t. The key-establishment signatures and ctx_K follow the paper formulas
+  without adding extra mode/cap fields.
+*/
+
+builtins: hashing, signing, diffie-hellman
+
+functions:
+  cap_transcript/2,
+  kem_pk/1,
+  kem_enc/2,
+  kem_dec/2 [destructor],
+  kdf/3,
+  kenc/2,
+  kmac/2
+
+equations:
+  kem_dec(kem_enc(kem_pk(sk),ss),sk) = ss
+
+restriction Equality:
+  "All x y #i. Eq(x,y) @ #i ==> x = y"
+
+rule Setup:
+  [ Fr(~skSp), Fr(~sid) ]
+--[ Infrastructure(~sid) ]->
+  [ !ServerBindingKey(~sid,~skSp),
+    !ServerBindingPublic(~sid,pk(~skSp)) ]
+
+rule Create_Unselected_Bound_Context:
+  [ !ServerBindingKey(sid,skSp),
+    Fr(~eid), Fr(~Iac), Fr(~It), Fr(~base), Fr(~th), Fr(~skT) ]
+--[ NegotiationContextCreated(~eid,sid,~Iac) ]->
+  [ UnselectedBoundContext(~eid,sid,~Iac,~It,~base,~th,
+                           ~skT,pk(~skT),pk(skSp),skSp) ]
+
+rule Select_Classic_Bound_Context:
+  let Cap  = cap_transcript('caps-classic','classic')
+      Ctx  = h(<'ctx-t',base,Cap>)
+      CtxB = h(<'bind',Ctx,th>)
+      Bind = sign(CtxB,skSp)
+  in
+  [ UnselectedBoundContext(eid,sid,Iac,It,base,th,
+                           skT,VkT,pkSp,skSp) ]
+--[ BoundContextCreated(eid,sid,Iac,'classic',Cap,Ctx,Bind) ]->
+  [ DeviceBound(eid,sid,Iac,It,'classic',Cap,Ctx,Bind,skT,VkT,pkSp),
+    ServerBound(sid,Iac,It,'classic',Cap,Ctx,Bind,VkT,skSp) ]
+
+rule Select_Hybrid_Bound_Context:
+  let Cap  = cap_transcript('caps-hybrid','hybrid')
+      Ctx  = h(<'ctx-t',base,Cap>)
+      CtxB = h(<'bind',Ctx,th>)
+      Bind = sign(CtxB,skSp)
+  in
+  [ UnselectedBoundContext(eid,sid,Iac,It,base,th,
+                           skT,VkT,pkSp,skSp) ]
+--[ BoundContextCreated(eid,sid,Iac,'hybrid',Cap,Ctx,Bind) ]->
+  [ DeviceBound(eid,sid,Iac,It,'hybrid',Cap,Ctx,Bind,skT,VkT,pkSp),
+    ServerBound(sid,Iac,It,'hybrid',Cap,Ctx,Bind,VkT,skSp) ]
+
+rule Device_Send_Classic_KA:
+  let QU   = 'g' ^ ~a
+      SigU = sign(h(<'ka-u',It,QU,h(Bind)>),skT)
+  in
+  [ DeviceBound(eid,sid,Iac,It,'classic',Cap,Ctx,Bind,skT,VkT,pkSp),
+    Fr(~a) ]
+--[ DeviceSentKA(eid,sid,Iac,'classic',Cap,QU,'none') ]->
+  [ DevWaitClassic(eid,sid,Iac,It,Cap,Ctx,Bind,pkSp,~a,QU),
+    Out(<'ka-u',sid,Iac,QU,SigU>) ]
+
+rule Server_Accept_Classic_KA:
+  let QS   = 'g' ^ ~b
+      Z    = QU ^ ~b
+      CtxK = h(<'key',Ctx,h(Bind),QU,QS>)
+      K    = kdf(Z,'none',CtxK)
+      Kenc = kenc(K,CtxK)
+      Kmac = kmac(K,CtxK)
+      SigS = sign(h(<'ka-s',It,QU,QS,h(Bind)>),skSp)
+  in
+  [ ServerBound(sid,Iac,It,'classic',Cap,Ctx,Bind,VkT,skSp),
+    In(<'ka-u',sid,Iac,QU,SigU>),
+    Fr(~b) ]
+--[ Eq(verify(SigU,h(<'ka-u',It,QU,h(Bind)>),VkT),true),
+    ServerDerived(sid,Iac,'classic',Cap,CtxK,K,QU,QS,'none','none'),
+    SecretKAKey(K), SecretKAKey(Kenc), SecretKAKey(Kmac) ]->
+  [ Out(<'ka-s',sid,Iac,QS,SigS>) ]
+
+rule Device_Accept_Classic_KA:
+  let Z    = QS ^ a
+      CtxK = h(<'key',Ctx,h(Bind),QU,QS>)
+      K    = kdf(Z,'none',CtxK)
+      Kenc = kenc(K,CtxK)
+      Kmac = kmac(K,CtxK)
+  in
+  [ DevWaitClassic(eid,sid,Iac,It,Cap,Ctx,Bind,pkSp,a,QU),
+    In(<'ka-s',sid,Iac,QS,SigS>) ]
+--[ Eq(verify(SigS,h(<'ka-s',It,QU,QS,h(Bind)>),pkSp),true),
+    DeviceDerived(eid,sid,Iac,'classic',Cap,CtxK,K,QU,QS,'none','none'),
+    ClassicComplete(eid,sid,Iac,CtxK,K),
+    SecretKAKey(K), SecretKAKey(Kenc), SecretKAKey(Kmac) ]->
+  [ ClassicSession(eid,sid,Iac,CtxK,K,Kenc,Kmac) ]
+
+rule Device_Send_Hybrid_KA:
+  let QU   = 'g' ^ ~a
+      PkPQ = kem_pk(~skPQ)
+      SigU = sign(h(<'ka-u',It,QU,h(PkPQ),h(Bind)>),skT)
+  in
+  [ DeviceBound(eid,sid,Iac,It,'hybrid',Cap,Ctx,Bind,skT,VkT,pkSp),
+    Fr(~a), Fr(~skPQ) ]
+--[ DeviceSentKA(eid,sid,Iac,'hybrid',Cap,QU,PkPQ) ]->
+  [ DevWaitHybrid(eid,sid,Iac,It,Cap,Ctx,Bind,pkSp,
+                  ~a,QU,~skPQ,PkPQ),
+    Out(<'ka-u',sid,Iac,QU,PkPQ,SigU>) ]
+
+rule Server_Accept_Hybrid_KA:
+  let QS   = 'g' ^ ~b
+      Z    = QU ^ ~b
+      CtPQ = kem_enc(PkPQ,~ssPQ)
+      CtxK = h(<'key',Ctx,h(Bind),QU,QS,h(PkPQ),h(CtPQ)>)
+      K    = kdf(Z,~ssPQ,CtxK)
+      Kenc = kenc(K,CtxK)
+      Kmac = kmac(K,CtxK)
+      SigS = sign(h(<'ka-s',It,QU,QS,h(PkPQ),h(CtPQ),h(Bind)>),skSp)
+  in
+  [ ServerBound(sid,Iac,It,'hybrid',Cap,Ctx,Bind,VkT,skSp),
+    In(<'ka-u',sid,Iac,QU,PkPQ,SigU>),
+    Fr(~b), Fr(~ssPQ) ]
+--[ Eq(verify(SigU,h(<'ka-u',It,QU,h(PkPQ),h(Bind)>),VkT),true),
+    ServerDerived(sid,Iac,'hybrid',Cap,CtxK,K,QU,QS,PkPQ,CtPQ),
+    SecretKAKey(K), SecretKAKey(Kenc), SecretKAKey(Kmac) ]->
+  [ Out(<'ka-s',sid,Iac,QS,CtPQ,SigS>) ]
+
+rule Device_Accept_Hybrid_KA:
+  let SS   = kem_dec(CtPQ,skPQ)
+      Z    = QS ^ a
+      CtxK = h(<'key',Ctx,h(Bind),QU,QS,h(PkPQ),h(CtPQ)>)
+      K    = kdf(Z,SS,CtxK)
+      Kenc = kenc(K,CtxK)
+      Kmac = kmac(K,CtxK)
+  in
+  [ DevWaitHybrid(eid,sid,Iac,It,Cap,Ctx,Bind,pkSp,
+                  a,QU,skPQ,PkPQ),
+    In(<'ka-s',sid,Iac,QS,CtPQ,SigS>) ]
+--[ Eq(verify(SigS,h(<'ka-s',It,QU,QS,h(PkPQ),h(CtPQ),h(Bind)>),
+                     pkSp),true),
+    DeviceDerived(eid,sid,Iac,'hybrid',Cap,CtxK,K,QU,QS,PkPQ,CtPQ),
+    HybridComplete(eid,sid,Iac,CtxK,K),
+    SecretKAKey(K), SecretKAKey(Kenc), SecretKAKey(Kmac) ]->
+  [ HybridSession(eid,sid,Iac,CtxK,K,Kenc,Kmac) ]
+
+lemma exists_classic_key_agreement:
+  exists-trace
+  "Ex eid sid Iac CtxK K #i.
+     ClassicComplete(eid,sid,Iac,CtxK,K) @ #i"
+
+lemma exists_hybrid_key_agreement:
+  exists-trace
+  "Ex eid sid Iac CtxK K #i.
+     HybridComplete(eid,sid,Iac,CtxK,K) @ #i"
+
+lemma key_agreement_mode_and_transcript_agreement:
+  "All eid sid Iac mode Cap CtxK K QU QS PkPQ CtPQ #i.
+     DeviceDerived(eid,sid,Iac,mode,Cap,CtxK,K,QU,QS,PkPQ,CtPQ) @ #i
+     ==> (Ex #j.
+            ServerDerived(sid,Iac,mode,Cap,CtxK,K,QU,QS,PkPQ,CtPQ) @ #j
+          & #j < #i)"
+
+lemma hybrid_acceptance_requires_hybrid_capability_transcript:
+  "All eid sid Iac Cap CtxK K QU QS PkPQ CtPQ #i.
+     DeviceDerived(eid,sid,Iac,'hybrid',Cap,CtxK,K,QU,QS,PkPQ,CtPQ) @ #i
+     ==> Cap = cap_transcript('caps-hybrid','hybrid')"
+
+lemma classic_acceptance_requires_classic_capability_transcript:
+  "All eid sid Iac Cap CtxK K QU QS #i.
+     DeviceDerived(eid,sid,Iac,'classic',Cap,CtxK,K,QU,QS,
+                   'none','none') @ #i
+     ==> Cap = cap_transcript('caps-classic','classic')"
+
+lemma no_cross_mode_key_acceptance:
+  "All eid sid Iac Cap1 Cap2 CtxK1 CtxK2 K1 K2
+       QU1 QU2 QS1 QS2 P1 P2 C1 C2 #i #j.
+     DeviceDerived(eid,sid,Iac,'classic',Cap1,CtxK1,K1,
+                   QU1,QS1,P1,C1) @ #i
+   & DeviceDerived(eid,sid,Iac,'hybrid',Cap2,CtxK2,K2,
+                   QU2,QS2,P2,C2) @ #j
+     ==> F"
+
+lemma key_secrecy:
+  "All key #i.
+     SecretKAKey(key) @ #i
+     ==> not (Ex #j. K(key) @ #j)"
+
+end

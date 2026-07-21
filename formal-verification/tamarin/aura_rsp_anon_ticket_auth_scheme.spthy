@@ -1,0 +1,227 @@
+theory AURA_RSP_Anon_Ticket_Auth_Scheme_V6
+begin
+
+/*
+  AURA-RSP anonymous-credential, one-time-ticket, and anonymous-client-
+  authentication model aligned with the v14 scheme.
+
+  Exact ordering retained:
+    1. EUM issues Cred_D over (x,k,cred_exp).
+    2. MNO/Reseller issues Tok_op over
+       (I_ac,sid,pid_h,op,exp,PRaddr,x,eta,d).
+    3. Server authentication establishes (I_t,N_S,N_U,cap).
+    4. The eUICC constructs ctx_t, gamma, c, tau_auth, and Pi_auth.
+
+  Important modeling boundary:
+    - BBS+ blind issuance and the joint randomized NIZK are represented by
+      issuer state plus an ideal ValidAnonProof fact.
+    - PR forwarding is omitted. PRaddr remains in the order, ticket, ctx_t,
+      and authorization lemmas.
+    - Expiration is represented by abstract validity facts rather than an
+      explicit clock.
+*/
+
+builtins: hashing, signing
+
+functions:
+  nullifier/1,
+  profile_handle/3,
+  trace_response/3,
+  capability/2
+
+restriction Equality:
+  "All x y #i. Eq(x,y) @ #i ==> x = y"
+
+rule Create_Order_Context:
+  [ Fr(~Iac), Fr(~sid), Fr(~pidh), Fr(~exp), Fr(~PRaddr) ]
+--[ OrderCreated(~Iac,~sid,~pidh,'download',~exp,~PRaddr) ]->
+  [ !OrderContext(~Iac,~sid,~pidh,'download',~exp,~PRaddr) ]
+
+rule Offline_Register_And_Issue_Credential:
+  let Kidx = h(<'trace-index',~eid,~rtr>)
+  in
+  [ Fr(~eid), Fr(~x), Fr(~rtr), Fr(~cred_exp) ]
+--[ CredentialIssued(~eid,~x,Kidx,~cred_exp),
+    CredentialValidityEstablished(~eid,~cred_exp),
+    SecretEID(~eid), SecretX(~x) ]->
+  [ !CredentialState(~eid,~x,Kidx,~cred_exp),
+    !CredentialCurrentlyValid(~eid,~cred_exp) ]
+
+rule Issue_One_Time_Operation_Ticket:
+  [ !CredentialState(eid,x,k,cred_exp),
+    !OrderContext(Iac,sid,pidh,op,exp,PRaddr),
+    Fr(~eta), Fr(~d) ]
+--[ TicketIssued(eid,x,Iac,sid,pidh,op,exp,PRaddr,~eta,~d),
+    TicketValidityEstablished(Iac,exp),
+    SecretEta(~eta), SecretD(~d) ]->
+  [ !TicketState(eid,x,Iac,sid,pidh,op,exp,PRaddr,~eta,~d),
+    !TicketCurrentlyValid(Iac,exp),
+    UnusedNullifier(nullifier(~eta)) ]
+
+rule Establish_Authenticated_Server_Session:
+  let Cap = capability('caps-hybrid','hybrid')
+  in
+  [ !OrderContext(Iac,sid,pidh,op,exp,PRaddr),
+    Fr(~It), Fr(~NS), Fr(~NonceU) ]
+--[ AuthenticatedServerSession(Iac,sid,pidh,op,exp,PRaddr,
+                               ~It,~NS,~NonceU,Cap) ]->
+  [ !ServerSession(Iac,sid,pidh,op,exp,PRaddr,
+                   ~It,~NS,~NonceU,Cap) ]
+
+rule Device_Generate_Anonymous_Authentication:
+  let Order   = <Iac,sid,pidh,op,exp,PRaddr>
+      Nf      = nullifier(eta)
+      Lph     = profile_handle(pidh,~salt_p,x)
+      VkT     = pk(~skT)
+      Ctx     = h(<'ctx-t',It,NS,NonceU,Iac,sid,pidh,op,exp,PRaddr,
+                   ~salt_p,Lph,Nf,~opid,h(VkT),Cap,cred_exp>)
+      Gamma   = h(<'gamma',Ctx>)
+      Resp    = trace_response(d,k,Gamma)
+      TauBody = h(<'auth',Ctx,Gamma,Resp>)
+      Tau     = sign(TauBody,~skT)
+      Public  = <Order,Ctx,Nf,Lph,Gamma,Resp,cred_exp>
+      Witness = <eid,x,k,eta,d>
+      Mauth   = <~salt_p,Lph,Nf,VkT,~opid,Gamma,Resp,
+                 Tau,~Proof,cred_exp>
+  in
+  [ !CredentialState(eid,x,k,cred_exp),
+    !CredentialCurrentlyValid(eid,cred_exp),
+    !TicketState(eid,x,Iac,sid,pidh,op,exp,PRaddr,eta,d),
+    !TicketCurrentlyValid(Iac,exp),
+    !ServerSession(Iac,sid,pidh,op,exp,PRaddr,It,NS,NonceU,Cap),
+    Fr(~salt_p), Fr(~opid), Fr(~skT), Fr(~Proof) ]
+--[ DeviceAuthGenerated(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                        Nf,Lph,~opid,VkT,Ctx),
+    LocalTicketLogCreated(eid,Nf,~opid,Ctx),
+    SecretTemporarySigningKey(~skT) ]->
+  [ !ValidAnonProof(~Proof,Witness,Public),
+    !LocalTicketLog(eid,Nf,~opid,Ctx,Mauth),
+    Out(<'anonymous-authentication',Iac,sid,Mauth>) ]
+
+rule Server_Accept_Fresh_Anonymous_Authentication:
+  let Order   = <Iac,sid,pidh,op,exp,PRaddr>
+      Ctx     = h(<'ctx-t',It,NS,NonceU,Iac,sid,pidh,op,exp,PRaddr,
+                   salt_p,Lph,Nf,opid,h(VkT),Cap,cred_exp>)
+      Gamma   = h(<'gamma',Ctx>)
+      TauBody = h(<'auth',Ctx,Gamma,Resp>)
+      Public  = <Order,Ctx,Nf,Lph,Gamma,Resp,cred_exp>
+      Witness = <eid,x,k,eta,d>
+      Mauth   = <salt_p,Lph,Nf,VkT,opid,Gamma,Resp,
+                 Tau,Proof,cred_exp>
+  in
+  [ !OrderContext(Iac,sid,pidh,op,exp,PRaddr),
+    !ServerSession(Iac,sid,pidh,op,exp,PRaddr,It,NS,NonceU,Cap),
+    !CredentialCurrentlyValid(eid,cred_exp),
+    !TicketCurrentlyValid(Iac,exp),
+    !ValidAnonProof(Proof,Witness,Public),
+    UnusedNullifier(Nf),
+    In(<'anonymous-authentication',Iac,sid,Mauth>) ]
+--[ Eq(verify(Tau,TauBody,VkT),true),
+    AuthenticationSignatureVerified(VkT,Ctx,Gamma,Resp),
+    SmdpAcceptedAnonymousAuth(eid,x,k,Iac,sid,pidh,op,exp,
+                              PRaddr,Ctx,Nf,Lph,opid,VkT),
+    BusinessAccepted(Nf,Ctx) ]->
+  [ !AcceptedAuthentication(Nf,Ctx,Mauth) ]
+
+rule Server_Process_Exact_Replay:
+  [ !AcceptedAuthentication(Nf,Ctx,Mauth),
+    In(<'anonymous-authentication',Iac,sid,Mauth>) ]
+--[ ExactReplayProcessed(Nf,Ctx) ]->
+  [ ]
+
+lemma exists_anonymous_authentication:
+  exists-trace
+  "Ex eid x k Iac sid pidh op exp PRaddr Ctx Nf Lph opid VkT #i.
+     SmdpAcceptedAnonymousAuth(eid,x,k,Iac,sid,pidh,op,exp,
+                               PRaddr,Ctx,Nf,Lph,opid,VkT) @ #i"
+
+lemma anonymous_authentication_soundness:
+  "All eid x k Iac sid pidh op exp PRaddr Ctx Nf Lph opid VkT #i.
+     SmdpAcceptedAnonymousAuth(eid,x,k,Iac,sid,pidh,op,exp,
+                               PRaddr,Ctx,Nf,Lph,opid,VkT) @ #i
+     ==> (Ex cred_exp #c.
+            CredentialIssued(eid,x,k,cred_exp) @ #c & #c < #i)
+       & (Ex eta d #t.
+            TicketIssued(eid,x,Iac,sid,pidh,op,exp,
+                         PRaddr,eta,d) @ #t
+          & #t < #i)"
+
+lemma ticket_non_transferability:
+  "All eid x k Iac sid pidh op exp PRaddr Ctx Nf Lph opid VkT #i.
+     SmdpAcceptedAnonymousAuth(eid,x,k,Iac,sid,pidh,op,exp,
+                               PRaddr,Ctx,Nf,Lph,opid,VkT) @ #i
+     ==> (Ex cred_exp eta d #c #t.
+            CredentialIssued(eid,x,k,cred_exp) @ #c
+          & TicketIssued(eid,x,Iac,sid,pidh,op,exp,
+                         PRaddr,eta,d) @ #t
+          & #c < #i & #t < #i)"
+
+lemma minimal_authorization_context_binding:
+  "All eid x k Iac sid pidh op exp PRaddr Ctx Nf Lph opid VkT #i.
+     SmdpAcceptedAnonymousAuth(eid,x,k,Iac,sid,pidh,op,exp,
+                               PRaddr,Ctx,Nf,Lph,opid,VkT) @ #i
+     ==> (Ex eta d #t.
+            TicketIssued(eid,x,Iac,sid,pidh,op,exp,
+                         PRaddr,eta,d) @ #t
+          & #t < #i)"
+
+lemma authentication_signature_is_verified:
+  "All eid x k Iac sid pidh op exp PRaddr Ctx Nf Lph opid VkT #i.
+     SmdpAcceptedAnonymousAuth(eid,x,k,Iac,sid,pidh,op,exp,
+                               PRaddr,Ctx,Nf,Lph,opid,VkT) @ #i
+     ==> (Ex Gamma Resp.
+            AuthenticationSignatureVerified(VkT,Ctx,Gamma,Resp) @ #i)"
+
+lemma accepted_authentication_uses_valid_credential_and_ticket:
+  "All eid x k Iac sid pidh op exp PRaddr Ctx Nf Lph opid VkT #i.
+     SmdpAcceptedAnonymousAuth(eid,x,k,Iac,sid,pidh,op,exp,
+                               PRaddr,Ctx,Nf,Lph,opid,VkT) @ #i
+     ==> (Ex cred_exp #c.
+            CredentialValidityEstablished(eid,cred_exp) @ #c
+          & #c < #i)
+       & (Ex #t. TicketValidityEstablished(Iac,exp) @ #t
+          & #t < #i)"
+
+lemma profile_handle_bound_to_credential_secret:
+  "All eid x k Iac sid pidh op exp PRaddr Ctx Nf Lph opid VkT #i.
+     SmdpAcceptedAnonymousAuth(eid,x,k,Iac,sid,pidh,op,exp,
+                               PRaddr,Ctx,Nf,Lph,opid,VkT) @ #i
+     ==> (Ex #j.
+            DeviceAuthGenerated(eid,x,k,Iac,sid,pidh,op,exp,
+                                PRaddr,Nf,Lph,opid,VkT,Ctx) @ #j
+          & #j < #i)"
+
+lemma nullifier_single_business_acceptance:
+  "All Nf Ctx1 Ctx2 #i #j.
+     BusinessAccepted(Nf,Ctx1) @ #i
+   & BusinessAccepted(Nf,Ctx2) @ #j
+     ==> #i = #j"
+
+lemma exact_replay_is_idempotent:
+  "All Nf Ctx #i.
+     ExactReplayProcessed(Nf,Ctx) @ #i
+     ==> not (Ex Ctx2 #j.
+                BusinessAccepted(Nf,Ctx2) @ #j & #i < #j)"
+
+lemma eid_secrecy:
+  "All eid #i.
+     SecretEID(eid) @ #i ==> not (Ex #j. K(eid) @ #j)"
+
+lemma x_secrecy:
+  "All x #i.
+     SecretX(x) @ #i ==> not (Ex #j. K(x) @ #j)"
+
+lemma eta_secrecy:
+  "All eta #i.
+     SecretEta(eta) @ #i ==> not (Ex #j. K(eta) @ #j)"
+
+lemma d_secrecy:
+  "All d #i.
+     SecretD(d) @ #i ==> not (Ex #j. K(d) @ #j)"
+
+lemma temporary_signing_key_secrecy:
+  "All skT #i.
+     SecretTemporarySigningKey(skT) @ #i
+     ==> not (Ex #j. K(skT) @ #j)"
+
+end

@@ -1,0 +1,174 @@
+theory AURA_RSP_Download_Scheme_V6
+begin
+
+/*
+  AURA-RSP classical authenticated key establishment, encrypted Profile
+  delivery, installation, and InstallReceipt verification aligned with v14.
+
+  The complete accepted ctx_t and Bind_t from the preceding modules are
+  represented as a bound download context. Lifecycle operations after the
+  initial installed state are intentionally outside this model.
+*/
+
+builtins: hashing, signing, diffie-hellman
+
+functions:
+  kdf/2,
+  kenc/2,
+  kmac/2,
+  aead/3,
+  aead_dec/3 [destructor],
+  mac/2,
+  receipt_id/4,
+  state_hash/7
+
+equations:
+  aead_dec(aead(m,k,aad),k,aad) = m
+
+restriction Equality:
+  "All x y #i. Eq(x,y) @ #i ==> x = y"
+
+rule Setup:
+  [ Fr(~skSp), Fr(~sid) ]
+--[ Infrastructure(~sid) ]->
+  [ !ServerBindingKey(~sid,~skSp),
+    !ServerBindingPublic(~sid,pk(~skSp)) ]
+
+rule Establish_Bound_Download_Context:
+  let Ctx  = h(<'ctx-t-complete',~ctx_material>)
+      Th   = h(<'auth-transcript',Ctx,~mauth_hash>)
+      CtxB = h(<'bind',Ctx,Th>)
+      Bind = sign(CtxB,skSp)
+      VkT  = pk(~skT)
+  in
+  [ !ServerBindingKey(sid,skSp),
+    Fr(~eid), Fr(~Iac), Fr(~pidh), Fr(~lph), Fr(~It),
+    Fr(~ctx_material), Fr(~mauth_hash), Fr(~skT), Fr(~profile) ]
+--[ BoundDownloadContext(~eid,sid,~Iac,~pidh,~lph,Ctx,Bind),
+    SecretProfile(~profile) ]->
+  [ DeviceBound(~eid,sid,~Iac,~pidh,~lph,~It,Ctx,Bind,
+                ~skT,VkT,pk(skSp)),
+    ServerBound(sid,~Iac,~pidh,~lph,~It,Ctx,Bind,
+                VkT,skSp,~profile) ]
+
+rule Device_Send_KA:
+  let QU   = 'g' ^ ~a
+      SigU = sign(h(<'ka-u',It,QU,h(Bind)>),skT)
+  in
+  [ DeviceBound(eid,sid,Iac,pidh,Lph,It,Ctx,Bind,
+                skT,VkT,pkSp),
+    Fr(~a) ]
+--[ DeviceKASent(eid,sid,Iac,QU) ]->
+  [ DevWaitKA(eid,sid,Iac,pidh,Lph,It,Ctx,Bind,pkSp,~a,QU),
+    Out(<'ka-u',sid,Iac,QU,SigU>) ]
+
+rule Server_Accept_KA:
+  let QS   = 'g' ^ ~b
+      Z    = QU ^ ~b
+      CtxK = h(<'key',Ctx,h(Bind),QU,QS>)
+      K    = kdf(Z,CtxK)
+      Kenc = kenc(K,CtxK)
+      Kmac = kmac(K,CtxK)
+      SigS = sign(h(<'ka-s',It,QU,QS,h(Bind)>),skSp)
+  in
+  [ ServerBound(sid,Iac,pidh,Lph,It,Ctx,Bind,VkT,skSp,profile),
+    In(<'ka-u',sid,Iac,QU,SigU>),
+    Fr(~b) ]
+--[ Eq(verify(SigU,h(<'ka-u',It,QU,h(Bind)>),VkT),true),
+    ServerKeyDerived(sid,Iac,CtxK,K,QU,QS),
+    SecretSessionKey(K), SecretSessionKey(Kenc), SecretSessionKey(Kmac) ]->
+  [ ServerSession(sid,Iac,pidh,Lph,Ctx,CtxK,Kenc,Kmac,Bind,profile),
+    Out(<'ka-s',sid,Iac,QS,SigS>) ]
+
+rule Device_Accept_KA:
+  let Z    = QS ^ a
+      CtxK = h(<'key',Ctx,h(Bind),QU,QS>)
+      K    = kdf(Z,CtxK)
+      Kenc = kenc(K,CtxK)
+      Kmac = kmac(K,CtxK)
+  in
+  [ DevWaitKA(eid,sid,Iac,pidh,Lph,It,Ctx,Bind,pkSp,a,QU),
+    In(<'ka-s',sid,Iac,QS,SigS>) ]
+--[ Eq(verify(SigS,h(<'ka-s',It,QU,QS,h(Bind)>),pkSp),true),
+    DeviceKeyDerived(eid,sid,Iac,CtxK,K,QU,QS),
+    SecretSessionKey(K), SecretSessionKey(Kenc), SecretSessionKey(Kmac) ]->
+  [ DeviceSession(eid,sid,Iac,pidh,Lph,Ctx,CtxK,
+                  Kenc,Kmac,Bind) ]
+
+rule Server_Send_Profile:
+  let Cipher = aead(profile,Kenc,CtxK)
+  in
+  [ ServerSession(sid,Iac,pidh,Lph,Ctx,CtxK,
+                  Kenc,Kmac,Bind,profile) ]
+--[ ProfileCiphertextSent(sid,Iac,pidh,profile,CtxK) ]->
+  [ ServerWaitReceipt(sid,Iac,pidh,Lph,Ctx,CtxK,Kmac,Bind,Cipher),
+    Out(<'encrypted-profile',sid,Iac,Cipher>) ]
+
+rule Device_Install_Profile:
+  let Cipher = aead(profile,Kenc,CtxK)
+      Plain  = aead_dec(Cipher,Kenc,CtxK)
+      Rid    = receipt_id('install',Ctx,h(Bind),h(Cipher))
+      Data   = <'install',Rid,Lph,'0','1','1','zero-hash'>
+      Tag    = mac(Data,Kmac)
+      Recpt  = <Lph,'0','1','1','zero-hash',Rid,Tag>
+  in
+  [ DeviceSession(eid,sid,Iac,pidh,Lph,Ctx,CtxK,
+                  Kenc,Kmac,Bind),
+    In(<'encrypted-profile',sid,Iac,Cipher>) ]
+--[ Eq(Plain,profile),
+    ProfileInstalled(eid,sid,Iac,pidh,profile,Lph,h(Bind),CtxK),
+    InstallReceiptGenerated(eid,sid,Iac,Lph,Rid) ]->
+  [ Out(<'install-receipt',sid,Iac,Recpt>) ]
+
+rule Server_Accept_InstallReceipt:
+  let Rid   = receipt_id('install',Ctx,h(Bind),h(Cipher))
+      Data  = <'install',Rid,Lph,'0','1','1','zero-hash'>
+      Tag   = mac(Data,Kmac)
+      Recpt = <Lph,'0','1','1','zero-hash',Rid,Tag>
+      Last  = state_hash('zero-hash',Rid,Lph,'0','1','1',Tag)
+  in
+  [ ServerWaitReceipt(sid,Iac,pidh,Lph,Ctx,CtxK,
+                      Kmac,Bind,Cipher),
+    In(<'install-receipt',sid,Iac,Recpt>) ]
+--[ InstallReceiptAccepted(sid,Iac,pidh,Lph,h(Bind),Rid),
+    DownloadComplete(sid,Iac,pidh,Lph,Rid),
+    ServerInstalledState(sid,pidh,Lph,'1','1',Last) ]->
+  [ !ProfileRecord(sid,pidh,Lph,'1','1',Last) ]
+
+lemma exists_complete_download:
+  exists-trace
+  "Ex sid Iac pidh Lph Rid #i.
+     DownloadComplete(sid,Iac,pidh,Lph,Rid) @ #i"
+
+lemma key_agreement_device_to_server:
+  "All eid sid Iac CtxK K QU QS #i.
+     DeviceKeyDerived(eid,sid,Iac,CtxK,K,QU,QS) @ #i
+     ==> (Ex #j.
+            ServerKeyDerived(sid,Iac,CtxK,K,QU,QS) @ #j
+          & #j < #i)"
+
+lemma installation_receipt_authenticity:
+  "All sid Iac pidh Lph BindHash Rid #i.
+     InstallReceiptAccepted(sid,Iac,pidh,Lph,BindHash,Rid) @ #i
+     ==> (Ex eid profile CtxK #j.
+            ProfileInstalled(eid,sid,Iac,pidh,profile,Lph,BindHash,CtxK) @ #j
+          & #j < #i)"
+
+lemma installation_receipt_is_bound_to_profile_binding:
+  "All sid Iac pidh Lph BindHash Rid #i.
+     InstallReceiptAccepted(sid,Iac,pidh,Lph,BindHash,Rid) @ #i
+     ==> (Ex eid profile CtxK #j.
+            ProfileInstalled(eid,sid,Iac,pidh,profile,Lph,BindHash,CtxK) @ #j
+          & #j < #i)"
+
+lemma profile_confidentiality:
+  "All profile #i.
+     SecretProfile(profile) @ #i
+     ==> not (Ex #j. K(profile) @ #j)"
+
+lemma session_key_secrecy:
+  "All key #i.
+     SecretSessionKey(key) @ #i
+     ==> not (Ex #j. K(key) @ #j)"
+
+end
