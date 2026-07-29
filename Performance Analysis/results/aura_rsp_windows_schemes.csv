@@ -1,0 +1,6 @@
+﻿scheme,time_basis,total_us,total_ms,status,missing_symbols,formula,model_note
+Standard RSP,baseline-corrected,411.9004,0.4119004,OK,,3T_S + 3T_V + 1T_AE + 1T_AD,
+AAKA,baseline-corrected,2820.03747,2.8200374700000004,OK,,2T_DH + 1T_PE + 1T_PD + 1T_S + 1T_V + 2T_P + 24T_E1 + 1T_AE + 1T_AD,
+Di5Guise,baseline-corrected,14161.61699,14.16161699,OK,,2T_DH + 1T_PE + 1T_PD + 1T_S + 1T_V + 1T_DG + 1T_DV + 2T_AE + 2T_AD,Design-level DAA model instantiated by genuine Intel EPID 2.0. T_DG and T_DV are direct native EpidSign and EpidVerify timings; no conventional signature or simulated loop replaces DAA.
+AURA-RSP classical,baseline-corrected,3807.40626,3.80740626,OK,,2T_DH + 5T_S + 5T_V + 4T_P + 17T_E1 + 4T_Ea + 1T_AE + 1T_AD + 1T_MG + 1T_MV,
+AURA-RSP hybrid,baseline-corrected,3973.9213400000003,3.9739213400000004,OK,,2T_DH + 5T_S + 5T_V + 4T_P + 17T_E1 + 4T_Ea + 1T_AE + 1T_AD + 1T_MG + 1T_MV + 1T_KE + 1T_KD,

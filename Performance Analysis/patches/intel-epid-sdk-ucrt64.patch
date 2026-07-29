@@ -1,0 +1,62 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 83c0c35..67b4992 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -41,6 +41,18 @@
+ cmake_minimum_required(VERSION 3.1)
+ project("EpidSDK")
+ 
++if(MINGW)
++    # MinGW-w64 defines Microsoft-compatible integer aliases such as __int64
++    # in _mingw.h. Intel IPP's Windows headers use those aliases directly.
++    # The SDK also enables -Werror globally, but GCC 16 diagnoses constructs
++    # accepted by the SDK's original toolchains. Keep warnings visible without
++    # treating newly introduced diagnostics as build failures.
++    set(CMAKE_C_STANDARD 11)
++    set(CMAKE_C_STANDARD_REQUIRED ON)
++    set(CMAKE_C_EXTENSIONS ON)
++    add_compile_options(-include _mingw.h -Wno-error)
++endif()
++
+ if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+     message(FATAL_ERROR "In-tree build is forbidden. Try
+     rm -rf build
+@@ -92,4 +104,12 @@ add_subdirectory(ext/ipp-crypto)
+ add_subdirectory(ext/argtable3)
+ add_subdirectory(epid)
+ add_subdirectory(tools)
+-add_subdirectory(example)
+\ No newline at end of file
++add_subdirectory(example)
++
++# Optional out-of-tree native benchmark used by the AURA/Di5Guise performance
++# harness.  Keeping this behind a cache variable leaves the upstream SDK's
++# default target graph unchanged.
++if(DEFINED AURA_EPID_BENCHMARK_DIR)
++    add_subdirectory("${AURA_EPID_BENCHMARK_DIR}"
++                     "${CMAKE_BINARY_DIR}/aura_epid_benchmark")
++endif()
+diff --git a/ext/ipp-crypto/CMakeLists.txt b/ext/ipp-crypto/CMakeLists.txt
+index 3d64366..867169d 100644
+--- a/ext/ipp-crypto/CMakeLists.txt
++++ b/ext/ipp-crypto/CMakeLists.txt
+@@ -58,7 +58,11 @@ else()
+             -Wno-parentheses)
+ 
+ endif()
+-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_ARCH_IA32")
++if(CMAKE_SIZEOF_VOID_P EQUAL 8)
++    target_compile_definitions(ipp-crypto PRIVATE _ARCH_EM64T)
++else()
++    target_compile_definitions(ipp-crypto PRIVATE _ARCH_IA32)
++endif()
+ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_IPP_DEBUG")
+ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_IPP_C99")
+ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -D_IPP_v50_")
+@@ -74,4 +78,4 @@ add_definitions(-D_NO_IPP_DEPRECATED)
+ target_include_directories(ipp-crypto
+         PUBLIC include
+         PRIVATE sources/include
+-        )
+\ No newline at end of file
++        )

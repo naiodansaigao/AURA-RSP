@@ -1,0 +1,79 @@
+{
+  "schema_version": 2,
+  "implementation": "Intel EPID SDK 8.0.0 (Intel EPID 2.0)",
+  "repository": "https://github.com/Intel-EPID-SDK/epid-sdk",
+  "commit": "389426ff4ba2286d2e133bec29d178427d434d8c",
+  "epid_version": "2.0",
+  "daa_class": "pairing-based Enhanced Privacy ID / DAA",
+  "curve": "256-bit Barreto-Naehrig pairing-friendly curve, embedding degree 12",
+  "security_level_bits": 128,
+  "hash_algorithm": "SHA-256",
+  "basename_mode": "random basename (anonymous/unlinkable)",
+  "basename": null,
+  "revocation_lists": {
+    "group_rl": "official signed empty GroupRL (0 entries)",
+    "private_rl": "official signed empty PrivRL (0 entries)",
+    "signature_rl": "official signed empty SigRL (0 entries)",
+    "verifier_rl": "not applicable: Intel EPID forbids VerifierRL with random basename"
+  },
+  "presignature_policy": {
+    "api": "EpidAddPreSigs",
+    "policy": "one fresh single-use pre-signature per EpidSign",
+    "pool_filled_before_each_timed_sign": true,
+    "pool_empty_after_each_timed_sign": true,
+    "offline_cost_excluded_from_T_DG": true
+  },
+  "message_length_bytes": 32,
+  "message_hex": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f",
+  "signature_length_bytes": 392,
+  "warmup_iterations": 1000,
+  "measurement_iterations": 10000,
+  "timer": "Windows QueryPerformanceCounter",
+  "qpc_frequency_hz": 10000000,
+  "timed_scope": {
+    "pre_signature_generation": "one offline EpidAddPreSigs pre-signature; disclosed separately and excluded from T_DG",
+    "T_DG": "one direct online EpidSign call consuming exactly one pre-signature",
+    "T_DV": "one direct EpidVerify call on an already generated valid quote"
+  },
+  "correctness": {
+    "initial_self_check": true,
+    "all_measured_signatures_verified": true,
+    "measured_signatures_verified_count": 10000,
+    "measured_presignatures_generated_count": 10000,
+    "presignature_pool_before_each_T_DG": 1,
+    "presignature_pool_after_each_T_DG": 0,
+    "one_presignature_consumed_per_signature": true,
+    "all_timed_verifications_valid": true
+  },
+  "offline_precomputation": {
+    "operation": "EpidAddPreSigs average per single-use pre-signature",
+    "included_in_di5guise_formula": false,
+    "raw_avg_ns": 12097504.380000,
+    "raw_avg_us": 12097.504380000,
+    "raw_avg_ms": 12.097504380000,
+    "baseline_avg_ns": 12.320000,
+    "corrected_avg_ns": 12097492.060000,
+    "corrected_avg_us": 12097.492060000,
+    "corrected_avg_ms": 12.097492060000
+  },
+  "operations": {
+    "T_DG": {
+      "raw_avg_ns": 26048.900000,
+      "raw_avg_us": 26.048900000,
+      "raw_avg_ms": 0.026048900000,
+      "baseline_avg_ns": 12.340000,
+      "corrected_avg_ns": 26036.560000,
+      "corrected_avg_us": 26.036560000,
+      "corrected_avg_ms": 0.026036560000
+    },
+    "T_DV": {
+      "raw_avg_ns": 13602908.110000,
+      "raw_avg_us": 13602.908110000,
+      "raw_avg_ms": 13.602908110000,
+      "baseline_avg_ns": 0.230000,
+      "corrected_avg_ns": 13602907.880000,
+      "corrected_avg_us": 13602.907880000,
+      "corrected_avg_ms": 13.602907880000
+    }
+  }
+}
