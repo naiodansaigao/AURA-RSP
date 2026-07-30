@@ -1,0 +1,34 @@
+{
+  "certificate_checks": {
+    "server_a_cert_valid_for_server_b": false,
+    "server_a_chain_valid": true,
+    "server_a_hostname_valid": true,
+    "server_a_names": [
+      "testsmdpplus1.example.com"
+    ],
+    "server_b_cert_valid_for_server_a": false,
+    "server_b_chain_valid": true,
+    "server_b_hostname_valid": true,
+    "server_b_names": [
+      "testsmdpplus4.example.com"
+    ]
+  },
+  "checkpoints": {
+    "client_server_certificate_todo": 191,
+    "client_server_signature_todo": 185,
+    "client_tls_ca": 116,
+    "euicc_signature_check": 614,
+    "server_address_refusal": 483,
+    "server_challenge_check": 627,
+    "server_signed_address": 531,
+    "server_signed_challenge": 532,
+    "server_signed_transaction": 529,
+    "unknown_transaction": 587
+  },
+  "client_source": "/path/to/aura-rsp-paper-artifact/rsp-baseline/third_party/pysim/contrib/es9p_client.py",
+  "client_source_sha256": "9aed8360883c6ceb24e8b99decc106afd800e72b49c5ecf777a7293a80d518b1",
+  "implementation_boundary": "The baseline client enables CI-backed TLS verification, while its application-layer serverSignature1/server-certificate checks remain TODO. This is reported as an implementation boundary, not a Standard RSP flaw.",
+  "osmo_source": "/path/to/aura-rsp-paper-artifact/rsp-baseline/third_party/pysim/osmo-smdpp.py",
+  "osmo_source_sha256": "6247020848a0a1430c20e561f63bf97ba1187f4f4fa0d859a43008bde91c3a6d",
+  "scope": "source-backed controlled check; not a two-process network run"
+}

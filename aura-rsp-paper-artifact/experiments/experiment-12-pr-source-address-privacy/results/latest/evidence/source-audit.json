@@ -1,0 +1,40 @@
+{
+  "all_checkpoints_found": true,
+  "checkpoints": {
+    "relay_mtls_identity": {
+      "file": "../../aura-rsp/src/aura_rsp/relay.py",
+      "line": 41,
+      "pattern": "str(pki / \"relay-client.pem\")"
+    },
+    "relay_session": {
+      "file": "../../aura-rsp/src/aura_rsp/relay.py",
+      "line": 25,
+      "pattern": "self.http = requests.Session()"
+    },
+    "relay_size_logging": {
+      "file": "../../aura-rsp/src/aura_rsp/relay.py",
+      "line": 51,
+      "pattern": "\"request_bytes\": len(body)"
+    },
+    "relay_upstream_post": {
+      "file": "../../aura-rsp/src/aura_rsp/relay.py",
+      "line": 31,
+      "pattern": "response = self.http.post("
+    },
+    "server_peer_certificate": {
+      "file": "../../aura-rsp/src/aura_rsp/server.py",
+      "line": 499,
+      "pattern": "peer_cert = self.connection.getpeercert()"
+    },
+    "server_pr_identity": {
+      "file": "../../aura-rsp/src/aura_rsp/server.py",
+      "line": 500,
+      "pattern": "pr_identity = cert_common_name(peer_cert)"
+    }
+  },
+  "interpretation": "The production relay creates the upstream HTTPS connection; the SM-DP+ authenticates the relay identity, not a downstream device source address.",
+  "source_sha256": {
+    "relay": "eb882e2cae445d1488fd1e6b45b54ae827d943eed44a0a4147c8cdb5474aeeeb",
+    "server": "2e42d8f0393a399da0c099f64bfe083005679916edc966f4694887b76425f777"
+  }
+}

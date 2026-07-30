@@ -1,0 +1,15 @@
+{
+  "experiment_name": "experiment-10-profile-ciphertext-integrity",
+  "seed": 20260730,
+  "profile_a_path": "../../rsp-baseline/runtime/software-euicc-output/8949449999999990007f.upp.der",
+  "profile_a_fallback_path": "../../rsp-baseline/third_party/pysim/smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
+  "profile_b_path": "../../rsp-baseline/third_party/pysim/smdpp-data/upp/TS48V1-A-UNIQUE.der",
+  "capability": "ECDHE-P256-HKDF-SHA256-AES256GCM",
+  "aura_source": {
+    "client": "../../aura-rsp/src/aura_rsp/client.py",
+    "server": "../../aura-rsp/src/aura_rsp/server.py",
+    "ticket": "../../aura-rsp/src/aura_rsp/ticket.py",
+    "primitives": "../../aura-rsp/src/aura_rsp/primitives.py"
+  }
+}
+

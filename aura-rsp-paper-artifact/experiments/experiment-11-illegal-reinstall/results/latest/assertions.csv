@@ -1,0 +1,24 @@
+﻿assertion,class,expected,observed,passed
+all_eight_illegal_reinstall_subtests_rejected,security,8/8 rejected,8/8 rejected,True
+illegal_reinstall_does_not_execute_business,security,0,0,True
+illegal_reinstall_does_not_change_state,security,0,0,True
+installed_direct_reinstall_reason,security,INVALID_REINSTALL_PREDECESSOR,INVALID_REINSTALL_PREDECESSOR,True
+enabled_direct_reinstall_reason,security,INVALID_REINSTALL_PREDECESSOR,INVALID_REINSTALL_PREDECESSOR,True
+disabled_direct_reinstall_reason,security,INVALID_REINSTALL_PREDECESSOR,INVALID_REINSTALL_PREDECESSOR,True
+wrong_lph_reason,security,AUTHORIZATION_LPH_MISMATCH,AUTHORIZATION_LPH_MISMATCH,True
+new_salt_p_reason,security,REINSTALL_SALT_MISMATCH,REINSTALL_SALT_MISMATCH,True
+old_ticket_reason,security,TICKET_EXPIRED,TICKET_EXPIRED,True
+old_reinstall_receipt_reason,security,STALE_RECEIPT_REPLAY,STALE_RECEIPT_REPLAY,True
+counter_and_last_hash_tamper_both_rejected,security,2/2,2/2,True
+counter_and_last_hash_reasons,security,COUNTER_MISMATCH;LAST_HASH_MISMATCH,COUNTER_MISMATCH;LAST_HASH_MISMATCH,True
+legal_reinstall_accepted,positive_control,True,True,True
+legal_transition_is_tombstone_to_installed,positive_control,tombstone->installed,tombstone->installed,True
+original_lph_and_salt_preserved,positive_control,True,"{""lph"": true, ""salt_p"": true}",True
+fresh_ticket_session_and_bind_t,positive_control,True,"{""Bind_t"": true, ""session"": true, ""ticket"": true}",True
+counter_and_predecessor_hash_continuous,positive_control,True,"{""counter"": true, ""last_hash"": true}",True
+profile_decrypted_digest_matched_and_installed,positive_control,True,"{""decrypted"": true, ""digest"": true, ""installed"": true}",True
+reinstall_receipt_hmac_and_chain_head,positive_control,True,"{""chain_head"": true, ""hmac"": true}",True
+single_profile_lifecycle_row,state_continuity,True,True,True
+production_source_checkpoints_present,source_audit,True,True,True
+standard_baseline_reported_without_false_claim,scope,UNSUPPORTED,UNSUPPORTED,True
+public_results_hide_eid,privacy_regression,False,False,True

@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1540" height="726" viewBox="0 0 1540 726">
+<style>
+text{font-family:'Microsoft YaHei','Noto Sans CJK SC','Arial',sans-serif;fill:#172033}
+.title{font-size:34px;font-weight:700}
+.head{font-size:21px;font-weight:700}
+.cell{font-size:20px}
+.safe{fill:#15803d}
+.danger{fill:#b42318}
+</style>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="770.0" y="48" text-anchor="middle" class="title">Experiment 10: Profile Delivery Checks</text>
+<rect x="25" y="78" width="1490" height="54" rx="8" fill="#e8eef8"/>
+<text x="45" y="113" text-anchor="start" class="head">Scenario</text>
+<text x="790" y="113" text-anchor="middle" class="head">Signature</text>
+<text x="930" y="113" text-anchor="middle" class="head">AEAD</text>
+<text x="1070" y="113" text-anchor="middle" class="head">Order pid_h</text>
+<text x="1240" y="113" text-anchor="middle" class="head">Install</text>
+<text x="1380" y="113" text-anchor="middle" class="head">Receipt</text>
+<rect x="25" y="132" width="1490" height="72" fill="#f7f9fc"/>
+<text x="45" y="177" text-anchor="start" class="cell">10A Ciphertext byte flip</text>
+<text x="790" y="177" text-anchor="middle" class="cell">FAIL</text>
+<text x="930" y="177" text-anchor="middle" class="cell">FAIL</text>
+<text x="1070" y="177" text-anchor="middle" class="cell">N/C</text>
+<text x="1240" y="177" text-anchor="middle" class="cell">NO</text>
+<text x="1380" y="177" text-anchor="middle" class="cell">NO</text>
+<rect x="25" y="204" width="1490" height="72" fill="#ffffff"/>
+<text x="45" y="249" text-anchor="start" class="cell">10A Cipher flip + white-box resign</text>
+<text x="790" y="249" text-anchor="middle" class="cell">PASS</text>
+<text x="930" y="249" text-anchor="middle" class="cell">FAIL</text>
+<text x="1070" y="249" text-anchor="middle" class="cell">N/C</text>
+<text x="1240" y="249" text-anchor="middle" class="cell">NO</text>
+<text x="1380" y="249" text-anchor="middle" class="cell">NO</text>
+<rect x="25" y="276" width="1490" height="72" fill="#f7f9fc"/>
+<text x="45" y="321" text-anchor="start" class="cell">10A Tag flip + white-box resign</text>
+<text x="790" y="321" text-anchor="middle" class="cell">PASS</text>
+<text x="930" y="321" text-anchor="middle" class="cell">FAIL</text>
+<text x="1070" y="321" text-anchor="middle" class="cell">N/C</text>
+<text x="1240" y="321" text-anchor="middle" class="cell">NO</text>
+<text x="1380" y="321" text-anchor="middle" class="cell">NO</text>
+<rect x="25" y="348" width="1490" height="72" fill="#ffffff"/>
+<text x="45" y="393" text-anchor="start" class="cell">10B Replay whole A package to B</text>
+<text x="790" y="393" text-anchor="middle" class="cell">FAIL</text>
+<text x="930" y="393" text-anchor="middle" class="cell">FAIL</text>
+<text x="1070" y="393" text-anchor="middle" class="cell">N/C</text>
+<text x="1240" y="393" text-anchor="middle" class="cell">NO</text>
+<text x="1380" y="393" text-anchor="middle" class="cell">NO</text>
+<rect x="25" y="420" width="1490" height="72" fill="#f7f9fc"/>
+<text x="45" y="465" text-anchor="start" class="cell">10B A ciphertext in B + resign</text>
+<text x="790" y="465" text-anchor="middle" class="cell">PASS</text>
+<text x="930" y="465" text-anchor="middle" class="cell">FAIL</text>
+<text x="1070" y="465" text-anchor="middle" class="cell">N/C</text>
+<text x="1240" y="465" text-anchor="middle" class="cell">NO</text>
+<text x="1380" y="465" text-anchor="middle" class="cell">NO</text>
+<rect x="25" y="492" width="1490" height="72" fill="#ffffff"/>
+<text x="45" y="537" text-anchor="start" class="cell">10C Fixed client / wrong Profile</text>
+<text x="790" y="537" text-anchor="middle" class="cell">PASS</text>
+<text x="930" y="537" text-anchor="middle" class="cell">PASS</text>
+<text x="1070" y="537" text-anchor="middle" class="cell safe">FAIL</text>
+<text x="1240" y="537" text-anchor="middle" class="cell">NO</text>
+<text x="1380" y="537" text-anchor="middle" class="cell">NO</text>
+<rect x="25" y="564" width="1490" height="72" fill="#f7f9fc"/>
+<text x="45" y="609" text-anchor="start" class="cell">10C Remove pid_h check / negative control</text>
+<text x="790" y="609" text-anchor="middle" class="cell">PASS</text>
+<text x="930" y="609" text-anchor="middle" class="cell">PASS</text>
+<text x="1070" y="609" text-anchor="middle" class="cell">N/C</text>
+<text x="1240" y="609" text-anchor="middle" class="cell danger">YES</text>
+<text x="1380" y="609" text-anchor="middle" class="cell danger">YES</text>
+<rect x="25" y="636" width="1490" height="72" fill="#ffffff"/>
+<text x="45" y="681" text-anchor="start" class="cell">MNO + SM-DP+ joint authorization</text>
+<text x="790" y="681" text-anchor="middle" class="cell">PASS</text>
+<text x="930" y="681" text-anchor="middle" class="cell">PASS</text>
+<text x="1070" y="681" text-anchor="middle" class="cell">PASS</text>
+<text x="1240" y="681" text-anchor="middle" class="cell">YES</text>
+<text x="1380" y="681" text-anchor="middle" class="cell">YES</text>
+</svg>

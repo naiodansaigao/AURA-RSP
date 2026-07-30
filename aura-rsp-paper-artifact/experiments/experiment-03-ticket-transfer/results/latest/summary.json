@@ -1,0 +1,216 @@
+{
+  "assertions": [
+    {
+      "actual": false,
+      "expected": false,
+      "name": "device_secrets_are_distinct",
+      "passed": true
+    },
+    {
+      "actual": {
+        "Device-A": true,
+        "Device-B": true
+      },
+      "expected": {
+        "Device-A": true,
+        "Device-B": true
+      },
+      "name": "both_device_credentials_are_valid",
+      "passed": true
+    },
+    {
+      "actual": {
+        "valid_for_xA": true,
+        "valid_for_xB": false
+      },
+      "expected": {
+        "valid_for_xA": true,
+        "valid_for_xB": false
+      },
+      "name": "stolen_ticket_valid_only_for_device_a_secret",
+      "passed": true
+    },
+    {
+      "actual": {
+        "authentication": true,
+        "bind_t_generated": true,
+        "http_status": 200,
+        "proof_generate_ms": 1402.928,
+        "proof_verify_wall_ms": 1316.831
+      },
+      "expected": "authentication=true and Bind_t generated",
+      "name": "aura_owner_control_authentication_passes",
+      "passed": true
+    },
+    {
+      "actual": "randomized BBS+ pairing check failed",
+      "expected": "randomized BBS+ pairing check failed",
+      "name": "aura_honest_device_b_prover_rejects_transfer",
+      "passed": true
+    },
+    {
+      "actual": {
+        "response": {
+          "error": "INVALID_PI_AUTH",
+          "reason": "BBS+ randomized signature pairing failed"
+        },
+        "status": 401
+      },
+      "expected": {
+        "error": "INVALID_PI_AUTH",
+        "status": 401
+      },
+      "name": "aura_server_rejects_forced_transfer_proof",
+      "passed": true
+    },
+    {
+      "actual": "credential_ticket_secret_mismatch",
+      "expected": "credential_ticket_secret_mismatch",
+      "name": "aura_reason_classified_as_secret_mismatch",
+      "passed": true
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "name": "aura_no_bind_t_after_rejection",
+      "passed": true
+    },
+    {
+      "actual": {
+        "profile_delivered": false,
+        "profile_http_status": 409
+      },
+      "expected": {
+        "profile_delivered": false,
+        "profile_http_status": "non-200"
+      },
+      "name": "aura_no_profile_delivery_after_rejection",
+      "passed": true
+    },
+    {
+      "actual": {
+        "attack_auth_response_stored": false,
+        "attack_bind_t": null,
+        "attack_notification_rows": 0,
+        "attack_nullifier_rows": 0,
+        "attack_session_status": "initiated",
+        "total_nullifier_rows_including_owner_control": 1
+      },
+      "expected": "session remains initiated; zero attack nullifier/notification rows",
+      "name": "aura_attack_did_not_execute_business_state",
+      "passed": true
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "name": "aura_authentication_request_exposes_no_eid",
+      "passed": true
+    },
+    {
+      "actual": {
+        "device_b_authentication": false,
+        "profile_delivered_to_device_b": false,
+        "reason": "eid_mismatch",
+        "stable_eid_exposed": true
+      },
+      "expected": "rejected with stable EID comparison",
+      "name": "standard_prebound_order_rejects_device_b",
+      "passed": true
+    },
+    {
+      "actual": {
+        "device_a_later_authentication": false,
+        "device_a_later_reason": "activation_code_already_consumed",
+        "device_b_authentication": true,
+        "device_b_profile_delivered": true,
+        "order_consumed_by": "Device-B",
+        "stable_eid_exposed_during_standard_authentication": true
+      },
+      "expected": "Device-B consumes the unbound order first",
+      "name": "standard_unbound_code_can_be_consumed_by_device_b",
+      "passed": true
+    }
+  ],
+  "aura": {
+    "method": "real_aura_crypto_and_in_process_server",
+    "owner_control": {
+      "authentication": true,
+      "bind_t_generated": true,
+      "http_status": 200,
+      "proof_generate_ms": 1402.928,
+      "proof_verify_wall_ms": 1316.831
+    },
+    "transfer_attack": {
+      "authentication": false,
+      "authentication_request_bytes": 3132,
+      "bind_t_generated": false,
+      "copied_material": [
+        "operation_ticket",
+        "ticket_signature",
+        "eta",
+        "d",
+        "public_order_information",
+        "activation_material"
+      ],
+      "credential_b_valid": true,
+      "database_state": {
+        "attack_auth_response_stored": false,
+        "attack_bind_t": null,
+        "attack_notification_rows": 0,
+        "attack_nullifier_rows": 0,
+        "attack_session_status": "initiated",
+        "total_nullifier_rows_including_owner_control": 1
+      },
+      "http_status": 401,
+      "local_proof_rejected": true,
+      "local_raw_reason": "randomized BBS+ pairing check failed",
+      "malicious_local_fast_fail_bypassed": true,
+      "profile_delivered": false,
+      "profile_request_error": "SESSION_NOT_AUTHENTICATED",
+      "profile_request_http_status": 409,
+      "proof_bytes": 1975,
+      "proof_generate_ms": 301.996,
+      "proof_verify_wall_ms": 1098.006,
+      "reason": "credential_ticket_secret_mismatch",
+      "server_error": "INVALID_PI_AUTH",
+      "server_raw_reason": "BBS+ randomized signature pairing failed",
+      "stable_eid_exposed": false,
+      "ticket_a_valid_for_x_a": true,
+      "ticket_a_valid_for_x_b": false,
+      "x_a_equals_x_b": false
+    }
+  },
+  "execution_ms": 10465.99,
+  "experiment": "experiment-03-ticket-transfer",
+  "profile": {
+    "bytes": 12207,
+    "sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422"
+  },
+  "results_directory": "/path/to/aura-rsp-paper-artifact/experiments/experiment-03-ticket-transfer/results/latest",
+  "scope": {
+    "aura": "real BBS+ blind credentials/ticket, joint proof, and AuraServerState authentication",
+    "complete_profile_download_executed": false,
+    "existing_protocol_source_modified": false,
+    "profile_request_after_rejection_tested": true,
+    "standard": "controlled comparison of EID-prebound and unbound activation-code order policies"
+  },
+  "seed": 20260729,
+  "standard": {
+    "eid_prebound": {
+      "device_b_authentication": false,
+      "profile_delivered_to_device_b": false,
+      "reason": "eid_mismatch",
+      "stable_eid_exposed": true
+    },
+    "method": "controlled_standard_order_policy_model",
+    "unbound_activation_code": {
+      "device_a_later_authentication": false,
+      "device_a_later_reason": "activation_code_already_consumed",
+      "device_b_authentication": true,
+      "device_b_profile_delivered": true,
+      "order_consumed_by": "Device-B",
+      "stable_eid_exposed_during_standard_authentication": true
+    }
+  },
+  "status": "PASS"
+}

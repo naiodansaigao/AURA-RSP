@@ -1,0 +1,298 @@
+{
+  "assertions": [
+    {
+      "actual": "ok",
+      "expected": "ok",
+      "name": "4a_proof_is_valid",
+      "passed": true
+    },
+    {
+      "actual": {
+        "auth": true,
+        "installed": true
+      },
+      "expected": {
+        "auth": true,
+        "installed": true
+      },
+      "name": "4a_single_use_authenticates_and_installs_profile",
+      "passed": true
+    },
+    {
+      "actual": {
+        "trace": 0,
+        "used": 1
+      },
+      "expected": {
+        "trace": 0,
+        "used": 1
+      },
+      "name": "4a_used_nullifier_once_without_trace",
+      "passed": true
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "name": "4a_smdpp_does_not_see_eid",
+      "passed": true
+    },
+    {
+      "actual": {
+        "equal": true,
+        "original": "e53949bac8e3537941e20140ec0f759fe13698a76b386b076cdfdd76e9fb60eb",
+        "replay": "e53949bac8e3537941e20140ec0f759fe13698a76b386b076cdfdd76e9fb60eb"
+      },
+      "expected": "identical canonical bytes and SHA-256",
+      "name": "4b_attack_proxy_replays_identical_bytes",
+      "passed": true
+    },
+    {
+      "actual": {
+        "http": 200,
+        "replayed": true,
+        "same_bind_t": true
+      },
+      "expected": {
+        "http": 200,
+        "replayed": true,
+        "same_bind_t": true
+      },
+      "name": "4b_exact_replay_returns_cached_bind_t",
+      "passed": true
+    },
+    {
+      "actual": {
+        "business_execution_count": 1,
+        "profile_delivery_count": 1,
+        "second_business_execution": false
+      },
+      "expected": {
+        "business_execution_count": 1,
+        "profile_delivery_count": 1
+      },
+      "name": "4b_no_second_download_or_business_execution",
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "expected": 0,
+      "name": "4b_exact_replay_does_not_trace",
+      "passed": true
+    },
+    {
+      "actual": {
+        "same_nullifier": true,
+        "same_ticket_eta_and_d": true
+      },
+      "expected": true,
+      "name": "4c_same_ticket_produces_same_nullifier",
+      "passed": true
+    },
+    {
+      "actual": {
+        "c": true,
+        "context": true,
+        "gamma": true,
+        "opid": true
+      },
+      "expected": "all distinct",
+      "name": "4c_transcripts_are_distinct",
+      "passed": true
+    },
+    {
+      "actual": {
+        "first": "ok",
+        "second": "ok"
+      },
+      "expected": {
+        "first": "ok",
+        "second": "ok"
+      },
+      "name": "4c_both_anonymous_proofs_are_valid",
+      "passed": true
+    },
+    {
+      "actual": {
+        "business_execution_count": 1,
+        "error": "DOUBLE_SPEND_DETECTED",
+        "http": 409,
+        "second_execution": false
+      },
+      "expected": {
+        "business_execution_count": 1,
+        "error": "DOUBLE_SPEND_DETECTED",
+        "http": 409,
+        "second_execution": false
+      },
+      "name": "4c_second_execution_is_rejected",
+      "passed": true
+    },
+    {
+      "actual": {
+        "formula": "RZJKrCYAsiQEkgHLvxuXNZZ5f2+DWbWzKg/il3L0gVk=",
+        "matches_device": true,
+        "server": "RZJKrCYAsiQEkgHLvxuXNZZ5f2+DWbWzKg/il3L0gVk="
+      },
+      "expected": "formula == server == device k",
+      "name": "4c_formula_recovers_device_trace_scalar",
+      "passed": true
+    },
+    {
+      "actual": {
+        "recovered_eid_matches": true,
+        "trace_success": true
+      },
+      "expected": {
+        "recovered_eid_matches": true,
+        "trace_success": true
+      },
+      "name": "4c_eum_recovers_correct_malicious_eid",
+      "passed": true
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "name": "no_eid_before_conditional_trace",
+      "passed": true
+    },
+    {
+      "actual": 0,
+      "expected": 0,
+      "name": "false_trace_count_is_zero",
+      "passed": true
+    },
+    {
+      "actual": {
+        "authentication_log_fields": [
+          "EID",
+          "eUICC_certificate",
+          "certificate_fingerprint",
+          "public_key_fingerprint"
+        ],
+        "identity_known_from_first_transaction": true,
+        "method": "controlled_standard_protocol_visibility_comparison",
+        "normal_anonymity_then_conditional_trace_distinction": false,
+        "security_interpretation": "This is expected stable-identity authentication behavior, not a Standard RSP message-integrity vulnerability.",
+        "server_observed_eid": "89049032123451234512345678904001",
+        "stable_eid_or_certificate_exposed": true
+      },
+      "expected": "stable identity known from first transaction",
+      "name": "standard_identity_is_known_from_first_transaction",
+      "passed": true
+    }
+  ],
+  "aura": {
+    "4A_normal_single_use": {
+      "authentication": true,
+      "authentication_wall_ms": 1366.984,
+      "business_execution_count": 1,
+      "eum_trace_requested": false,
+      "http_status": 200,
+      "profile": {
+        "installed": true,
+        "notification_response": null,
+        "notification_status": 204,
+        "profile_bytes": 12207,
+        "profile_digest_matches_order": true,
+        "profile_sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422",
+        "profile_status": 200,
+        "server_signature_valid": true
+      },
+      "profile_installed": true,
+      "proof_generate_ms": 1458.979,
+      "proof_reason": "ok",
+      "proof_valid": true,
+      "smdpp_knows_eid": false,
+      "trace_request_count": 0,
+      "used_nullifier_count": 1
+    },
+    "4B_exact_replay": {
+      "business_execution_count": 1,
+      "eum_trace_requested": false,
+      "exact_request_bytes_equal": true,
+      "first_authentication": true,
+      "profile_delivery_count": 1,
+      "profile_installed_once": true,
+      "proof_generate_ms": 1369.925,
+      "proof_reason": "ok",
+      "proof_valid": true,
+      "replay_http_status": 200,
+      "replay_wall_ms": 1326.742,
+      "replayed_flag": true,
+      "request_sha256_original": "e53949bac8e3537941e20140ec0f759fe13698a76b386b076cdfdd76e9fb60eb",
+      "request_sha256_replay": "e53949bac8e3537941e20140ec0f759fe13698a76b386b076cdfdd76e9fb60eb",
+      "same_cached_bind_t": true,
+      "second_business_execution": false,
+      "trace_request_count": 0,
+      "used_nullifier_count": 1
+    },
+    "4C_true_double_spend": {
+      "business_execution_count": 1,
+      "different_c": true,
+      "different_context": true,
+      "different_gamma": true,
+      "different_opid": true,
+      "duplicate_nu_detected": true,
+      "first_authentication": true,
+      "first_profile_installed": true,
+      "first_proof_reason": "ok",
+      "first_proof_valid": true,
+      "local_ticket_log_bypassed": true,
+      "proof_generate_first_ms": 1514.084,
+      "proof_generate_second_ms": 1391.778,
+      "recovered_eid": "89049032123451234512345678904001",
+      "recovered_eid_matches_malicious_device": true,
+      "recovered_k_formula": "RZJKrCYAsiQEkgHLvxuXNZZ5f2+DWbWzKg/il3L0gVk=",
+      "recovered_k_matches_device": true,
+      "recovered_k_matches_formula": true,
+      "recovered_k_server": "RZJKrCYAsiQEkgHLvxuXNZZ5f2+DWbWzKg/il3L0gVk=",
+      "same_nullifier": true,
+      "same_ticket_eta_and_d": true,
+      "second_authentication_wall_ms": 1332.2,
+      "second_business_execution": false,
+      "second_error": "DOUBLE_SPEND_DETECTED",
+      "second_http_status": 409,
+      "second_proof_reason": "ok",
+      "second_proof_valid": true,
+      "smdpp_knows_eid_before_trace": false,
+      "trace_request_count": 1,
+      "trace_success": true,
+      "used_nullifier_count": 1
+    }
+  },
+  "execution_ms": 22086.075,
+  "experiment": "experiment-04-double-spend-tracing",
+  "metrics": {
+    "business_execution_count": 1,
+    "false_trace_count": 0,
+    "recovered_eid_equals_malicious_device_eid": true,
+    "trace_success": true
+  },
+  "profile": {
+    "bytes": 12207,
+    "sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422"
+  },
+  "results_directory": "/path/to/aura-rsp-paper-artifact/experiments/experiment-04-double-spend-tracing/results/latest",
+  "scope": {
+    "aura": "real BBS+ credential/ticket proofs, UsedNullifier replay branch, double-spend tracing, ECDHE/HKDF/AEAD profile install",
+    "eum_trace_deployment": "isolated in-process SQLite lookup for research demo",
+    "existing_protocol_source_modified": false,
+    "standard": "controlled stable-identity visibility comparison"
+  },
+  "seed": 20260729,
+  "standard": {
+    "authentication_log_fields": [
+      "EID",
+      "eUICC_certificate",
+      "certificate_fingerprint",
+      "public_key_fingerprint"
+    ],
+    "identity_known_from_first_transaction": true,
+    "method": "controlled_standard_protocol_visibility_comparison",
+    "normal_anonymity_then_conditional_trace_distinction": false,
+    "security_interpretation": "This is expected stable-identity authentication behavior, not a Standard RSP message-integrity vulnerability.",
+    "server_observed_eid": "89049032123451234512345678904001",
+    "stable_eid_or_certificate_exposed": true
+  },
+  "status": "PASS"
+}

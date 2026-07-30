@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "source": "D:\\学习\\自己论文\\ESIM\\仿真\\experiments\\experiment-04-double-spend-tracing\\results\\latest\\summary.json",
+  "source_sha256": "4c1fce7ad37f179b671158ea4eca7fa781b00265cb29b6e0abe6a5bbf89ec4f7",
+  "experiment_status": "PASS",
+  "experiment_execution_ms": 22086.075,
+  "figure_a_sha256": "1120e6bac91bae3a670267c415f8cdc689584593f5598ebf09ba435d2deb846d",
+  "figure_b_sha256": "24937fe0ae76eef9857d50f6ba57b3fca8d70fc3aae73b7774d1f1ed121bd8dd"
+}

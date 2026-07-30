@@ -1,0 +1,10 @@
+﻿accepted,bind_t_generated,bpp_delivered,business_operation_executed,elapsed_ms,http_status,profile_delivered,proof_reason,proof_valid_for_mutated_context,protocol,reason,rejection_stage,request_bytes,scenario,target,white_box_one_time_key_used
+False,False,,False,6.112,401,False,gamma/context mismatch,False,AURA-RSP,INVALID_TAU_AUTH,one_time_context_signature,3117,profile_pid_h_plain_mutation,Profile-B,
+False,False,,False,1578.809,401,False,gamma/context mismatch,False,AURA-RSP,INVALID_PI_AUTH,anonymous_proof,3117,profile_pid_h_resigned_envelope,Profile-B,True
+False,False,,False,6.408,400,False,,,AURA-RSP,BIND_T_MISMATCH,profile_binding,659,profile_a_bind_t_to_profile_b_session,Profile-B,
+False,False,,False,0.578,403,False,gamma/context mismatch,False,AURA-RSP,INVALID_OR_EXPIRED_TICKET,ticket_public_fields,3115,operation_download_to_delete,delete,
+False,False,,False,0.394,403,False,gamma/context mismatch,False,AURA-RSP,INVALID_OR_EXPIRED_TICKET,ticket_public_fields,3118,operation_download_to_reinstall,reinstall,
+False,False,,False,0.451,403,False,gamma/context mismatch,False,AURA-RSP,INVALID_OR_EXPIRED_TICKET,ticket_public_fields,3115,operation_download_to_enable,enable,
+False,,False,,,,,,,Standard RSP,BPP_BINDING_SIGNATURE_INVALID,bpp_signature,,modify_profile_hash_keep_binding_signature,,
+False,,False,,,,,,,Standard RSP,SIGNED_TRANSACTION_MISMATCH,transaction_binding,,profile_a_binding_to_profile_b_transaction,,
+False,,False,,,,,,,Standard RSP,BPP_BINDING_SIGNATURE_INVALID,bpp_signature,,replace_outer_and_signed_transaction,,

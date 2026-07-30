@@ -1,0 +1,71 @@
+{
+  "all_checkpoints_found": true,
+  "checkpoints": {
+    "classical_kdf": {
+      "file": "/path/to/aura-rsp-paper-artifact/aura-rsp/src/aura_rsp/primitives.py",
+      "line": 117,
+      "pattern": "def derive_session_keys("
+    },
+    "client_ctx_k_check": {
+      "file": "/path/to/aura-rsp-paper-artifact/aura-rsp/src/aura_rsp/client.py",
+      "line": 328,
+      "pattern": "raise AuraClientError(\"ctx_K mismatch\")"
+    },
+    "client_ctx_t_cap": {
+      "file": "/path/to/aura-rsp-paper-artifact/aura-rsp/src/aura_rsp/client.py",
+      "line": 164,
+      "pattern": "\"cap\": server_auth[\"cap\"]"
+    },
+    "client_offers_capabilities": {
+      "file": "/path/to/aura-rsp-paper-artifact/aura-rsp/src/aura_rsp/client.py",
+      "line": 119,
+      "pattern": "\"capabilities\": self.config[\"capabilities\"]"
+    },
+    "client_server_kex_signature": {
+      "file": "/path/to/aura-rsp-paper-artifact/aura-rsp/src/aura_rsp/client.py",
+      "line": 342,
+      "pattern": "raise AuraClientError(\"server key exchange signature failed\")"
+    },
+    "server_auth_cap_immutable": {
+      "file": "/path/to/aura-rsp-paper-artifact/aura-rsp/src/aura_rsp/server.py",
+      "line": 151,
+      "pattern": "\"cap\": init_data[\"cap\"]"
+    },
+    "server_capability_selection": {
+      "file": "/path/to/aura-rsp-paper-artifact/aura-rsp/src/aura_rsp/server.py",
+      "line": 86,
+      "pattern": "capabilities = content.get(\"capabilities\", [])"
+    },
+    "server_ctx_k": {
+      "file": "/path/to/aura-rsp-paper-artifact/aura-rsp/src/aura_rsp/server.py",
+      "line": 372,
+      "pattern": "\"domain\": \"AURA-RSP-v14:ctx_K\""
+    },
+    "server_selected_cap_signed": {
+      "file": "/path/to/aura-rsp-paper-artifact/aura-rsp/src/aura_rsp/server.py",
+      "line": 108,
+      "pattern": "\"cap\": selected"
+    },
+    "server_session_kdf": {
+      "file": "/path/to/aura-rsp-paper-artifact/aura-rsp/src/aura_rsp/server.py",
+      "line": 379,
+      "pattern": "k_enc, k_mac = derive_session_keys("
+    }
+  },
+  "current_aura_source_sha256": {
+    "client": "ea96c209d2b98cfe45e0a3b2d2f07b7fcf29685ac54d289e36f6dc45344f6dba",
+    "config": "c9bd5c75e6cc9f108b3adb6ad9f7c2ff4c49daa7365ab504c00ec27e71d66cbd",
+    "primitives": "c877bbdd38bb6602b27156c8e6174b3609d569dbc9bc8f92a91bea0f2d979c53",
+    "server": "2e42d8f0393a399da0c099f64bfe083005679916edc966f4694887b76425f777"
+  },
+  "current_capabilities": [
+    "AURA-BBSPLUS-BLS12381-SHA256",
+    "ECDHE-P256-HKDF-SHA256-AES256GCM"
+  ],
+  "current_source_has_mlkem": false,
+  "experiment_extension": {
+    "ml_kem": "kyber-py 1.2.0 ML_KEM_768 educational implementation",
+    "production_source_modified": false,
+    "scope": "independent capability and key-exchange layer demo"
+  }
+}

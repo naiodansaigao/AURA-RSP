@@ -1,0 +1,4 @@
+{"event": "initiateAuthentication", "transactionId": "95BC18B8C10F1E9F18C7BA40C0BD20FB", "ts": 1785412553.5343938}
+{"event": "authenticateClient", "proof_bytes": 1975, "proof_verify_ms": 1330.2642859925982, "transactionId": "95BC18B8C10F1E9F18C7BA40C0BD20FB", "ts": 1785412557.6470208}
+{"ciphertext_bytes": 12223, "event": "getBoundProfilePackage", "server_crypto_ms": 3.811, "transactionId": "95BC18B8C10F1E9F18C7BA40C0BD20FB", "ts": 1785412557.673797}
+{"event": "handleNotification", "transactionId": "95BC18B8C10F1E9F18C7BA40C0BD20FB", "ts": 1785412557.6972606}

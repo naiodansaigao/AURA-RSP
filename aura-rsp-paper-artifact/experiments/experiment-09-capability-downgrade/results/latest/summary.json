@@ -1,0 +1,335 @@
+{
+  "allow_classical_accepted": true,
+  "assertions": [
+    {
+      "assertion": "mlkem768_real_encapsulation",
+      "expected": "shared secrets match; FIPS 203 ML-KEM-768 lengths",
+      "observed": {
+        "algorithm": "ML-KEM-768",
+        "ciphertext_bytes": 1088,
+        "elapsed_ms": 10.328,
+        "private_key_bytes": 2400,
+        "public_key_bytes": 1184,
+        "shared_secret_bytes": 32,
+        "shared_secret_match": true
+      },
+      "passed": true
+    },
+    {
+      "assertion": "hybrid_positive_control",
+      "expected": "Hybrid succeeds under require_hybrid",
+      "observed": {
+        "accepted": true,
+        "elapsed_ms": 15.487,
+        "mlkem_ciphertext_bytes": 1088,
+        "mlkem_public_key_bytes": 1184,
+        "profile_delivered": true,
+        "profile_digest_match": true
+      },
+      "passed": true
+    },
+    {
+      "assertion": "classical_positive_control",
+      "expected": "Classical succeeds under allow_classical without ML-KEM material",
+      "observed": {
+        "accepted": true,
+        "elapsed_ms": 0.915,
+        "mlkem_material_present": false,
+        "profile_delivered": true,
+        "profile_digest_match": true
+      },
+      "passed": true
+    },
+    {
+      "assertion": "mitm_attack_count",
+      "expected": 7,
+      "observed": 7,
+      "passed": true
+    },
+    {
+      "assertion": "all_network_downgrades_rejected",
+      "expected": "all rejected",
+      "observed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "passed": true
+    },
+    {
+      "assertion": "no_attack_session_key",
+      "expected": 0,
+      "observed": 0,
+      "passed": true
+    },
+    {
+      "assertion": "no_attack_profile_delivery",
+      "expected": 0,
+      "observed": 0,
+      "passed": true
+    },
+    {
+      "assertion": "offer_downgrade_detected",
+      "expected": "CAPABILITY_TRANSCRIPT_MISMATCH",
+      "observed": "CAPABILITY_TRANSCRIPT_MISMATCH",
+      "passed": true
+    },
+    {
+      "assertion": "signed_selection_tamper_detected",
+      "expected": "INVALID_SERVER_AUTH_SIGNATURE",
+      "observed": "INVALID_SERVER_AUTH_SIGNATURE",
+      "passed": true
+    },
+    {
+      "assertion": "mlkem_public_key_deletion_detected",
+      "expected": "INVALID_CLIENT_KEY_EXCHANGE_SIGNATURE",
+      "observed": "INVALID_CLIENT_KEY_EXCHANGE_SIGNATURE",
+      "passed": true
+    },
+    {
+      "assertion": "mlkem_ciphertext_delete_replace_detected",
+      "expected": [
+        "MISSING_MLKEM_CIPHERTEXT",
+        "MLKEM_CIPHERTEXT_HASH_MISMATCH"
+      ],
+      "observed": [
+        "MISSING_MLKEM_CIPHERTEXT",
+        "MLKEM_CIPHERTEXT_HASH_MISMATCH"
+      ],
+      "passed": true
+    },
+    {
+      "assertion": "cross_mode_splice_and_relabel_detected",
+      "expected": [
+        "INVALID_SERVER_KEY_EXCHANGE_SIGNATURE",
+        "INVALID_SERVER_KEY_EXCHANGE_SIGNATURE"
+      ],
+      "observed": [
+        "INVALID_SERVER_KEY_EXCHANGE_SIGNATURE",
+        "INVALID_SERVER_KEY_EXCHANGE_SIGNATURE"
+      ],
+      "passed": true
+    },
+    {
+      "assertion": "legitimate_classical_allowed",
+      "expected": "accepted and delivered",
+      "observed": {
+        "accepted": true,
+        "category": "legitimate_server_policy",
+        "elapsed_ms": 0.78,
+        "profile_delivered": true,
+        "reason": "CLASSICAL_ALLOWED_BY_DEVICE_POLICY",
+        "rejected": false,
+        "rejection_stage": "none",
+        "request_bytes": 851,
+        "scenario": "legitimate_server_classical_allow",
+        "session_key_established": true
+      },
+      "passed": true
+    },
+    {
+      "assertion": "require_hybrid_rejects_legitimate_classical",
+      "expected": "HYBRID_REQUIRED before key establishment and delivery",
+      "observed": {
+        "accepted": false,
+        "category": "legitimate_server_policy",
+        "elapsed_ms": 0.163,
+        "profile_delivered": false,
+        "reason": "HYBRID_REQUIRED",
+        "rejected": true,
+        "rejection_stage": "device_policy",
+        "request_bytes": 502,
+        "scenario": "legitimate_server_classical_require_hybrid",
+        "session_key_established": false
+      },
+      "passed": true
+    },
+    {
+      "assertion": "source_checkpoints_present",
+      "expected": "all current AURA binding checkpoints found",
+      "observed": true,
+      "passed": true
+    },
+    {
+      "assertion": "current_production_scope_disclosed",
+      "expected": "current source has no ML-KEM; production source unchanged",
+      "observed": {
+        "current_source_has_mlkem": false,
+        "production_source_modified": false
+      },
+      "passed": true
+    },
+    {
+      "assertion": "profile_digest_recorded",
+      "expected": "64-char SHA-256",
+      "observed": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422",
+      "passed": true
+    },
+    {
+      "assertion": "public_transcripts_hide_eid",
+      "expected": false,
+      "observed": false,
+      "passed": true
+    }
+  ],
+  "assertions_passed": 18,
+  "assertions_total": 18,
+  "attack_profile_deliveries": 0,
+  "attack_session_keys_established": 0,
+  "experiment": "experiment-09-capability-downgrade",
+  "network_attacks_rejected": 7,
+  "network_attacks_total": 7,
+  "positive_controls": {
+    "classical_allow_classical": {
+      "accepted": true,
+      "elapsed_ms": 0.915,
+      "mlkem_material_present": false,
+      "profile_delivered": true,
+      "profile_digest_match": true
+    },
+    "hybrid_require_hybrid": {
+      "accepted": true,
+      "elapsed_ms": 15.487,
+      "mlkem_ciphertext_bytes": 1088,
+      "mlkem_public_key_bytes": 1184,
+      "profile_delivered": true,
+      "profile_digest_match": true
+    },
+    "mlkem_primitive": {
+      "algorithm": "ML-KEM-768",
+      "ciphertext_bytes": 1088,
+      "elapsed_ms": 10.328,
+      "private_key_bytes": 2400,
+      "public_key_bytes": 1184,
+      "shared_secret_bytes": 32,
+      "shared_secret_match": true
+    }
+  },
+  "profile_bytes": 12207,
+  "profile_path": "/path/to/aura-rsp-paper-artifact/rsp-baseline/runtime/software-euicc-output/8949449999999990007f.upp.der",
+  "profile_sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422",
+  "require_hybrid_rejected": true,
+  "results_dir": "/path/to/aura-rsp-paper-artifact/experiments/experiment-09-capability-downgrade/results/latest",
+  "scenarios": [
+    {
+      "accepted": false,
+      "category": "network_mitm",
+      "elapsed_ms": 0.218,
+      "profile_delivered": false,
+      "reason": "CAPABILITY_TRANSCRIPT_MISMATCH",
+      "rejected": true,
+      "rejection_stage": "capability_transcript",
+      "request_bytes": 0,
+      "scenario": "mitm_offer_hybrid_to_classical",
+      "session_key_established": false
+    },
+    {
+      "accepted": false,
+      "category": "network_mitm",
+      "elapsed_ms": 0.079,
+      "profile_delivered": false,
+      "reason": "INVALID_SERVER_AUTH_SIGNATURE",
+      "rejected": true,
+      "rejection_stage": "server_authentication",
+      "request_bytes": 512,
+      "scenario": "mitm_signed_selection_hybrid_to_classical",
+      "session_key_established": false
+    },
+    {
+      "accepted": false,
+      "category": "network_mitm",
+      "elapsed_ms": 0.09,
+      "profile_delivered": false,
+      "reason": "INVALID_CLIENT_KEY_EXCHANGE_SIGNATURE",
+      "rejected": true,
+      "rejection_stage": "client_key_exchange_signature",
+      "request_bytes": 2439,
+      "scenario": "remove_mlkem_public_key",
+      "session_key_established": false
+    },
+    {
+      "accepted": false,
+      "category": "network_mitm",
+      "elapsed_ms": 0.113,
+      "profile_delivered": false,
+      "reason": "MISSING_MLKEM_CIPHERTEXT",
+      "rejected": true,
+      "rejection_stage": "mlkem_server_material",
+      "request_bytes": 18802,
+      "scenario": "delete_mlkem_ciphertext",
+      "session_key_established": false
+    },
+    {
+      "accepted": false,
+      "category": "network_mitm",
+      "elapsed_ms": 0.114,
+      "profile_delivered": false,
+      "reason": "MLKEM_CIPHERTEXT_HASH_MISMATCH",
+      "rejected": true,
+      "rejection_stage": "ctx_k_binding",
+      "request_bytes": 18802,
+      "scenario": "replace_mlkem_ciphertext",
+      "session_key_established": false
+    },
+    {
+      "accepted": false,
+      "category": "network_mitm",
+      "elapsed_ms": 0.104,
+      "profile_delivered": false,
+      "reason": "INVALID_SERVER_KEY_EXCHANGE_SIGNATURE",
+      "rejected": true,
+      "rejection_stage": "server_key_exchange_signature",
+      "request_bytes": 18802,
+      "scenario": "splice_classical_ephemeral_into_hybrid",
+      "session_key_established": false
+    },
+    {
+      "accepted": false,
+      "category": "network_mitm",
+      "elapsed_ms": 0.094,
+      "profile_delivered": false,
+      "reason": "INVALID_SERVER_KEY_EXCHANGE_SIGNATURE",
+      "rejected": true,
+      "rejection_stage": "server_key_exchange_signature",
+      "request_bytes": 18802,
+      "scenario": "mark_hybrid_response_as_classical",
+      "session_key_established": false
+    },
+    {
+      "accepted": true,
+      "category": "legitimate_server_policy",
+      "elapsed_ms": 0.78,
+      "profile_delivered": true,
+      "reason": "CLASSICAL_ALLOWED_BY_DEVICE_POLICY",
+      "rejected": false,
+      "rejection_stage": "none",
+      "request_bytes": 851,
+      "scenario": "legitimate_server_classical_allow",
+      "session_key_established": true
+    },
+    {
+      "accepted": false,
+      "category": "legitimate_server_policy",
+      "elapsed_ms": 0.163,
+      "profile_delivered": false,
+      "reason": "HYBRID_REQUIRED",
+      "rejected": true,
+      "rejection_stage": "device_policy",
+      "request_bytes": 502,
+      "scenario": "legitimate_server_classical_require_hybrid",
+      "session_key_established": false
+    }
+  ],
+  "scope": {
+    "current_aura": "Classical-only production prototype",
+    "experiment": "independent real ML-KEM-768 capability-layer extension",
+    "mlkem_library": "kyber-py 1.2.0 educational, non-constant-time",
+    "server_threat_boundary": "legitimate server selection is constrained by device policy, not classified as a network MITM"
+  },
+  "seed": 20260729,
+  "status": "PASS"
+}

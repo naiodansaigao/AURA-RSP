@@ -1,0 +1,71 @@
+{
+  "Pi_auth": {
+    "c": "AfUXNiPnGY9v/1v3d6x1cXROelY0/shHlggROTuA860=",
+    "challenge": "ASDp24yeKg8egi03pGfjdZ1aVbVOvTLZ5heo+8yzkXk=",
+    "commitments": [
+      "txSeoMFKuVQNBVwEw8JKH7Syp4XsvSgfIkrLgaDmVhFIkCj1YNNAG6NTSbAyyenR",
+      "hGF4ykTrXkiu8jRceaXOmcHJkoQQUrKAuvnVxhz3fcV+f4b8xUqPYLZZKNpN83F4",
+      "oPEfa2pcOI05EH4FPBqVG+WdqFgy9VH3OJkzOo1dueAl8TG7/clEHjnp83wMvoxZ",
+      "sylXQzYwxa5U5dRDTMWuvhXZwQxic4Bu2DCU8yg+lLAxihmCk3oBxu3TMtdNGldU",
+      "qVpq4b8u+OeN19JyVsjhybzvY1DbG10u3R79AqCYISass95xTwahIUiiZkTyqzgb",
+      "jTahxGUXySDTB49MR5dXYUqasdpsIjQ/s4KFyvQJ1c7ZzM/xwhMVxtAaJqOAwwtw",
+      "lQhNwPYMeWTTUMB7JyB3UiSPeZnRz5RMGE5kPX8SgXjVxi47SCLQqfbc6P88QGWO"
+    ],
+    "cred": {
+      "A_bar": "ssnKLVpUsf2p5/9PI6lYKIH8lPpou++djlMZrstIs35PzdIfLsG7J9rJONm1wrKi",
+      "A_prime": "qY0dnGChhMXWel8/Qsr87dFlydOJp5umXGCormVQlfhKkdqGbNg3WJa+2K+7a7QE",
+      "d": "jxs5d68oj/Boyp7+3h9LsSBOcAJnZIhTNn7apIUgZ3sAymqqBa3++MUaambf5hIf"
+    },
+    "gamma": "OffKM4LZ7QtiDkbS0EQ14t6PF6tNWYDRyq8mnJ8P7bc=",
+    "lph": "j6axa+2jsGtHdtsFUzLzIQm3NRmB3k5qiWDQe/Uqy1EDzincM3rvnjggRmgyy/Xu",
+    "responses": {
+      "cred:e": "FjWV8CZ9DFphYV00AXpttjAsNo693YVC2Tb7Sdbnw24=",
+      "cred:r2": "VbT/zNBa2rUud4EV5pWMccoPEJqzsH8PHx/bHtzo8T4=",
+      "cred:r3": "NglKuqh/2lamXkR0hTm4VEUm2wg8eJdt6mbYAZ3m9Dc=",
+      "cred:s_prime": "AKkTpAje8NCT7Ljlh28r48M9MoXbjBeDdQnLdC9Vhj4=",
+      "d": "LA0TGVWWOSjhl8H7Yy/vTV9kUHGiwzXTnlFSAtDSGdY=",
+      "eta": "DiFOQZk679rYNs9sgvXKwL0gkwkhwYTM6/9mjnreL4c=",
+      "k": "UM33h801yYpg91qtVufDc5JqPjCqwLtZuxh0bcGOMNg=",
+      "token:e": "C0NVYblK1sJ+XOxZMIrBfFrCIcjK1XVhMvKA3Oke/iw=",
+      "token:r2": "bPInBrnDCZjsR18Qs6QztwW3z2iSJLT9TqXgvcfQ7xU=",
+      "token:r3": "Am59avbfrTDEFIm/ZvSRiwI0NUO3oF77at24nWEL7vM=",
+      "token:s_prime": "T1UeXQMlZ9F+/wwVDzi5Ph122pgBtrGN2dPy91WdH9U=",
+      "x": "Jj7bWqoQyceJsogT+czcBXarO81YSHJoxbRP93T+OZg="
+    },
+    "token": {
+      "A_bar": "tsKxpyfLJT1bSfWXK0XkoN+wlVgsTOg+2DtYiXFrZqeL0VvxMqK43nQQZNAODl5d",
+      "A_prime": "gUgDOYox/xPlXjU3OhqtjFVgZlqBvkPRqEFSFK/8nRbxWNWIGws+4Mee/me2Awga",
+      "d": "jNNEuoA/gY4M0+HSneBmPXX09Ma0hWrHV83bEPzuFaXCwEXBHc9erKDP6/72Xd/g"
+    },
+    "v": "jilEeHF5Bpnxq6HcxGx2zvqS6JpGBCDczHApErahXz7QtYH1LG+6ksKuUYSfWvAq",
+    "version": "AURA-Pi-auth-1"
+  },
+  "ctx_t": {
+    "I_t": "LkMiuWZ1wKQfcU6ZG2yzsw==",
+    "N_S": "Xd+XFFOmlDIJmsMbR2muYoDFD/szN1WRNcRemGYoB+k=",
+    "N_U": "qYf3eJjY5mPIIbCoE6w3zqmfH6gxnLKKN39he3X6Qao=",
+    "PRaddr": "aura-pr.exp05.test",
+    "cap": "AURA-BBSPLUS-BLS12381-SHA256",
+    "cred_exp": 1785422240,
+    "lph": "j6axa+2jsGtHdtsFUzLzIQm3NRmB3k5qiWDQe/Uqy1EDzincM3rvnjggRmgyy/Xu",
+    "opid": "MQ78zUE1ADNAwg47ThM3FQ==",
+    "salt_p": "UkBAk8G11OEAyuCGB9W0pihTQ8+mGe8SRqJiS0hkRjI=",
+    "serverOID": "2.999.10.5",
+    "sid": "aura-smdpp.exp05.test",
+    "ticket": {
+      "I_ac": "IAC-299B52CE65A7254974F5A95C1FF749B9",
+      "PRaddr": "aura-pr.exp05.test",
+      "exp": 1785339440,
+      "op": "download",
+      "pid_h": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422",
+      "sid": "aura-smdpp.exp05.test"
+    },
+    "transactionId": "C32B63D47EAE248D171D0C6933EC7573",
+    "v": "jilEeHF5Bpnxq6HcxGx2zvqS6JpGBCDczHApErahXz7QtYH1LG+6ksKuUYSfWvAq",
+    "vk_t_hash": "58a932d582cd79a5107debc165dcafdee101c55368430bc2dc3f24ae930b5113"
+  },
+  "salt_p": "UkBAk8G11OEAyuCGB9W0pihTQ8+mGe8SRqJiS0hkRjI=",
+  "tau_auth": "oa1m+a0uiIF09K8xGwlQa7zVz/1xfqryAHtb+SNusb47fv6DuMfFoiHP6UnqxjywXtv6HEC09NXDDPkBTO+AAw==",
+  "transactionId": "C32B63D47EAE248D171D0C6933EC7573",
+  "vk_t": "kFd5jjMEXfE9yaqplpgLaxRIiyBnZg7cDO/ljRz6s0g="
+}

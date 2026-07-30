@@ -1,0 +1,35 @@
+{
+  "experiment_name": "mno-smdpp-collusion-and-log-leakage",
+  "seed": 20260730,
+  "device_count": 250,
+  "mnos": [
+    "MNO-A",
+    "MNO-B",
+    "MNO-C",
+    "MNO-D"
+  ],
+  "colluding_mnos": [
+    "MNO-A",
+    "MNO-B"
+  ],
+  "shared_smdpp": "shared-smdpp.test",
+  "shared_network_egress": "198.51.100.10",
+  "aura_sid": "aura-smdpp.test",
+  "aura_praddr": "aura-pr.test",
+  "aura_server_oid": "2.999.10",
+  "profile_source": "../../rsp-baseline/third_party/pysim/smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
+  "time_window_seconds": 2592000,
+  "lifecycle_events": [
+    "downloaded",
+    "installed",
+    "enabled"
+  ],
+  "graph_device_limit": 3,
+  "assertions": {
+    "min_order_join_rate": 1.0,
+    "standard_min_history_recovery": 0.99,
+    "aura_max_cross_profile_link_rate": 0.01,
+    "standard_expected_leak_profiles_per_cluster": 4.0,
+    "aura_expected_leak_profiles_per_cluster": 1.0
+  }
+}

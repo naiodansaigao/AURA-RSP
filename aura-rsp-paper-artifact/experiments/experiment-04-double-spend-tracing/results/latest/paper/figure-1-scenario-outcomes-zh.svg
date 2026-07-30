@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1080" viewBox="0 0 1800 1080">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="900" y="72" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="44" font-weight="700">实验4：票据双花、重放识别与条件追踪</text>
+<text x="900" y="125" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="26" fill="#4b5563">1 = 是，0 = 否</text>
+<line x1="150" y1="780" x2="1730" y2="780" stroke="#d1d5db" stroke-width="2"/>
+<text x="120" y="789" text-anchor="end" font-family="Arial,sans-serif" font-size="25">0.0</text>
+<line x1="150" y1="500.0" x2="1730" y2="500.0" stroke="#d1d5db" stroke-width="2"/>
+<text x="120" y="509.0" text-anchor="end" font-family="Arial,sans-serif" font-size="25">0.5</text>
+<line x1="150" y1="220" x2="1730" y2="220" stroke="#d1d5db" stroke-width="2"/>
+<text x="120" y="229" text-anchor="end" font-family="Arial,sans-serif" font-size="25">1.0</text>
+<text x="265.0" y="767" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">0</text>
+<text x="355.0" y="767" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">0</text>
+<text x="445.0" y="767" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">0</text>
+<text x="535.0" y="767" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">0</text>
+<text x="400" y="840" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="27" font-weight="600">4A 正常单次使用</text>
+<text x="765.0" y="767" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">0</text>
+<text x="855.0" y="767" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">0</text>
+<text x="945.0" y="767" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">0</text>
+<text x="1035.0" y="767" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">0</text>
+<text x="900" y="840" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="27" font-weight="600">4B 完全相同报文重传</text>
+<text x="1265.0" y="767" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">0</text>
+<rect x="1321.0" y="220" width="68" height="560" rx="5" fill="#2563eb"/>
+<text x="1355.0" y="207" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">1</text>
+<rect x="1411.0" y="220" width="68" height="560" rx="5" fill="#16a34a"/>
+<text x="1445.0" y="207" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">1</text>
+<text x="1535.0" y="767" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">0</text>
+<text x="1400" y="840" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="27" font-weight="600">4C 两个不同有效转录</text>
+<rect x="135" y="930" width="34" height="34" fill="#dc2626"/>
+<text x="185" y="957" font-family="Arial,Microsoft YaHei,sans-serif" font-size="24">第二次业务执行</text>
+<rect x="545" y="930" width="34" height="34" fill="#2563eb"/>
+<text x="595" y="957" font-family="Arial,Microsoft YaHei,sans-serif" font-size="24">触发条件追踪</text>
+<rect x="955" y="930" width="34" height="34" fill="#16a34a"/>
+<text x="1005" y="957" font-family="Arial,Microsoft YaHei,sans-serif" font-size="24">正确EID恢复</text>
+<rect x="1365" y="930" width="34" height="34" fill="#f59e0b"/>
+<text x="1415" y="957" font-family="Arial,Microsoft YaHei,sans-serif" font-size="24">误追踪</text>
+</svg>

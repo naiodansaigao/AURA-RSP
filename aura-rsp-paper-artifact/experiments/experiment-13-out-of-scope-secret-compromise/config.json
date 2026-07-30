@@ -1,0 +1,22 @@
+{
+  "experiment_name": "experiment-13-out-of-scope-secret-compromise",
+  "seed": 20260730,
+  "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE",
+  "now": 1785408000,
+  "credential_lifetime_seconds": 31536000,
+  "ticket_lifetime_seconds": 900,
+  "trace_device_count": 5,
+  "ticket": {
+    "sid": "aura-smdpp.test",
+    "pid_h": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422",
+    "op": "download",
+    "PRaddr": "aura-pr.test"
+  },
+  "aura_source": {
+    "bootstrap": "../../aura-rsp/src/aura_rsp/bootstrap.py",
+    "ticket": "../../aura-rsp/src/aura_rsp/ticket.py",
+    "proof": "../../aura-rsp/src/aura_rsp/proof.py",
+    "server": "../../aura-rsp/src/aura_rsp/server.py",
+    "storage": "../../aura-rsp/src/aura_rsp/storage.py"
+  }
+}

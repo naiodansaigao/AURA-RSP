@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1420" height="775" viewBox="0 0 1420 775">
+<style>
+text{font-family:'Microsoft YaHei','Noto Sans CJK SC','Arial',sans-serif;fill:#172033}
+.title{font-size:34px;font-weight:700}
+.head{font-size:22px;font-weight:700}
+.cell{font-size:21px}
+.small{font-size:19px}
+</style>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="710" y="48" text-anchor="middle" class="title">Experiment 9: Downgrade and Policy Results</text>
+<rect x="30" y="78" width="1360" height="54" rx="8" fill="#e8eef8"/>
+<text x="50" y="113" class="head">Scenario</text>
+<text x="680" y="113" class="head">Type</text>
+<text x="930" y="113" class="head">Outcome</text>
+<text x="1165" y="113" class="head">Profile delivered</text>
+<rect x="30" y="132" width="1360" height="70" fill="#f7f9fc"/>
+<text x="50" y="175" class="cell">Tamper capability offer</text>
+<text x="680" y="175" class="cell">Network MITM</text>
+<text x="930" y="175" class="cell" fill="#b42318">REJECT</text>
+<text x="1225" y="175" text-anchor="middle" class="cell">0</text>
+<rect x="30" y="202" width="1360" height="70" fill="#ffffff"/>
+<text x="50" y="245" class="cell">Tamper signed selection</text>
+<text x="680" y="245" class="cell">Network MITM</text>
+<text x="930" y="245" class="cell" fill="#b42318">REJECT</text>
+<text x="1225" y="245" text-anchor="middle" class="cell">0</text>
+<rect x="30" y="272" width="1360" height="70" fill="#f7f9fc"/>
+<text x="50" y="315" class="cell">Remove ML-KEM public key</text>
+<text x="680" y="315" class="cell">Network MITM</text>
+<text x="930" y="315" class="cell" fill="#b42318">REJECT</text>
+<text x="1225" y="315" text-anchor="middle" class="cell">0</text>
+<rect x="30" y="342" width="1360" height="70" fill="#ffffff"/>
+<text x="50" y="385" class="cell">Delete ML-KEM ciphertext</text>
+<text x="680" y="385" class="cell">Network MITM</text>
+<text x="930" y="385" class="cell" fill="#b42318">REJECT</text>
+<text x="1225" y="385" text-anchor="middle" class="cell">0</text>
+<rect x="30" y="412" width="1360" height="70" fill="#f7f9fc"/>
+<text x="50" y="455" class="cell">Replace ML-KEM ciphertext</text>
+<text x="680" y="455" class="cell">Network MITM</text>
+<text x="930" y="455" class="cell" fill="#b42318">REJECT</text>
+<text x="1225" y="455" text-anchor="middle" class="cell">0</text>
+<rect x="30" y="482" width="1360" height="70" fill="#ffffff"/>
+<text x="50" y="525" class="cell">Splice Classical ephemeral</text>
+<text x="680" y="525" class="cell">Network MITM</text>
+<text x="930" y="525" class="cell" fill="#b42318">REJECT</text>
+<text x="1225" y="525" text-anchor="middle" class="cell">0</text>
+<rect x="30" y="552" width="1360" height="70" fill="#f7f9fc"/>
+<text x="50" y="595" class="cell">Relabel Hybrid as Classical</text>
+<text x="680" y="595" class="cell">Network MITM</text>
+<text x="930" y="595" class="cell" fill="#b42318">REJECT</text>
+<text x="1225" y="595" text-anchor="middle" class="cell">0</text>
+<rect x="30" y="622" width="1360" height="70" fill="#ffffff"/>
+<text x="50" y="665" class="cell">Legitimate Classical / allow</text>
+<text x="680" y="665" class="cell">Policy</text>
+<text x="930" y="665" class="cell" fill="#16794a">ACCEPT</text>
+<text x="1225" y="665" text-anchor="middle" class="cell">1</text>
+<rect x="30" y="692" width="1360" height="70" fill="#f7f9fc"/>
+<text x="50" y="735" class="cell">Legitimate Classical / require Hybrid</text>
+<text x="680" y="735" class="cell">Policy</text>
+<text x="930" y="735" class="cell" fill="#b42318">REJECT</text>
+<text x="1225" y="735" text-anchor="middle" class="cell">0</text>
+</svg>

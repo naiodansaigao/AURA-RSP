@@ -1,0 +1,13 @@
+{
+  "normal_authentication": true,
+  "normal_profile_installed": true,
+  "normal_smdpp_knows_eid": false,
+  "replay_exact_bytes_equal": true,
+  "replay_same_cached_bind_t": true,
+  "replay_second_business_execution": false,
+  "double_spend_detected": true,
+  "double_spend_second_business_execution": false,
+  "double_spend_trace_success": true,
+  "double_spend_recovered_correct_eid": true,
+  "false_trace_count": 0
+}

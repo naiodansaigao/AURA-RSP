@@ -1,0 +1,411 @@
+{
+  "assertions": [
+    {
+      "actual": {
+        "production": "ok",
+        "reference": "ok"
+      },
+      "expected": "ok",
+      "name": "base_anonymous_proof_is_valid",
+      "passed": true
+    },
+    {
+      "actual": {
+        "action": "cached",
+        "byte_identical": true,
+        "proof_generated": false
+      },
+      "expected": {
+        "action": "cached",
+        "byte_identical": true,
+        "proof_generated": false
+      },
+      "name": "paper_exact_replay_returns_identical_cached_request",
+      "passed": true
+    },
+    {
+      "actual": {
+        "I_t": {
+          "action": "rejected",
+          "mno_ticket_signature_valid": true,
+          "new_valid_response": false,
+          "reason": "local_ticket_context_conflict",
+          "server_signature_valid": true
+        },
+        "N_S": {
+          "action": "rejected",
+          "mno_ticket_signature_valid": true,
+          "new_valid_response": false,
+          "reason": "local_ticket_context_conflict",
+          "server_signature_valid": true
+        },
+        "PRaddr": {
+          "action": "rejected",
+          "mno_ticket_signature_valid": true,
+          "new_valid_response": false,
+          "reason": "server_authentication_context_mismatch",
+          "server_signature_valid": true
+        },
+        "cap": {
+          "action": "rejected",
+          "mno_ticket_signature_valid": true,
+          "new_valid_response": false,
+          "reason": "local_ticket_context_conflict",
+          "server_signature_valid": true
+        },
+        "op": {
+          "action": "rejected",
+          "mno_ticket_signature_valid": false,
+          "new_valid_response": false,
+          "reason": "invalid_mno_ticket_signature",
+          "server_signature_valid": true
+        },
+        "pid_h": {
+          "action": "rejected",
+          "mno_ticket_signature_valid": false,
+          "new_valid_response": false,
+          "reason": "invalid_mno_ticket_signature",
+          "server_signature_valid": true
+        },
+        "serverOID": {
+          "action": "rejected",
+          "mno_ticket_signature_valid": true,
+          "new_valid_response": false,
+          "reason": "local_ticket_context_conflict",
+          "server_signature_valid": true
+        },
+        "sid": {
+          "action": "rejected",
+          "mno_ticket_signature_valid": true,
+          "new_valid_response": false,
+          "reason": "server_authentication_context_mismatch",
+          "server_signature_valid": true
+        }
+      },
+      "expected": "zero second valid responses for all eight fields",
+      "name": "paper_guard_rejects_all_modified_contexts_before_proof",
+      "passed": true
+    },
+    {
+      "actual": 1,
+      "expected": 1,
+      "name": "paper_distinct_valid_responses_equals_one",
+      "passed": true
+    },
+    {
+      "actual": {
+        "eid_recovered": false,
+        "invalid_evidence_count": 0,
+        "recovered_eid": null,
+        "trace_result": "insufficient_valid_evidence",
+        "valid_distinct_evidence_count": 1
+      },
+      "expected": {
+        "eid_recovered": false,
+        "trace_result": "insufficient_valid_evidence"
+      },
+      "name": "paper_eum_rejects_insufficient_evidence",
+      "passed": true
+    },
+    {
+      "actual": false,
+      "expected": false,
+      "name": "paper_false_trace_is_false",
+      "passed": true
+    },
+    {
+      "actual": [],
+      "expected": [],
+      "name": "current_source_rejects_all_modified_contexts_before_proof",
+      "passed": true
+    },
+    {
+      "actual": {
+        "byte_identical": true,
+        "proof_valid": true,
+        "same_gamma_c": true
+      },
+      "expected": {
+        "byte_identical": true,
+        "proof_valid": true,
+        "same_gamma_c": true
+      },
+      "name": "current_source_exact_replay_returns_identical_cached_request",
+      "passed": true
+    },
+    {
+      "actual": {
+        "false_trace": false,
+        "trace_result": "insufficient_valid_evidence"
+      },
+      "expected": {
+        "false_trace": false,
+        "trace_result": "insufficient_valid_evidence"
+      },
+      "name": "current_source_eum_rejects_insufficient_evidence",
+      "passed": true
+    },
+    {
+      "actual": {
+        "context_conflict_exception_present": true,
+        "finding": "read_side_guard_active",
+        "full_auth_request_stored": true,
+        "local_ticket_log_sha256": "4804968557d8a24851400c44d99bc1798e8cbb98223c053ae1848f81714e237f",
+        "lookup_before_create_auth_proof": true,
+        "source_files": [
+          "aura-rsp/src/aura_rsp/client.py",
+          "aura-rsp/src/aura_rsp/local_ticket_log.py"
+        ],
+        "source_sha256": "828db8ba2bfbab67a8012b4cea5c08869420f55eefd956771c79f93208892934"
+      },
+      "expected": "lookup before proof, full request cache, and conflict abort",
+      "name": "source_audit_confirms_read_side_guard",
+      "passed": true
+    },
+    {
+      "actual": true,
+      "expected": true,
+      "name": "aura_source_fix_is_explicitly_reported",
+      "passed": true
+    }
+  ],
+  "assertions_passed": true,
+  "attack_fields": [
+    "N_S",
+    "I_t",
+    "cap",
+    "serverOID",
+    "sid",
+    "pid_h",
+    "op",
+    "PRaddr"
+  ],
+  "current_source": {
+    "distinct_valid_responses": 1,
+    "eum_trace": {
+      "eid_recovered": false,
+      "invalid_evidence_count": 0,
+      "recovered_eid": null,
+      "trace_result": "insufficient_valid_evidence",
+      "valid_distinct_evidence_count": 1
+    },
+    "exact_replay": {
+      "action": "cached",
+      "byte_identical": true,
+      "new_proof_generated": false,
+      "proof_generate_ms": 0.0,
+      "proof_reason": "ok",
+      "proof_valid": true,
+      "same_gamma_and_c": true
+    },
+    "false_trace": false,
+    "field_results": {
+      "I_t": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "proof_generate_ms": 0.0,
+        "proof_generated": false,
+        "proof_valid": false,
+        "raw_generation_error": "same (v, opid) was used with a different authentication context",
+        "reason": "local_ticket_context_conflict",
+        "server_signature_valid": true
+      },
+      "N_S": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "proof_generate_ms": 0.0,
+        "proof_generated": false,
+        "proof_valid": false,
+        "raw_generation_error": "same (v, opid) was used with a different authentication context",
+        "reason": "local_ticket_context_conflict",
+        "server_signature_valid": true
+      },
+      "PRaddr": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "proof_generate_ms": 0.0,
+        "proof_generated": false,
+        "proof_valid": false,
+        "raw_generation_error": "",
+        "reason": "server_authentication_context_mismatch",
+        "server_signature_valid": true
+      },
+      "cap": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "proof_generate_ms": 0.0,
+        "proof_generated": false,
+        "proof_valid": false,
+        "raw_generation_error": "same (v, opid) was used with a different authentication context",
+        "reason": "local_ticket_context_conflict",
+        "server_signature_valid": true
+      },
+      "op": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": false,
+        "new_valid_response": false,
+        "proof_generate_ms": 0.0,
+        "proof_generated": false,
+        "proof_valid": false,
+        "raw_generation_error": "",
+        "reason": "invalid_mno_ticket_signature",
+        "server_signature_valid": true
+      },
+      "pid_h": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": false,
+        "new_valid_response": false,
+        "proof_generate_ms": 0.0,
+        "proof_generated": false,
+        "proof_valid": false,
+        "raw_generation_error": "",
+        "reason": "invalid_mno_ticket_signature",
+        "server_signature_valid": true
+      },
+      "serverOID": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "proof_generate_ms": 0.0,
+        "proof_generated": false,
+        "proof_valid": false,
+        "raw_generation_error": "same (v, opid) was used with a different authentication context",
+        "reason": "local_ticket_context_conflict",
+        "server_signature_valid": true
+      },
+      "sid": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "proof_generate_ms": 0.0,
+        "proof_generated": false,
+        "proof_valid": false,
+        "raw_generation_error": "",
+        "reason": "server_authentication_context_mismatch",
+        "server_signature_valid": true
+      }
+    },
+    "g7_implementation_result": "PASS"
+  },
+  "execution_ms": 19830.538,
+  "experiment": "experiment-05-malicious-smdpp-framing",
+  "experiment_execution": "PASS",
+  "paper_reference": {
+    "distinct_valid_responses": 1,
+    "eum_trace": {
+      "eid_recovered": false,
+      "invalid_evidence_count": 0,
+      "recovered_eid": null,
+      "trace_result": "insufficient_valid_evidence",
+      "valid_distinct_evidence_count": 1
+    },
+    "exact_replay": {
+      "action": "cached",
+      "byte_identical": true,
+      "new_proof_generated": false,
+      "same_c": true,
+      "same_gamma": true
+    },
+    "expected_g7_result": "PASS",
+    "false_trace": false,
+    "field_results": {
+      "I_t": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "reason": "local_ticket_context_conflict",
+        "server_signature_valid": true
+      },
+      "N_S": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "reason": "local_ticket_context_conflict",
+        "server_signature_valid": true
+      },
+      "PRaddr": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "reason": "server_authentication_context_mismatch",
+        "server_signature_valid": true
+      },
+      "cap": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "reason": "local_ticket_context_conflict",
+        "server_signature_valid": true
+      },
+      "op": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": false,
+        "new_valid_response": false,
+        "reason": "invalid_mno_ticket_signature",
+        "server_signature_valid": true
+      },
+      "pid_h": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": false,
+        "new_valid_response": false,
+        "reason": "invalid_mno_ticket_signature",
+        "server_signature_valid": true
+      },
+      "serverOID": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "reason": "local_ticket_context_conflict",
+        "server_signature_valid": true
+      },
+      "sid": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "reason": "server_authentication_context_mismatch",
+        "server_signature_valid": true
+      }
+    }
+  },
+  "pre_fix_evidence": {
+    "distinct_valid_responses": 5,
+    "false_trace": true,
+    "note": "historical evidence from the immediately preceding Experiment 5 run",
+    "status": "IMPLEMENTATION_GAP_DETECTED",
+    "vulnerable_fields": [
+      "N_S",
+      "I_t",
+      "cap",
+      "serverOID"
+    ]
+  },
+  "profile": {
+    "sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422"
+  },
+  "results_directory": "D:\\学习\\自己论文\\ESIM\\仿真\\experiments\\experiment-05-malicious-smdpp-framing\\results\\latest",
+  "scope": {
+    "change": "production LocalTicketLog read-side guard added without changing the paper protocol or the Standard RSP baseline",
+    "crypto": "real BBS+ credential, ticket, proof generation and verification",
+    "existing_protocol_source_modified": true,
+    "malicious_server": "holds a valid SM-DP+ signing key and re-signs modified server context",
+    "reference_guard": "experiment-local faithful LocalTicketLog reference; not production source"
+  },
+  "seed": 20260729,
+  "source_audit": {
+    "context_conflict_exception_present": true,
+    "finding": "read_side_guard_active",
+    "full_auth_request_stored": true,
+    "local_ticket_log_sha256": "4804968557d8a24851400c44d99bc1798e8cbb98223c053ae1848f81714e237f",
+    "lookup_before_create_auth_proof": true,
+    "source_files": [
+      "aura-rsp/src/aura_rsp/client.py",
+      "aura-rsp/src/aura_rsp/local_ticket_log.py"
+    ],
+    "source_sha256": "828db8ba2bfbab67a8012b4cea5c08869420f55eefd956771c79f93208892934"
+  },
+  "status": "PASS"
+}

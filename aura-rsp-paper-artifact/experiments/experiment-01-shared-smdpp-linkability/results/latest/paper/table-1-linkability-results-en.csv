@@ -1,0 +1,7 @@
+﻿Metric,Standard RSP,AURA-RSP,Interpretation
+Pairwise ROC-AUC,1.0000,0.4238,Ability to distinguish same-device from different-device transaction pairs
+Pairwise accuracy,1.0000,0.4667,Accuracy on a balanced positive/negative pair set
+Direct-clustering B³ F1,1.0000,0.4000,Harmonic mean of device-cluster precision and recall
+Direct-clustering ARI,1.0000,0.0000,Clustering agreement corrected for chance
+Exact device recovery,1.0000,0.0000,Devices whose profiles are recovered as one pure and complete cluster
+Cross-profile direct link,1.0000,0.0000,Same-device cross-MNO/profile pairs linked by repeated visible identifiers

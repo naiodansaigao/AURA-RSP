@@ -1,0 +1,11 @@
+| Metric | Standard RSP | AURA-RSP |
+|---|---:|---:|
+| ROC-AUC | 1.0000 | 0.4238 |
+| ROC-AUC 95% CI | [1.0000, 1.0000] | [0.3529, 0.4963] |
+| Orientation-independent AUC max(AUC, 1−AUC) | 1.0000 | 0.5762 |
+| Pairwise accuracy | 1.0000 | 0.4667 |
+| B³ F1 (direct stable-ID grouping) | 1.0000 | 0.4000 |
+| Adjusted Rand index (ARI) | 1.0000 | 0.0000 |
+| Exact device-history recovery | 1.0000 | 0.0000 |
+| Direct cross-profile linkage | 1.0000 | 0.0000 |
+| Attacker-observed clusters | 20 | 80 |

@@ -1,0 +1,14 @@
+{"accepted": false, "attempt": "without_correct_x", "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE", "expected": false, "matches_expected": true, "scenario": "euicc_x"}
+{"accepted": true, "attempt": "x_plus_complete_holder_state", "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE", "expected": true, "matches_expected": true, "scenario": "euicc_x"}
+{"accepted": false, "attempt": "eta_d_without_matching_x_k", "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE", "expected": false, "matches_expected": true, "scenario": "ticket_eta_d"}
+{"accepted": true, "attempt": "eta_d_plus_complete_holder_state", "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE", "expected": true, "matches_expected": true, "scenario": "ticket_eta_d"}
+{"accepted": false, "attempt": "unrelated_key_forgery_control", "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE", "expected": false, "matches_expected": true, "scenario": "eum_signing_key"}
+{"accepted": true, "attempt": "leaked_eum_key_forgery", "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE", "expected": true, "matches_expected": true, "scenario": "eum_signing_key"}
+{"accepted": false, "attempt": "unrelated_key_forgery_control", "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE", "expected": false, "matches_expected": true, "scenario": "mno_signing_key"}
+{"accepted": true, "attempt": "leaked_mno_key_forgery", "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE", "expected": true, "matches_expected": true, "scenario": "mno_signing_key"}
+{"accepted": false, "attempt": "unrelated_server_auth_key_control", "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE", "expected": false, "matches_expected": true, "scenario": "smdpp_signing_keys"}
+{"accepted": true, "attempt": "leaked_server_auth_key", "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE", "expected": true, "matches_expected": true, "scenario": "smdpp_signing_keys"}
+{"accepted": false, "attempt": "unrelated_binding_key_control", "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE", "expected": false, "matches_expected": true, "scenario": "smdpp_signing_keys"}
+{"accepted": true, "attempt": "leaked_profile_binding_key", "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE", "expected": true, "matches_expected": true, "scenario": "smdpp_signing_keys"}
+{"accepted": false, "attempt": "resolve_k_without_database", "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE", "expected": false, "matches_expected": true, "scenario": "eum_trace_database"}
+{"accepted": true, "attempt": "resolve_k_with_leaked_database", "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE", "expected": true, "matches_expected": true, "scenario": "eum_trace_database"}

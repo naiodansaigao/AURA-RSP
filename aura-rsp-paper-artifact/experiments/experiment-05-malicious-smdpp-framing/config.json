@@ -1,0 +1,30 @@
+{
+  "experiment_name": "experiment-05-malicious-smdpp-framing",
+  "seed": 20260729,
+  "honest_device_eid": "89049032123451234512345678905001",
+  "aura": {
+    "sid": "aura-smdpp.exp05.test",
+    "server_oid": "2.999.10.5",
+    "praddr": "aura-pr.exp05.test",
+    "cap": "AURA-BBSPLUS-BLS12381-SHA256",
+    "credential_valid_seconds": 86400,
+    "ticket_valid_seconds": 3600
+  },
+  "attack_fields": [
+    "N_S",
+    "I_t",
+    "cap",
+    "serverOID",
+    "sid",
+    "pid_h",
+    "op",
+    "PRaddr"
+  ],
+  "assertions": {
+    "current_source_distinct_valid_responses": 1,
+    "current_source_trace_result": "insufficient_valid_evidence",
+    "current_source_eid_recovered": false,
+    "current_source_false_trace": false,
+    "all_modified_contexts_must_be_rejected": true
+  }
+}

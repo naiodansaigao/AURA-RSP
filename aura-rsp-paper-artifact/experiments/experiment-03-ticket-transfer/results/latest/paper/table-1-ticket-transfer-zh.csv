@@ -1,0 +1,4 @@
+﻿Bind_t,Profile交付,场景,稳定EID暴露,认证结果
+未生成,否,AURA：票据转移到Device-B,否,拒绝
+-,否,Standard：订单预绑定EID,是,拒绝
+-,是,Standard：未绑定激活码,是,通过

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1740" height="930" viewBox="0 0 1740 930">
+<style>
+text{font-family:Arial,'Microsoft YaHei',sans-serif;fill:#0b2345}
+.title{font-size:42px;font-weight:700}.axis{font-size:25px}.label{font-size:25px}.value{font-size:25px;font-weight:700}.legend{font-size:27px}
+</style>
+<rect width="1740" height="930" fill="#ffffff"/>
+<text x="870.0" y="66" text-anchor="middle" class="title">Experiment 12: IP Linkability, Direct vs Shared PR</text>
+<line x1="150" y1="740.0" x2="1660" y2="740.0" stroke="#d9e1ea" stroke-width="2"/>
+<text x="126" y="749.0" text-anchor="end" class="axis">0.0</text>
+<line x1="150" y1="623.0" x2="1660" y2="623.0" stroke="#d9e1ea" stroke-width="2"/>
+<text x="126" y="632.0" text-anchor="end" class="axis">0.2</text>
+<line x1="150" y1="506.0" x2="1660" y2="506.0" stroke="#d9e1ea" stroke-width="2"/>
+<text x="126" y="515.0" text-anchor="end" class="axis">0.4</text>
+<line x1="150" y1="389.0" x2="1660" y2="389.0" stroke="#d9e1ea" stroke-width="2"/>
+<text x="126" y="398.0" text-anchor="end" class="axis">0.6</text>
+<line x1="150" y1="272.0" x2="1660" y2="272.0" stroke="#d9e1ea" stroke-width="2"/>
+<text x="126" y="281.0" text-anchor="end" class="axis">0.8</text>
+<line x1="150" y1="155.0" x2="1660" y2="155.0" stroke="#d9e1ea" stroke-width="2"/>
+<text x="126" y="164.0" text-anchor="end" class="axis">1.0</text>
+<line x1="150" y1="155" x2="150" y2="740" stroke="#486581" stroke-width="3"/>
+<line x1="150" y1="740" x2="1660" y2="740" stroke="#486581" stroke-width="3"/>
+<rect x="221.14999999999998" y="155.0" width="105" height="585.0" rx="8" fill="#2563a6"/>
+<text x="273.65" y="183" text-anchor="middle" class="value">1.000</text>
+<rect x="351.35" y="447.5" width="105" height="292.5" rx="8" fill="#e07a1f"/>
+<text x="403.85" y="433.5" text-anchor="middle" class="value">0.500</text>
+<text x="338.75" y="794" text-anchor="middle" class="label">ROC-AUC</text>
+<rect x="598.65" y="155.0" width="105" height="585.0" rx="8" fill="#2563a6"/>
+<text x="651.15" y="183" text-anchor="middle" class="value">1.000</text>
+<rect x="728.85" y="447.5" width="105" height="292.5" rx="8" fill="#e07a1f"/>
+<text x="781.35" y="433.5" text-anchor="middle" class="value">0.500</text>
+<text x="716.25" y="794" text-anchor="middle" class="label">Balanced accuracy</text>
+<rect x="976.1500000000001" y="155.0" width="105" height="585.0" rx="8" fill="#2563a6"/>
+<text x="1028.65" y="183" text-anchor="middle" class="value">1.000</text>
+<rect x="1106.35" y="740.0" width="105" height="0.0" rx="8" fill="#e07a1f"/>
+<text x="1158.85" y="726.0" text-anchor="middle" class="value">0.000</text>
+<text x="1093.75" y="794" text-anchor="middle" class="label">Exact history</text>
+<rect x="1353.65" y="155.0" width="105" height="585.0" rx="8" fill="#2563a6"/>
+<text x="1406.15" y="183" text-anchor="middle" class="value">1.000</text>
+<rect x="1483.85" y="734.15" width="105" height="5.8500000000000005" rx="8" fill="#e07a1f"/>
+<text x="1536.35" y="720.15" text-anchor="middle" class="value">0.010</text>
+<text x="1471.25" y="794" text-anchor="middle" class="label">IP identification</text>
+<rect x="570" y="854" width="34" height="34" rx="5" fill="#2563a6"/>
+<text x="620" y="882" class="legend">12A Direct</text>
+<rect x="925" y="854" width="34" height="34" rx="5" fill="#e07a1f"/>
+<text x="975" y="882" class="legend">12B Shared PR</text>
+</svg>

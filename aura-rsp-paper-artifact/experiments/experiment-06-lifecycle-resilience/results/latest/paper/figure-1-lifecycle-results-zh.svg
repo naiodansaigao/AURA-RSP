@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1050" viewBox="0 0 1900 1050">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="950" y="72" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="43" font-weight="700">生命周期重放、并发与消息丢失实验结果</text>
+<text x="950" y="125" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="25" fill="#4b5563">柱上数值为机器断言通过率</text>
+<line x1="150" y1="790.0" x2="1840" y2="790.0" stroke="#d1d5db" stroke-width="2"/>
+<text x="125" y="799.0" text-anchor="end" font-family="Arial,sans-serif" font-size="24">0%</text>
+<line x1="150" y1="640.0" x2="1840" y2="640.0" stroke="#d1d5db" stroke-width="2"/>
+<text x="125" y="649.0" text-anchor="end" font-family="Arial,sans-serif" font-size="24">25%</text>
+<line x1="150" y1="490.0" x2="1840" y2="490.0" stroke="#d1d5db" stroke-width="2"/>
+<text x="125" y="499.0" text-anchor="end" font-family="Arial,sans-serif" font-size="24">50%</text>
+<line x1="150" y1="340.0" x2="1840" y2="340.0" stroke="#d1d5db" stroke-width="2"/>
+<text x="125" y="349.0" text-anchor="end" font-family="Arial,sans-serif" font-size="24">75%</text>
+<line x1="150" y1="190.0" x2="1840" y2="190.0" stroke="#d1d5db" stroke-width="2"/>
+<text x="125" y="199.0" text-anchor="end" font-family="Arial,sans-serif" font-size="24">100%</text>
+<rect x="190" y="190.0" width="140" height="600.0" rx="8" fill="#16a34a"/>
+<text x="260" y="176.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700">100%</text>
+<text x="260" y="842" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="25" font-weight="700">6A</text>
+<text x="260" y="882" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="22">重放/幂等</text>
+<rect x="480" y="190.0" width="140" height="600.0" rx="8" fill="#16a34a"/>
+<text x="550" y="176.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700">100%</text>
+<text x="550" y="842" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="25" font-weight="700">6B</text>
+<text x="550" y="882" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="22">字段篡改</text>
+<rect x="770" y="190.0" width="140" height="600.0" rx="8" fill="#16a34a"/>
+<text x="840" y="176.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700">100%</text>
+<text x="840" y="842" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="25" font-weight="700">6C</text>
+<text x="840" y="882" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="22">并发分叉</text>
+<rect x="1060" y="190.0" width="140" height="600.0" rx="8" fill="#16a34a"/>
+<text x="1130" y="176.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700">100%</text>
+<text x="1130" y="842" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="25" font-weight="700">6D</text>
+<text x="1130" y="882" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="22">Rprep丢失</text>
+<rect x="1350" y="190.0" width="140" height="600.0" rx="8" fill="#16a34a"/>
+<text x="1420" y="176.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700">100%</text>
+<text x="1420" y="842" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="25" font-weight="700">6E</text>
+<text x="1420" y="882" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="22">Commit/确认丢失</text>
+<rect x="1640" y="190.0" width="140" height="600.0" rx="8" fill="#16a34a"/>
+<text x="1710" y="176.0" text-anchor="middle" font-family="Arial,sans-serif" font-size="29" font-weight="700">100%</text>
+<text x="1710" y="842" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="25" font-weight="700">6F</text>
+<text x="1710" y="882" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="22">过期后提交</text>
+<text x="950" y="965" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="24" fill="#374151">Standard当前baseline无生命周期测试接口，结果标记为UNSUPPORTED，不作为协议失败。</text>
+</svg>

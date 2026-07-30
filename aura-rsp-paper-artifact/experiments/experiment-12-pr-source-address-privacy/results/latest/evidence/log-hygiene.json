@@ -1,0 +1,5 @@
+{
+  "attacker_logs_clean": true,
+  "forbidden_identity_fields": [],
+  "shared_transaction_identifier_fields": []
+}

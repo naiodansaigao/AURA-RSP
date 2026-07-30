@@ -1,0 +1,4 @@
+﻿Authentication,Identity outcome,Profile install,Scenario,Second execution,Tracing
+accepted,anonymous,installed,4A Normal single use,no,no
+cached/idempotent,anonymous,installed,4B Exact message replay,no,no
+rejected,correct EID recovered,first installed,4C Two distinct valid transcripts,no,yes

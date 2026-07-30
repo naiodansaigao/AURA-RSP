@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "source": "D:\\学习\\自己论文\\ESIM\\仿真\\experiments\\experiment-12-pr-source-address-privacy\\results\\latest\\summary.json",
+  "source_sha256": "7b0d20655ed1cd33cf9b0c019c47c59080fcdf545e2c0558cac6bdf01b26bec6",
+  "figure": {
+    "path": "D:\\学习\\自己论文\\ESIM\\仿真\\experiments\\experiment-12-pr-source-address-privacy\\results\\latest\\publication-bar-chart\\experiment12-results-grouped-bars-en-600dpi.png",
+    "sha256": "e6cd792c841aad17be4a1512bfe4e7136df3ff7426dd8814435b40d611e3f9bd",
+    "width_px": 4700,
+    "height_px": 2850,
+    "dpi": 600,
+    "data": {
+      "ip_pairwise_roc_auc_percent": {
+        "direct": 100.0,
+        "shared_pr": 50.0
+      },
+      "exact_device_history_recovery_percent": {
+        "direct": 100.0,
+        "shared_pr": 0.0
+      },
+      "connection_matching_accuracy_percent": {
+        "time_only": 81.5,
+        "time_and_size": 99.5
+      },
+      "full_device_history_recovery_percent": {
+        "time_only": 47.0,
+        "time_and_size": 98.0
+      }
+    }
+  }
+}

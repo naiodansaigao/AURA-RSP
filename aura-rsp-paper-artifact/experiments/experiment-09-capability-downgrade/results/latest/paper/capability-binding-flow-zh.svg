@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="360" viewBox="0 0 1500 360">
+<defs>
+<marker id="arrow" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+<path d="M0,0 L12,6 L0,12 z" fill="#486581"/>
+</marker>
+</defs>
+<style>
+text{font-family:'Microsoft YaHei','Noto Sans CJK SC','Arial',sans-serif;fill:#172033}
+.title{font-size:34px;font-weight:700}
+.main{font-size:24px;font-weight:700}
+.sub{font-size:19px}
+</style>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="750" y="52" text-anchor="middle" class="title">AURA能力与Hybrid密钥协商绑定链</text>
+<rect x="38" y="126" width="250" height="126" rx="16" fill="#e8f2ff" stroke="#9fb3c8" stroke-width="2"/>
+<text x="163.0" y="174" text-anchor="middle" class="main">能力提议</text>
+<text x="163.0" y="213" text-anchor="middle" class="sub">Hybrid + Classical</text>
+<line x1="294" y1="189.0" x2="320" y2="189.0" stroke="#486581" stroke-width="4" marker-end="url(#arrow)"/>
+<rect x="330" y="126" width="250" height="126" rx="16" fill="#e8f2ff" stroke="#9fb3c8" stroke-width="2"/>
+<text x="455.0" y="174" text-anchor="middle" class="main">服务器选择签名</text>
+<text x="455.0" y="213" text-anchor="middle" class="sub">cap + offer hash</text>
+<line x1="586" y1="189.0" x2="612" y2="189.0" stroke="#486581" stroke-width="4" marker-end="url(#arrow)"/>
+<rect x="622" y="126" width="250" height="126" rx="16" fill="#e8f2ff" stroke="#9fb3c8" stroke-width="2"/>
+<text x="747.0" y="174" text-anchor="middle" class="main">Profile Binding</text>
+<text x="747.0" y="213" text-anchor="middle" class="sub">Bind_t + transcript hash</text>
+<line x1="878" y1="189.0" x2="904" y2="189.0" stroke="#486581" stroke-width="4" marker-end="url(#arrow)"/>
+<rect x="914" y="126" width="250" height="126" rx="16" fill="#eaf8f0" stroke="#9fb3c8" stroke-width="2"/>
+<text x="1039.0" y="174" text-anchor="middle" class="main">Hybrid密钥材料</text>
+<text x="1039.0" y="208" text-anchor="middle" class="sub">P-256 ECDH +</text>
+<text x="1039.0" y="234" text-anchor="middle" class="sub">ML-KEM-768</text>
+<line x1="1170" y1="189.0" x2="1196" y2="189.0" stroke="#486581" stroke-width="4" marker-end="url(#arrow)"/>
+<rect x="1206" y="126" width="250" height="126" rx="16" fill="#eaf8f0" stroke="#9fb3c8" stroke-width="2"/>
+<text x="1331.0" y="174" text-anchor="middle" class="main">安全交付</text>
+<text x="1331.0" y="213" text-anchor="middle" class="sub">ctx_K + signature + AEAD</text>
+<text x="750" y="310" text-anchor="middle" class="sub">任一字段被修改都会破坏后续签名、摘要、KDF上下文或AEAD验证</text>
+</svg>

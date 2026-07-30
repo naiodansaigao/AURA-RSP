@@ -1,0 +1,29 @@
+{
+  "experiment_name": "experiment-03-ticket-transfer",
+  "seed": 20260729,
+  "aura": {
+    "matching_id": "EXP03-AURA-MATCHING-ID",
+    "sid": "aura-smdpp.exp03.test",
+    "server_oid": "2.999.10.3",
+    "praddr": "aura-pr.exp03.test",
+    "capabilities": [
+      "AURA-BBSPLUS-BLS12381-SHA256",
+      "ECDHE-P256-HKDF-SHA256-AES256GCM"
+    ],
+    "credential_valid_seconds": 86400,
+    "ticket_valid_seconds": 3600
+  },
+  "standard": {
+    "smdpp": "standard-smdpp.exp03.test",
+    "activation_code": "LPA:1$standard-smdpp.exp03.test$EXP03-STOLEN-CODE"
+  },
+  "assertions": {
+    "aura_owner_authentication_must_pass": true,
+    "aura_transfer_must_be_rejected": true,
+    "aura_rejection_http_status": 401,
+    "aura_bind_t_must_not_exist": true,
+    "aura_profile_must_not_be_delivered": true,
+    "standard_prebound_transfer_must_be_rejected": true,
+    "standard_unbound_transfer_may_succeed": true
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "experiment_name": "shared-smdpp-cross-profile-linkability",
+  "seed": 20260729,
+  "device_count": 20,
+  "mnos": [
+    "MNO-A",
+    "MNO-B",
+    "MNO-C",
+    "MNO-D"
+  ],
+  "shared_smdpp": "shared-smdpp.test",
+  "shared_network_egress": "198.51.100.10",
+  "aura_sid": "aura-smdpp.test",
+  "aura_praddr": "aura-pr.test",
+  "aura_server_oid": "2.999.10",
+  "aura_capabilities": [
+    "AURA-BBSPLUS-BLS12381-SHA256",
+    "ECDHE-P256-HKDF-SHA256-AES256GCM"
+  ],
+  "profile_source": "../../rsp-baseline/third_party/pysim/smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
+  "time_window_seconds": 604800,
+  "pair_cv_folds": 5,
+  "graph_device_limit": 4,
+  "assertions": {
+    "standard_min_roc_auc": 0.99,
+    "aura_min_roc_auc": 0.35,
+    "aura_max_roc_auc": 0.65,
+    "standard_min_exact_device_recovery": 0.99,
+    "aura_max_direct_cross_profile_link_rate": 0.01
+  }
+}

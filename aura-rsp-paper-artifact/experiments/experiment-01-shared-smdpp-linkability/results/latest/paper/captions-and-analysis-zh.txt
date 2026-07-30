@@ -1,0 +1,5 @@
+图1 共享 SM-DP+ 跨 Profile 关联能力对比。实验包含 20 个模拟 eUICC，每个 eUICC 分别从 4 个 MNO 获取独立 Profile。Standard RSP 的稳定 EID、eUICC 证书及公钥使跨 Profile 关联和设备簇恢复率均达到 1；AURA-RSP 逐事务更新票据、nullifier、临时密钥和绑定材料，未形成可直接复用的设备标识。
+
+图2 Standard RSP 与 AURA-RSP 的成对关联 ROC 曲线。Standard RSP 的 ROC-AUC 为 1.000，共享 SM-DP+ 可准确关联同一 eUICC 的跨 MNO/Profile 事务；AURA-RSP 的 ROC-AUC 为 0.424，接近随机猜测基线 0.5，表明受控公开转录中未观察到有效的跨 Profile 设备关联信号。
+
+表1 共享 SM-DP+ 跨 Profile 关联实验结果。AURA-RSP 的 ROC-AUC 接近而非必须等于 0.5；偏差来自有限样本和固定随机种子。该实验验证协议可见字段的不可链接性，不覆盖 PR 与 SM-DP+ 合谋、入口/出口流量同时观测或终端秘密泄露。

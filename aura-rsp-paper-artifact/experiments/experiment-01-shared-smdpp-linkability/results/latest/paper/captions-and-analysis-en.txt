@@ -1,0 +1,5 @@
+Figure 1. Cross-profile linkability at a shared SM-DP+. The experiment includes 20 simulated eUICCs, each obtaining an independent profile from 4 MNOs. Stable EID, eUICC-certificate, and public-key values make Standard RSP fully linkable across profiles. AURA-RSP refreshes the ticket, nullifier, temporary key, and binding material for each transaction and exposes no directly reusable device identifier.
+
+Figure 2. Pairwise cross-profile linkability ROC curves. Standard RSP achieves an ROC-AUC of 1.000, allowing the shared SM-DP+ to link transactions belonging to the same eUICC. AURA-RSP achieves an ROC-AUC of 0.424, close to the random-guess baseline of 0.5, indicating that no effective cross-profile device-linking signal was observed in the controlled public transcripts.
+
+Table 1. Shared SM-DP+ cross-profile linkability results. The AURA-RSP ROC-AUC is expected to be near, rather than exactly equal to, 0.5 because of finite-sample variation under a fixed random seed. The experiment evaluates unlinkability of protocol-visible fields; it does not cover PR/SM-DP+ collusion, simultaneous observation of ingress and egress traffic, or compromise of endpoint secrets.

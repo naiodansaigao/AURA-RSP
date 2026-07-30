@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "source": "D:\\学习\\自己论文\\ESIM\\仿真\\experiments\\experiment-12-pr-source-address-privacy\\results\\latest\\summary.json",
+  "source_sha256": "7b0d20655ed1cd33cf9b0c019c47c59080fcdf545e2c0558cac6bdf01b26bec6",
+  "figure": {
+    "path": "D:\\学习\\自己论文\\ESIM\\仿真\\experiments\\experiment-12-pr-source-address-privacy\\results\\latest\\publication-professional\\experiment12-pr-privacy-and-collusion-en-600dpi.png",
+    "sha256": "73f755035f839d791c2276e2a878f96150429d5d98733c34bf457d3752fec779",
+    "width_px": 5600,
+    "height_px": 3200,
+    "dpi": 600,
+    "data": {
+      "direct": {
+        "observed_source_addresses": 100,
+        "ip_pairwise_roc_auc": 1.0,
+        "mean_device_anonymity_set": 1.0,
+        "exact_device_history_recovery": 1.0
+      },
+      "shared_pr": {
+        "observed_source_addresses": 1,
+        "ip_pairwise_roc_auc": 0.5,
+        "mean_device_anonymity_set": 100.0,
+        "exact_device_history_recovery": 0.0,
+        "expected_ip_identification_rate": 0.01
+      },
+      "collusion": {
+        "time_only": {
+          "correct_matches": 326,
+          "incorrect_matches": 74,
+          "match_accuracy": 0.815,
+          "full_device_history_recovery": 0.47
+        },
+        "time_and_size": {
+          "correct_matches": 398,
+          "incorrect_matches": 2,
+          "match_accuracy": 0.995,
+          "full_device_history_recovery": 0.98
+        },
+        "interpretation": "EXPECTED_BOUNDARY_FAILURE"
+      }
+    }
+  }
+}

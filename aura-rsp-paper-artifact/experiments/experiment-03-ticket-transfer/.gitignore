@@ -1,0 +1,6 @@
+results/*
+!results/.gitkeep
+.deps/
+.venv-test/
+__pycache__/
+*.pyc

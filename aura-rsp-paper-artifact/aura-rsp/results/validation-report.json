@@ -1,0 +1,187 @@
+﻿{
+    "benchmark":  {
+                      "aura_internal_online":  {
+                                                   "max_ms":  2646.909,
+                                                   "mean_ms":  2601.342,
+                                                   "median_ms":  2608.801,
+                                                   "min_ms":  2548.621,
+                                                   "n":  10,
+                                                   "p95_ms":  2645.989,
+                                                   "stdev_ms":  38.362
+                                               },
+                      "aura_proof_generate":  {
+                                                  "max_ms":  1286.012,
+                                                  "mean_ms":  1266.717,
+                                                  "median_ms":  1270.939,
+                                                  "min_ms":  1246.838,
+                                                  "n":  10,
+                                                  "p95_ms":  1285.31,
+                                                  "stdev_ms":  15.545
+                                              },
+                      "aura_proof_verify":  {
+                                                "max_ms":  1232.654,
+                                                "mean_ms":  1176.503,
+                                                "median_ms":  1173.193,
+                                                "min_ms":  1151.941,
+                                                "n":  10,
+                                                "p95_ms":  1219.357,
+                                                "stdev_ms":  25.724
+                                            },
+                      "aura_relay_accumulated":  {
+                                                     "max_ms":  1345.305,
+                                                     "mean_ms":  1285.499,
+                                                     "median_ms":  1281.481,
+                                                     "min_ms":  1254.376,
+                                                     "n":  10,
+                                                     "p95_ms":  1329.429,
+                                                     "stdev_ms":  28.899
+                                                 },
+                      "aura_rsp_wall":  {
+                                            "max_ms":  3121.941,
+                                            "mean_ms":  3052.316,
+                                            "median_ms":  3055.336,
+                                            "min_ms":  2983.026,
+                                            "n":  10,
+                                            "p95_ms":  3118.846,
+                                            "stdev_ms":  53.646
+                                        },
+                      "comparison":  {
+                                         "aura_minus_standard_mean_ms":  1344.015,
+                                         "aura_over_standard_factor":  1.787,
+                                         "aura_overhead_percent":  78.68
+                                     },
+                      "host":  {
+                                   "platform":  "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+                                   "python":  "3.12.3"
+                               },
+                      "iterations":  10,
+                      "raw_ms":  {
+                                     "aura_internal_online":  [
+                                                                  2618.264,
+                                                                  2644.864,
+                                                                  2548.621,
+                                                                  2557.194,
+                                                                  2556.443,
+                                                                  2579.636,
+                                                                  2646.909,
+                                                                  2631.438,
+                                                                  2630.714,
+                                                                  2599.338
+                                                              ],
+                                     "aura_proof_generate":  [
+                                                                 1286.012,
+                                                                 1284.453,
+                                                                 1250.254,
+                                                                 1251.182,
+                                                                 1246.838,
+                                                                 1271.113,
+                                                                 1250.256,
+                                                                 1280.625,
+                                                                 1275.676,
+                                                                 1270.765
+                                                             ],
+                                     "aura_proof_verify":  [
+                                                               1166.095,
+                                                               1203.106,
+                                                               1151.941,
+                                                               1156.361,
+                                                               1156.863,
+                                                               1153.804,
+                                                               1232.654,
+                                                               1183.157,
+                                                               1180.29,
+                                                               1180.76
+                                                           ],
+                                     "aura_relay_accumulated":  [
+                                                                    1280.999,
+                                                                    1310.026,
+                                                                    1254.376,
+                                                                    1257.227,
+                                                                    1265.169,
+                                                                    1259.57,
+                                                                    1345.305,
+                                                                    1296.921,
+                                                                    1303.428,
+                                                                    1281.964
+                                                                ],
+                                     "aura_rsp_wall":  [
+                                                           3061.837,
+                                                           3121.941,
+                                                           2983.026,
+                                                           2994.23,
+                                                           2990.178,
+                                                           3018.281,
+                                                           3085.026,
+                                                           3104.747,
+                                                           3115.063,
+                                                           3048.835
+                                                       ],
+                                     "standard_rsp_wall":  [
+                                                               1868.587,
+                                                               1739.525,
+                                                               1635.103,
+                                                               1606.108,
+                                                               1606.393,
+                                                               1807.808,
+                                                               1615.721,
+                                                               1804.77,
+                                                               1749.452,
+                                                               1649.546
+                                                           ]
+                                 },
+                      "scope":  {
+                                    "aura":  "run_demo.sh --reuse-ticket: AURA online download, install notification, artifact checks; offline ticket issuance excluded",
+                                    "profile_bytes":  12207,
+                                    "profile_sha256":  "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422",
+                                    "same_profile":  true,
+                                    "service_startup_excluded":  true,
+                                    "standard":  "run_software_demo.sh: standard ES9+ download, BPP decode, install notification, artifact checks",
+                                    "tls_transport_included":  true
+                                },
+                      "standard_rsp_wall":  {
+                                                "max_ms":  1868.587,
+                                                "mean_ms":  1708.301,
+                                                "median_ms":  1694.535,
+                                                "min_ms":  1606.108,
+                                                "n":  10,
+                                                "p95_ms":  1841.236,
+                                                "stdev_ms":  97.626
+                                            },
+                      "status":  "AURA_BASELINE_BENCHMARK_PASS",
+                      "timestamp_utc":  "2026-07-29T08:34:06.674405+00:00",
+                      "warmups":  1
+                  },
+    "database_evidence":  {
+                              "install_notifications":  18,
+                              "installed_sessions":  18,
+                              "latest_trace":  {
+                                                   "created_at":  1785264024,
+                                                   "eid":  "89049032123451234512345678901235",
+                                                   "first_transaction_id":  "ADABF69FFA02C5622579CE452130C92A",
+                                                   "id":  1,
+                                                   "recovered_k":  "JDFdLzKlnwduZTPTUv+v4lasn+Ka9aYHliXLKwpBrk4=",
+                                                   "second_transaction_id":  "689F3CC58FAA23303F334A9BB96AC1B9",
+                                                   "v":  "rbu+wnyU1/8WKKclh9HYYSpdWgPqhDzLVMoo2Hcw1ddhU27/wGpzUmYRmL+RpWOD"
+                                               }
+                          },
+    "limitations":  [
+                        "software eUICC; x is not protected by a physical secure element",
+                        "research BBS+ implementation built on py-ecc; not independently audited",
+                        "profile installation is represented by verified decryption, file output and InstallReceipt, not ES10 APDU writes",
+                        "enable, disable, delete and reinstall lifecycle operations are out of scope"
+                    ],
+    "profile":  {
+                    "bytes":  12207,
+                    "same_bytes_as_baseline_fixture":  true,
+                    "sha256":  "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422"
+                },
+    "status":  "AURA_VALIDATION_REPORT_PASS",
+    "tests":  {
+                  "double_spend_traced_to_test_eid":  true,
+                  "identical_auth_replay_cached":  true,
+                  "positive_download":  true,
+                  "same_ticket_double_spend_detected":  true,
+                  "tampered_bind_t_rejected":  true,
+                  "tampered_composite_proof_rejected":  true
+              }
+}

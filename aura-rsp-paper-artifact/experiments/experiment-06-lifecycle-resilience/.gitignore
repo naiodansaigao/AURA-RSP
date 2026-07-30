@@ -1,0 +1,4 @@
+results/latest/
+results/qa/
+.venv-test/
+__pycache__/

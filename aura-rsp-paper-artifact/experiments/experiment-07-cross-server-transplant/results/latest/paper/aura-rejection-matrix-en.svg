@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="960" viewBox="0 0 1400 960">
+<style>
+text{font-family:"Microsoft YaHei","Noto Sans CJK SC","Arial",sans-serif;fill:#172033}
+.title{font-size:42px;font-weight:700} .sub{font-size:26px;fill:#536176}
+.head{font-size:25px;font-weight:700} .row{font-size:25px}
+.reject{font-size:25px;font-weight:700;fill:#b42318} .grid{stroke:#d8dee8;stroke-width:2}
+.box{fill:#f8fafc;stroke:#cbd5e1;stroke-width:2}
+</style>
+<rect width="1400" height="960" fill="#ffffff"/>
+<text x="70" y="70" class="title">AURA-RSP Cross-Server Transplant Results</text>
+<text x="70" y="115" class="sub">All 7 attacks rejected; zero valid Bind_t values</text>
+<rect x="70" y="150" width="1260" height="72" rx="10" class="box"/>
+<text x="95" y="196" class="head">Attack scenario</text>
+<text x="790" y="196" class="head">Authentication</text>
+<text x="1110" y="196" class="head">Bind_t</text>
+<text x="95" y="285" class="row">direct replay to server b</text><text x="790" y="285" class="reject">× rejected</text><text x="1110" y="285" class="reject">× not generated</text><line x1="70" y1="313" x2="1330" y2="313" class="grid"/><text x="95" y="377" class="row">modify sid</text><text x="790" y="377" class="reject">× rejected</text><text x="1110" y="377" class="reject">× not generated</text><line x1="70" y1="405" x2="1330" y2="405" class="grid"/><text x="95" y="469" class="row">modify server oid</text><text x="790" y="469" class="reject">× rejected</text><text x="1110" y="469" class="reject">× not generated</text><line x1="70" y1="497" x2="1330" y2="497" class="grid"/><text x="95" y="561" class="row">modify praddr</text><text x="790" y="561" class="reject">× rejected</text><text x="1110" y="561" class="reject">× not generated</text><line x1="70" y1="589" x2="1330" y2="589" class="grid"/><text x="95" y="653" class="row">replace target address only</text><text x="790" y="653" class="reject">× rejected</text><text x="1110" y="653" class="reject">× not generated</text><line x1="70" y1="681" x2="1330" y2="681" class="grid"/><text x="95" y="745" class="row">modify cap</text><text x="790" y="745" class="reject">× rejected</text><text x="1110" y="745" class="reject">× not generated</text><line x1="70" y1="773" x2="1330" y2="773" class="grid"/><text x="95" y="837" class="row">modify transaction nonce</text><text x="790" y="837" class="reject">× rejected</text><text x="1110" y="837" class="reject">× not generated</text><line x1="70" y1="865" x2="1330" y2="865" class="grid"/>
+</svg>
