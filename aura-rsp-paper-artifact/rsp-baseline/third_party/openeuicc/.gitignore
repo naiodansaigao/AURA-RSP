@@ -1,0 +1,11 @@
+/.gradle
+/captures
+
+# Configuration files
+
+/keystore.properties
+/local.properties
+
+# macOS
+
+.DS_Store

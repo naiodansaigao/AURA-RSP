@@ -1,0 +1,51 @@
+{
+  "experiment": "shared-smdpp-cross-profile-linkability",
+  "source": "results\\latest",
+  "dpi": 600,
+  "pixel_size": [
+    4500,
+    2820
+  ],
+  "bootstrap_samples": 5000,
+  "seed": 20260729,
+  "design": {
+    "seed": 20260729,
+    "device_count": 20,
+    "mnos": [
+      "MNO-A",
+      "MNO-B",
+      "MNO-C",
+      "MNO-D"
+    ],
+    "profiles_per_device": 4,
+    "transaction_count_per_mode": 80,
+    "complete_network_downloads_executed": false,
+    "classifier": "from-scratch pairwise logistic regression with stratified cross-validation",
+    "pair_scope": "cross-MNO pairs only, balanced positive and negative classes",
+    "profile_source_sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422",
+    "profile_bytes": 12207,
+    "same_network_egress": "198.51.100.10"
+  },
+  "standard_rsp": {
+    "roc_auc": 1.0,
+    "roc_auc_95_ci": [
+      1.0,
+      1.0
+    ],
+    "orientation_independent_auc": 1.0,
+    "pairwise_accuracy": 1.0,
+    "exact_device_history_recovery": 1.0,
+    "direct_cross_profile_linkage": 1.0
+  },
+  "aura_rsp": {
+    "roc_auc": 0.42375,
+    "roc_auc_95_ci": [
+      0.35291493055555556,
+      0.49625
+    ],
+    "orientation_independent_auc": 0.5762499999999999,
+    "pairwise_accuracy": 0.466667,
+    "exact_device_history_recovery": 0.0,
+    "direct_cross_profile_linkage": 0.0
+  }
+}

@@ -1,0 +1,1 @@
+图1：LocalTicketLog修复后的恶意SM-DP+诱导追踪结果。当前生产实现与论文参考防护均只产生一份不同的有效响应，EUM因证据不足拒绝追踪，且没有误追踪诚实设备。图2逐字段显示N_S、I_t、cap、serverOID、sid、pid_h、op和PRaddr均未导致第二份有效响应。修复前四个可被合法服务器重新签名的上下文字段会触发实现缺口；该历史结果保存在pre-fix-evidence.json中。

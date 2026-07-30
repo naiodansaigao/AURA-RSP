@@ -1,0 +1,12 @@
+{
+  "context_conflict_exception_present": true,
+  "finding": "read_side_guard_active",
+  "full_auth_request_stored": true,
+  "local_ticket_log_sha256": "4804968557d8a24851400c44d99bc1798e8cbb98223c053ae1848f81714e237f",
+  "lookup_before_create_auth_proof": true,
+  "source_files": [
+    "aura-rsp/src/aura_rsp/client.py",
+    "aura-rsp/src/aura_rsp/local_ticket_log.py"
+  ],
+  "source_sha256": "828db8ba2bfbab67a8012b4cea5c08869420f55eefd956771c79f93208892934"
+}

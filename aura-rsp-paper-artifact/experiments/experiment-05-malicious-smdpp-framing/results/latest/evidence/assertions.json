@@ -1,0 +1,170 @@
+[
+  {
+    "actual": {
+      "production": "ok",
+      "reference": "ok"
+    },
+    "expected": "ok",
+    "name": "base_anonymous_proof_is_valid",
+    "passed": true
+  },
+  {
+    "actual": {
+      "action": "cached",
+      "byte_identical": true,
+      "proof_generated": false
+    },
+    "expected": {
+      "action": "cached",
+      "byte_identical": true,
+      "proof_generated": false
+    },
+    "name": "paper_exact_replay_returns_identical_cached_request",
+    "passed": true
+  },
+  {
+    "actual": {
+      "I_t": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "reason": "local_ticket_context_conflict",
+        "server_signature_valid": true
+      },
+      "N_S": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "reason": "local_ticket_context_conflict",
+        "server_signature_valid": true
+      },
+      "PRaddr": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "reason": "server_authentication_context_mismatch",
+        "server_signature_valid": true
+      },
+      "cap": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "reason": "local_ticket_context_conflict",
+        "server_signature_valid": true
+      },
+      "op": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": false,
+        "new_valid_response": false,
+        "reason": "invalid_mno_ticket_signature",
+        "server_signature_valid": true
+      },
+      "pid_h": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": false,
+        "new_valid_response": false,
+        "reason": "invalid_mno_ticket_signature",
+        "server_signature_valid": true
+      },
+      "serverOID": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "reason": "local_ticket_context_conflict",
+        "server_signature_valid": true
+      },
+      "sid": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "reason": "server_authentication_context_mismatch",
+        "server_signature_valid": true
+      }
+    },
+    "expected": "zero second valid responses for all eight fields",
+    "name": "paper_guard_rejects_all_modified_contexts_before_proof",
+    "passed": true
+  },
+  {
+    "actual": 1,
+    "expected": 1,
+    "name": "paper_distinct_valid_responses_equals_one",
+    "passed": true
+  },
+  {
+    "actual": {
+      "eid_recovered": false,
+      "invalid_evidence_count": 0,
+      "recovered_eid": null,
+      "trace_result": "insufficient_valid_evidence",
+      "valid_distinct_evidence_count": 1
+    },
+    "expected": {
+      "eid_recovered": false,
+      "trace_result": "insufficient_valid_evidence"
+    },
+    "name": "paper_eum_rejects_insufficient_evidence",
+    "passed": true
+  },
+  {
+    "actual": false,
+    "expected": false,
+    "name": "paper_false_trace_is_false",
+    "passed": true
+  },
+  {
+    "actual": [],
+    "expected": [],
+    "name": "current_source_rejects_all_modified_contexts_before_proof",
+    "passed": true
+  },
+  {
+    "actual": {
+      "byte_identical": true,
+      "proof_valid": true,
+      "same_gamma_c": true
+    },
+    "expected": {
+      "byte_identical": true,
+      "proof_valid": true,
+      "same_gamma_c": true
+    },
+    "name": "current_source_exact_replay_returns_identical_cached_request",
+    "passed": true
+  },
+  {
+    "actual": {
+      "false_trace": false,
+      "trace_result": "insufficient_valid_evidence"
+    },
+    "expected": {
+      "false_trace": false,
+      "trace_result": "insufficient_valid_evidence"
+    },
+    "name": "current_source_eum_rejects_insufficient_evidence",
+    "passed": true
+  },
+  {
+    "actual": {
+      "context_conflict_exception_present": true,
+      "finding": "read_side_guard_active",
+      "full_auth_request_stored": true,
+      "local_ticket_log_sha256": "4804968557d8a24851400c44d99bc1798e8cbb98223c053ae1848f81714e237f",
+      "lookup_before_create_auth_proof": true,
+      "source_files": [
+        "aura-rsp/src/aura_rsp/client.py",
+        "aura-rsp/src/aura_rsp/local_ticket_log.py"
+      ],
+      "source_sha256": "828db8ba2bfbab67a8012b4cea5c08869420f55eefd956771c79f93208892934"
+    },
+    "expected": "lookup before proof, full request cache, and conflict abort",
+    "name": "source_audit_confirms_read_side_guard",
+    "passed": true
+  },
+  {
+    "actual": true,
+    "expected": true,
+    "name": "aura_source_fix_is_explicitly_reported",
+    "passed": true
+  }
+]

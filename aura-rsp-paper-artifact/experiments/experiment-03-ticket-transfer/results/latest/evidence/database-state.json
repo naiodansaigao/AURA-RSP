@@ -1,0 +1,8 @@
+{
+  "attack_auth_response_stored": false,
+  "attack_bind_t": null,
+  "attack_notification_rows": 0,
+  "attack_nullifier_rows": 0,
+  "attack_session_status": "initiated",
+  "total_nullifier_rows_including_owner_control": 1
+}

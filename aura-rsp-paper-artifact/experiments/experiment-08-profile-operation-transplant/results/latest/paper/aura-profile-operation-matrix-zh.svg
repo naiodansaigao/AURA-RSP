@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+<style>
+text{font-family:"Microsoft YaHei","Noto Sans CJK SC","Arial",sans-serif;fill:#172033}
+.title{font-size:42px;font-weight:700} .sub{font-size:26px;fill:#536176}
+.head{font-size:25px;font-weight:700} .row{font-size:24px}
+.reject{font-size:25px;font-weight:700;fill:#b42318} .grid{stroke:#d8dee8;stroke-width:2}
+.box{fill:#f8fafc;stroke:#cbd5e1;stroke-width:2}
+</style>
+<rect width="1400" height="900" fill="#ffffff"/>
+<text x="65" y="68" class="title">AURA-RSP跨Profile与跨操作移植</text>
+<text x="65" y="112" class="sub">6种移植全部拒绝，错误授权执行数为0</text>
+<rect x="65" y="150" width="1270" height="72" rx="10" class="box"/>
+<text x="85" y="196" class="head">攻击场景</text>
+<text x="710" y="196" class="head">认证/绑定</text>
+<text x="1085" y="196" class="head">错误业务执行</text>
+<text x="85" y="275" class="row">修改pid_h</text><text x="710" y="275" class="reject">× 拒绝</text><text x="1085" y="275" class="reject">0</text><line x1="65" y1="305" x2="1335" y2="305" class="grid"/><text x="85" y="367" class="row">修改pid_h并重签外层</text><text x="710" y="367" class="reject">× 拒绝</text><text x="1085" y="367" class="reject">0</text><line x1="65" y1="397" x2="1335" y2="397" class="grid"/><text x="85" y="459" class="row">A的Bind_t移植到B</text><text x="710" y="459" class="reject">× 拒绝</text><text x="1085" y="459" class="reject">0</text><line x1="65" y1="489" x2="1335" y2="489" class="grid"/><text x="85" y="551" class="row">download → delete</text><text x="710" y="551" class="reject">× 拒绝</text><text x="1085" y="551" class="reject">0</text><line x1="65" y1="581" x2="1335" y2="581" class="grid"/><text x="85" y="643" class="row">download → reinstall</text><text x="710" y="643" class="reject">× 拒绝</text><text x="1085" y="643" class="reject">0</text><line x1="65" y1="673" x2="1335" y2="673" class="grid"/><text x="85" y="735" class="row">download → enable</text><text x="710" y="735" class="reject">× 拒绝</text><text x="1085" y="735" class="reject">0</text><line x1="65" y1="765" x2="1335" y2="765" class="grid"/>
+</svg>

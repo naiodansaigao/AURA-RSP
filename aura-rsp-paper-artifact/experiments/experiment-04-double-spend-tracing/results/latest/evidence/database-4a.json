@@ -1,0 +1,33 @@
+{
+  "counts": {
+    "business_execution_count": 1,
+    "notifications": 1,
+    "sessions": 1,
+    "traces": 0,
+    "used_nullifiers": 1
+  },
+  "notifications": [
+    {
+      "receipt_json": "{\"counter\": 1, \"mac\": \"2k4fYya01MF6ZueLiZyQ3DIA15lDWjC+lFDSyG3TBy0=\", \"profileSha256\": \"38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422\", \"status\": \"installed\", \"transactionId\": \"95BC18B8C10F1E9F18C7BA40C0BD20FB\"}",
+      "transaction_id": "95BC18B8C10F1E9F18C7BA40C0BD20FB"
+    }
+  ],
+  "sessions": [
+    {
+      "bind_t": "MEQCID/bQnE00gCsUKUoR4umzeXVpUg9Xm2zUHRU5zVzHLPKAiBBr3URCi3k3kY7elK3fdmsOKeiinT7dxKVpuHW1Ln3tg==",
+      "profile_sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422",
+      "status": "installed",
+      "transaction_id": "95BC18B8C10F1E9F18C7BA40C0BD20FB"
+    }
+  ],
+  "traces": [],
+  "used_nullifiers": [
+    {
+      "auth_hash": "9cb33d1192a57355cf7ab050156b975d39999af0423d1ef552b5348fe3e0efee",
+      "c_value": "W3D6USIPA/kgrLCiSGqjd8h/oChqNUZuJS+Ado15a/w=",
+      "gamma": "FYo6WdRToy00inXpmHJ3AFvcruy4LyxnRWpd+GNamR0=",
+      "transaction_id": "95BC18B8C10F1E9F18C7BA40C0BD20FB",
+      "v": "txC/PyWpNWC3Z2kL+MQVAlBvKmWlfn39Icq2Nu9O0niuSPgVVtDzHP5AcGE+A4Gq"
+    }
+  ]
+}

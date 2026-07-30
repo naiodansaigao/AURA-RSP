@@ -1,0 +1,2 @@
+LPA:1$testsmdpplus1.example.com$TS48V2-SAIP2-1-NOBERTLV-UNIQUE
+

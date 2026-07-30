@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="900" viewBox="0 0 1400 900">
+<style>
+text{font-family:"Microsoft YaHei","Noto Sans CJK SC","Arial",sans-serif;fill:#172033}
+.title{font-size:42px;font-weight:700} .sub{font-size:26px;fill:#536176}
+.head{font-size:25px;font-weight:700} .row{font-size:24px}
+.reject{font-size:25px;font-weight:700;fill:#b42318} .grid{stroke:#d8dee8;stroke-width:2}
+.box{fill:#f8fafc;stroke:#cbd5e1;stroke-width:2}
+</style>
+<rect width="1400" height="900" fill="#ffffff"/>
+<text x="65" y="68" class="title">AURA-RSP Profile and Operation Transplant</text>
+<text x="65" y="112" class="sub">All 6 transplants rejected; zero unauthorized executions</text>
+<rect x="65" y="150" width="1270" height="72" rx="10" class="box"/>
+<text x="85" y="196" class="head">Attack scenario</text>
+<text x="710" y="196" class="head">Authentication / binding</text>
+<text x="1085" y="196" class="head">Unauthorized execution</text>
+<text x="85" y="275" class="row">profile pid h plain mutation</text><text x="710" y="275" class="reject">× rejected</text><text x="1085" y="275" class="reject">0</text><line x1="65" y1="305" x2="1335" y2="305" class="grid"/><text x="85" y="367" class="row">profile pid h resigned envelope</text><text x="710" y="367" class="reject">× rejected</text><text x="1085" y="367" class="reject">0</text><line x1="65" y1="397" x2="1335" y2="397" class="grid"/><text x="85" y="459" class="row">profile a bind t to profile b session</text><text x="710" y="459" class="reject">× rejected</text><text x="1085" y="459" class="reject">0</text><line x1="65" y1="489" x2="1335" y2="489" class="grid"/><text x="85" y="551" class="row">operation download to delete</text><text x="710" y="551" class="reject">× rejected</text><text x="1085" y="551" class="reject">0</text><line x1="65" y1="581" x2="1335" y2="581" class="grid"/><text x="85" y="643" class="row">operation download to reinstall</text><text x="710" y="643" class="reject">× rejected</text><text x="1085" y="643" class="reject">0</text><line x1="65" y1="673" x2="1335" y2="673" class="grid"/><text x="85" y="735" class="row">operation download to enable</text><text x="710" y="735" class="reject">× rejected</text><text x="1085" y="735" class="reject">0</text><line x1="65" y1="765" x2="1335" y2="765" class="grid"/>
+</svg>

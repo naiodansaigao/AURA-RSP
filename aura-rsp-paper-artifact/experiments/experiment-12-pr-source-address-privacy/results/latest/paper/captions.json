@@ -1,0 +1,10 @@
+{
+  "en": {
+    "collusion": "Figure: Shared-PR IP anonymity versus PR–SM-DP+ traffic-correlation results; collusion success is expected at the stated threat-model boundary.",
+    "ip_linkability": "Figure: Source-IP-only linkability for direct connections and a shared Privacy Relay."
+  },
+  "zh": {
+    "collusion": "图：共享PR的IP匿名集与PR–SM-DP+合谋流量匹配结果；合谋成功是威胁模型边界下的预期结果。",
+    "ip_linkability": "图：设备直连与共享PR时SM-DP+仅凭源IP进行关联的能力。"
+  }
+}

@@ -1,0 +1,19 @@
+﻿assertion,expected,observed,passed
+mlkem768_real_encapsulation,shared secrets match; FIPS 203 ML-KEM-768 lengths,"{'algorithm': 'ML-KEM-768', 'public_key_bytes': 1184, 'private_key_bytes': 2400, 'ciphertext_bytes': 1088, 'shared_secret_bytes': 32, 'shared_secret_match': True, 'elapsed_ms': 10.328}",True
+hybrid_positive_control,Hybrid succeeds under require_hybrid,"{'accepted': True, 'profile_delivered': True, 'profile_digest_match': True, 'mlkem_public_key_bytes': 1184, 'mlkem_ciphertext_bytes': 1088, 'elapsed_ms': 15.487}",True
+classical_positive_control,Classical succeeds under allow_classical without ML-KEM material,"{'accepted': True, 'profile_delivered': True, 'profile_digest_match': True, 'mlkem_material_present': False, 'elapsed_ms': 0.915}",True
+mitm_attack_count,7,7,True
+all_network_downgrades_rejected,all rejected,"[False, False, False, False, False, False, False]",True
+no_attack_session_key,0,0,True
+no_attack_profile_delivery,0,0,True
+offer_downgrade_detected,CAPABILITY_TRANSCRIPT_MISMATCH,CAPABILITY_TRANSCRIPT_MISMATCH,True
+signed_selection_tamper_detected,INVALID_SERVER_AUTH_SIGNATURE,INVALID_SERVER_AUTH_SIGNATURE,True
+mlkem_public_key_deletion_detected,INVALID_CLIENT_KEY_EXCHANGE_SIGNATURE,INVALID_CLIENT_KEY_EXCHANGE_SIGNATURE,True
+mlkem_ciphertext_delete_replace_detected,"['MISSING_MLKEM_CIPHERTEXT', 'MLKEM_CIPHERTEXT_HASH_MISMATCH']","['MISSING_MLKEM_CIPHERTEXT', 'MLKEM_CIPHERTEXT_HASH_MISMATCH']",True
+cross_mode_splice_and_relabel_detected,"['INVALID_SERVER_KEY_EXCHANGE_SIGNATURE', 'INVALID_SERVER_KEY_EXCHANGE_SIGNATURE']","['INVALID_SERVER_KEY_EXCHANGE_SIGNATURE', 'INVALID_SERVER_KEY_EXCHANGE_SIGNATURE']",True
+legitimate_classical_allowed,accepted and delivered,"{'scenario': 'legitimate_server_classical_allow', 'category': 'legitimate_server_policy', 'accepted': True, 'rejected': False, 'rejection_stage': 'none', 'reason': 'CLASSICAL_ALLOWED_BY_DEVICE_POLICY', 'session_key_established': True, 'profile_delivered': True, 'request_bytes': 851, 'elapsed_ms': 0.78}",True
+require_hybrid_rejects_legitimate_classical,HYBRID_REQUIRED before key establishment and delivery,"{'scenario': 'legitimate_server_classical_require_hybrid', 'category': 'legitimate_server_policy', 'accepted': False, 'rejected': True, 'rejection_stage': 'device_policy', 'reason': 'HYBRID_REQUIRED', 'session_key_established': False, 'profile_delivered': False, 'request_bytes': 502, 'elapsed_ms': 0.163}",True
+source_checkpoints_present,all current AURA binding checkpoints found,True,True
+current_production_scope_disclosed,current source has no ML-KEM; production source unchanged,"{'current_source_has_mlkem': False, 'production_source_modified': False}",True
+profile_digest_recorded,64-char SHA-256,38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422,True
+public_transcripts_hide_eid,False,False,True

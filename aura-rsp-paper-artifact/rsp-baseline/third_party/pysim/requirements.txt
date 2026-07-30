@@ -1,0 +1,18 @@
+pyscard
+pyserial
+pytlv
+cmd2>=2.6.2,<4.0
+jsonpath-ng
+construct>=2.10.70
+bidict
+pyosmocom>=0.0.12
+pyyaml>=5.4
+termcolor
+colorlog
+pycryptodomex
+cryptography
+git+https://github.com/osmocom/asn1tools
+packaging
+git+https://github.com/hologram-io/smpp.pdu
+smpp.twisted3 @ git+https://github.com/jookies/smpp.twisted
+smpplib

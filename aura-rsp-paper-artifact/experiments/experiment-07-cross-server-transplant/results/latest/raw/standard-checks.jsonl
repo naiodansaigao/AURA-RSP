@@ -1,0 +1,4 @@
+{"accepted": false, "bound_profile_package_reached": false, "protocol": "Standard RSP", "reason": "TRANSACTION_ID_UNKNOWN", "rejection_stage": "session_lookup", "scenario": "direct_replay_to_server_b"}
+{"accepted": false, "bound_profile_package_reached": false, "protocol": "Standard RSP", "reason": "SERVER_CHALLENGE_MISMATCH", "rejection_stage": "session_challenge", "scenario": "replace_outer_transaction_id"}
+{"accepted": false, "bound_profile_package_reached": false, "protocol": "Standard RSP", "reason": "EUICC_SIGNATURE_INVALID", "rejection_stage": "euicc_signature", "scenario": "modify_signed_server_address"}
+{"accepted": false, "bound_profile_package_reached": false, "protocol": "Standard RSP", "reason": "TLS_HOSTNAME_MISMATCH", "rejection_stage": "tls_server_authentication", "scenario": "replace_target_address_only"}

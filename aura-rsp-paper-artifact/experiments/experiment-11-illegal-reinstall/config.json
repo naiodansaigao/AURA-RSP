@@ -1,0 +1,17 @@
+{
+  "experiment_name": "experiment-11-illegal-reinstall",
+  "seed": 20260730,
+  "now": 1785408000,
+  "ticket_lifetime_seconds": 900,
+  "profile_path": "../../aura-rsp/runtime/profile.der",
+  "profile_fallback_path": "../../rsp-baseline/third_party/pysim/smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
+  "historical_material": {
+    "rid": "RID-HISTORICAL-REINSTALL",
+    "session_id": "SESSION-HISTORICAL-REINSTALL",
+    "Bind_t": "BIND-HISTORICAL-REINSTALL"
+  },
+  "aura_source": {
+    "lifecycle": "../../aura-rsp/src/aura_rsp/lifecycle.py",
+    "client": "../../aura-rsp/src/aura_rsp/client.py"
+  }
+}

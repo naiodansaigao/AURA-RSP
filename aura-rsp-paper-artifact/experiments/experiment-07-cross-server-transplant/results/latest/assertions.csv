@@ -1,0 +1,14 @@
+﻿assertion,expected,observed,passed
+aura_positive_controls_accept,both A and B accept their own request and issue valid Bind_t,"[{'protocol': 'AURA-RSP', 'scenario': 'positive_server_a', 'accepted': True, 'http_status': 200, 'reason': 'OK', 'bind_t_generated': True, 'bind_t_valid': True}, {'protocol': 'AURA-RSP', 'scenario': 'positive_server_b', 'accepted': True, 'http_status': 200, 'reason': 'OK', 'bind_t_generated': True, 'bind_t_valid': True}]",True
+aura_attack_count,7,7,True
+aura_all_transplants_rejected,all rejected,"[False, False, False, False, False, False, False]",True
+aura_no_bind_t_on_attack,zero Bind_t,0,True
+aura_no_profile_delivery_on_attack,zero profile deliveries,0,True
+aura_mutated_context_invalidates_proof,all five mutated contexts invalidate Pi_auth,"{'modify_sid': False, 'modify_server_oid': False, 'modify_praddr': False, 'modify_cap': False, 'modify_transaction_nonce': False}",True
+aura_no_stable_identity_exposure,no EID in public transcripts,False,True
+standard_test_cert_chains_valid,both test server certificates verify under the test CI,"{'server_a_chain_valid': True, 'server_b_chain_valid': True, 'server_a_names': ['testsmdpplus1.example.com'], 'server_b_names': ['testsmdpplus4.example.com'], 'server_a_hostname_valid': True, 'server_b_hostname_valid': True, 'server_b_cert_valid_for_server_a': False, 'server_a_cert_valid_for_server_b': False}",True
+standard_own_hostnames_valid,each certificate matches its own server,"{'server_a_chain_valid': True, 'server_b_chain_valid': True, 'server_a_names': ['testsmdpplus1.example.com'], 'server_b_names': ['testsmdpplus4.example.com'], 'server_a_hostname_valid': True, 'server_b_hostname_valid': True, 'server_b_cert_valid_for_server_a': False, 'server_a_cert_valid_for_server_b': False}",True
+standard_cross_hostnames_invalid,cross-host certificate use rejected,"{'server_a_chain_valid': True, 'server_b_chain_valid': True, 'server_a_names': ['testsmdpplus1.example.com'], 'server_b_names': ['testsmdpplus4.example.com'], 'server_a_hostname_valid': True, 'server_b_hostname_valid': True, 'server_b_cert_valid_for_server_a': False, 'server_a_cert_valid_for_server_b': False}",True
+standard_all_transplants_rejected,all rejected,"[False, False, False, False]",True
+standard_no_bpp_on_attack,no BPP path reached,0,True
+source_checkpoints_present,all source checkpoints located,"{'server_address_refusal': 483, 'server_signed_transaction': 529, 'server_signed_address': 531, 'server_signed_challenge': 532, 'unknown_transaction': 587, 'euicc_signature_check': 614, 'server_challenge_check': 627, 'client_tls_ca': 116, 'client_server_signature_todo': 185, 'client_server_certificate_todo': 191}",True

@@ -1,0 +1,10 @@
+{
+  "en": {
+    "flow": "Figure: Fixed AURA Profile delivery chain; an order pid_h mismatch stops before installation.",
+    "matrix": "Figure: Ciphertext tamper, cross-session replay, wrong-plaintext replacement, and trust-boundary results."
+  },
+  "zh": {
+    "flow": "图：修复后AURA Profile交付检查链，订单pid_h不匹配在安装前终止。",
+    "matrix": "图：密文篡改、跨会话重放、错误明文替换及业务信任边界结果。"
+  }
+}

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1740" height="930" viewBox="0 0 1740 930">
+<style>
+text{font-family:Arial,'Microsoft YaHei',sans-serif;fill:#0b2345}
+.title{font-size:42px;font-weight:700}.axis{font-size:25px}.label{font-size:24px}.value{font-size:28px;font-weight:700}.note{font-size:26px}
+</style>
+<rect width="1740" height="930" fill="#ffffff"/>
+<text x="870.0" y="66" text-anchor="middle" class="title">Experiment 12C: Collusion Relinks Connections</text>
+<line x1="150" y1="725.0" x2="1660" y2="725.0" stroke="#d9e1ea" stroke-width="2"/>
+<text x="126" y="734.0" text-anchor="end" class="axis">0.0</text>
+<line x1="150" y1="611.0" x2="1660" y2="611.0" stroke="#d9e1ea" stroke-width="2"/>
+<text x="126" y="620.0" text-anchor="end" class="axis">0.2</text>
+<line x1="150" y1="497.0" x2="1660" y2="497.0" stroke="#d9e1ea" stroke-width="2"/>
+<text x="126" y="506.0" text-anchor="end" class="axis">0.4</text>
+<line x1="150" y1="383.0" x2="1660" y2="383.0" stroke="#d9e1ea" stroke-width="2"/>
+<text x="126" y="392.0" text-anchor="end" class="axis">0.6</text>
+<line x1="150" y1="269.0" x2="1660" y2="269.0" stroke="#d9e1ea" stroke-width="2"/>
+<text x="126" y="278.0" text-anchor="end" class="axis">0.8</text>
+<line x1="150" y1="155.0" x2="1660" y2="155.0" stroke="#d9e1ea" stroke-width="2"/>
+<text x="126" y="164.0" text-anchor="end" class="axis">1.0</text>
+<line x1="150" y1="155" x2="150" y2="725" stroke="#486581" stroke-width="3"/>
+<line x1="150" y1="725" x2="1660" y2="725" stroke="#486581" stroke-width="3"/>
+<rect x="236.25" y="719.3" width="205" height="5.7" rx="10" fill="#7a8da3"/>
+<text x="338.75" y="703.3" text-anchor="middle" class="value">0.010</text>
+<text x="338.75" y="779" text-anchor="middle" class="label">Shared-IP guess</text>
+<rect x="613.75" y="260.45000000000005" width="205" height="464.54999999999995" rx="10" fill="#d8892b"/>
+<text x="716.25" y="244.45000000000005" text-anchor="middle" class="value">0.815</text>
+<text x="716.25" y="779" text-anchor="middle" class="label">Collusion: time</text>
+<rect x="991.25" y="157.85000000000002" width="205" height="567.15" rx="10" fill="#b83c32"/>
+<text x="1093.75" y="187" text-anchor="middle" class="value">0.995</text>
+<text x="1093.75" y="779" text-anchor="middle" class="label">Collusion: time+size</text>
+<rect x="1368.75" y="166.39999999999998" width="205" height="558.6" rx="10" fill="#7a2e84"/>
+<text x="1471.25" y="187" text-anchor="middle" class="value">0.980</text>
+<text x="1471.25" y="779" text-anchor="middle" class="label">Full device history</text>
+<text x="870.0" y="882" text-anchor="middle" class="note">12C is an expected result at the stated threat-model boundary</text>
+</svg>

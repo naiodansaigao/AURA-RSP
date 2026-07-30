@@ -1,0 +1,4 @@
+图X 共享SM-DP+下Standard RSP与AURA-RSP的跨Profile关联能力对比。
+实验包含20个eUICC，每个设备分别从4个MNO获取独立Profile，每种协议产生80条受控公开转录。(a) Standard RSP基于稳定EID、证书和设备公钥得到ROC-AUC=1.000；AURA-RSP的ROC-AUC=0.424（分层自助法95% CI [0.353, 0.496]）。由于AURA-RSP样本AUC低于0.5，若允许攻击者后验反转评分方向，其方向无关可利用AUC为0.576，仍接近随机基线并显著低于Standard RSP。(b) Standard RSP的完整设备历史恢复率和跨Profile直接关联率均为1.000，而AURA-RSP均为0。结果表明，稳定设备标识使共享SM-DP+能够重建Standard RSP中的跨MNO/Profile设备历史；在本实验受控公开转录中，AURA-RSP未提供可直接复用的设备级稳定标识。
+
+边界：该结果针对协议可见字段，不覆盖PR与SM-DP+合谋、入口/出口流量联合观察或诚实eUICC端点秘密泄露。

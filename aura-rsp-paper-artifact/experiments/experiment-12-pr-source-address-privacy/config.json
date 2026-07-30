@@ -1,0 +1,41 @@
+{
+  "experiment_name": "experiment-12-pr-source-address-privacy",
+  "seed": 20260730,
+  "device_count": 100,
+  "transactions_per_device": 4,
+  "trace_duration_ms": 120000,
+  "device_ip_prefix": "198.18",
+  "privacy_relay_ip": "203.0.113.10",
+  "direct_smdpp_ip": "192.0.2.44",
+  "relay_delay_mean_ms": 85.0,
+  "relay_delay_stddev_ms": 35.0,
+  "ingress_clock_jitter_ms": 4.0,
+  "egress_clock_jitter_ms": 4.0,
+  "relay_message_overhead_bytes": 173,
+  "message_size_noise_bytes": 10,
+  "message_size_buckets": [
+    1450,
+    1720,
+    2080,
+    2460,
+    2940,
+    3520,
+    4210,
+    5080
+  ],
+  "message_size_variation_bytes": 80,
+  "attacker_expected_delay_ms": 85.0,
+  "attacker_expected_overhead_bytes": 173,
+  "attacker_time_scale_ms": 55.0,
+  "attacker_size_scale_bytes": 45.0,
+  "attacker_size_weight": 1.25,
+  "assertions": {
+    "direct_min_ip_auc": 0.99,
+    "shared_max_exact_history_recovery": 0.0,
+    "collusion_min_time_size_accuracy": 0.65
+  },
+  "aura_source": {
+    "relay": "../../aura-rsp/src/aura_rsp/relay.py",
+    "server": "../../aura-rsp/src/aura_rsp/server.py"
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "experiment_name": "experiment-04-double-spend-tracing",
+  "seed": 20260729,
+  "malicious_device_eid": "89049032123451234512345678904001",
+  "aura": {
+    "matching_id": "EXP04-AURA-MATCHING-ID",
+    "sid": "aura-smdpp.exp04.test",
+    "server_oid": "2.999.10.4",
+    "praddr": "aura-pr.exp04.test",
+    "capabilities": [
+      "AURA-BBSPLUS-BLS12381-SHA256",
+      "ECDHE-P256-HKDF-SHA256-AES256GCM"
+    ],
+    "credential_valid_seconds": 86400,
+    "ticket_valid_seconds": 3600
+  },
+  "assertions": {
+    "normal_http_status": 200,
+    "replay_http_status": 200,
+    "double_spend_http_status": 409,
+    "double_spend_error": "DOUBLE_SPEND_DETECTED",
+    "used_nullifier_rows_per_scenario": 1,
+    "false_trace_count": 0,
+    "business_execution_count_per_scenario": 1
+  }
+}

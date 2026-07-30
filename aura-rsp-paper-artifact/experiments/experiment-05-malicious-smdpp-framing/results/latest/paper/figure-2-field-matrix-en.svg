@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1900" height="1050" viewBox="0 0 1900 1050">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="950" y="75" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="44" font-weight="700">New Valid Responses After Context-Field Modification</text>
+<text x="447.5" y="205" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">N_S</text>
+<text x="622.5" y="205" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">I_t</text>
+<text x="797.5" y="205" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">cap</text>
+<text x="972.5" y="205" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">serverOID</text>
+<text x="1147.5" y="205" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">sid</text>
+<text x="1322.5" y="205" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">pid_h</text>
+<text x="1497.5" y="205" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">op</text>
+<text x="1672.5" y="205" text-anchor="middle" font-family="Arial,sans-serif" font-size="27" font-weight="700">PRaddr</text>
+<text x="310" y="342" text-anchor="end" font-family="Arial,Microsoft YaHei,sans-serif" font-size="28" font-weight="700">Current source</text>
+<rect x="372" y="260" width="151" height="150" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+<text x="447.5" y="325" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">0</text>
+<text x="447.5" y="372" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="21">rejected</text>
+<rect x="547" y="260" width="151" height="150" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+<text x="622.5" y="325" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">0</text>
+<text x="622.5" y="372" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="21">rejected</text>
+<rect x="722" y="260" width="151" height="150" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+<text x="797.5" y="325" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">0</text>
+<text x="797.5" y="372" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="21">rejected</text>
+<rect x="897" y="260" width="151" height="150" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+<text x="972.5" y="325" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">0</text>
+<text x="972.5" y="372" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="21">rejected</text>
+<rect x="1072" y="260" width="151" height="150" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+<text x="1147.5" y="325" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">0</text>
+<text x="1147.5" y="372" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="21">rejected</text>
+<rect x="1247" y="260" width="151" height="150" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+<text x="1322.5" y="325" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">0</text>
+<text x="1322.5" y="372" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="21">rejected</text>
+<rect x="1422" y="260" width="151" height="150" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+<text x="1497.5" y="325" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">0</text>
+<text x="1497.5" y="372" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="21">rejected</text>
+<rect x="1597" y="260" width="151" height="150" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+<text x="1672.5" y="325" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">0</text>
+<text x="1672.5" y="372" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="21">rejected</text>
+<text x="310" y="572" text-anchor="end" font-family="Arial,Microsoft YaHei,sans-serif" font-size="28" font-weight="700">Paper guard</text>
+<rect x="372" y="490" width="151" height="150" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+<text x="447.5" y="555" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">0</text>
+<text x="447.5" y="602" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="21">rejected</text>
+<rect x="547" y="490" width="151" height="150" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+<text x="622.5" y="555" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">0</text>
+<text x="622.5" y="602" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="21">rejected</text>
+<rect x="722" y="490" width="151" height="150" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+<text x="797.5" y="555" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">0</text>
+<text x="797.5" y="602" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="21">rejected</text>
+<rect x="897" y="490" width="151" height="150" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+<text x="972.5" y="555" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">0</text>
+<text x="972.5" y="602" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="21">rejected</text>
+<rect x="1072" y="490" width="151" height="150" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+<text x="1147.5" y="555" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">0</text>
+<text x="1147.5" y="602" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="21">rejected</text>
+<rect x="1247" y="490" width="151" height="150" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+<text x="1322.5" y="555" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">0</text>
+<text x="1322.5" y="602" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="21">rejected</text>
+<rect x="1422" y="490" width="151" height="150" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+<text x="1497.5" y="555" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">0</text>
+<text x="1497.5" y="602" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="21">rejected</text>
+<rect x="1597" y="490" width="151" height="150" rx="16" fill="#dcfce7" stroke="#16a34a" stroke-width="3"/>
+<text x="1672.5" y="555" text-anchor="middle" font-family="Arial,sans-serif" font-size="38" font-weight="700">0</text>
+<text x="1672.5" y="602" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="21">rejected</text>
+<text x="950" y="835" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="25" fill="#374151">1 means a second distinct valid anonymous response was generated; 0 means abort before proof generation.</text>
+<text x="950" y="885" text-anchor="middle" font-family="Arial,Microsoft YaHei,sans-serif" font-size="23" fill="#4b5563">sid and PRaddr are rejected by existing context checks; pid_h and op fail the MNO ticket signature.</text>
+</svg>

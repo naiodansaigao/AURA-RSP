@@ -1,0 +1,15 @@
+﻿assertion,expected,observed,passed
+profiles_are_distinct,Profile-A and Profile-B hashes differ,"{'profile_a': '38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422', 'profile_b': '8ec130b606bfd3b12553e5d05027d171a13c63148d67444f142f266dc2e35f8d'}",True
+aura_positive_controls_complete,"both profiles authenticate, bind, deliver, decrypt, and match digest","{'profile_a': {'authentication_accepted': True, 'bind_t_valid': True, 'profile_delivered': True, 'profile_digest_matches_ticket': True, 'server_signature_valid': True}, 'profile_b': {'authentication_accepted': True, 'bind_t_valid': True, 'profile_delivered': True, 'profile_digest_matches_ticket': True, 'server_signature_valid': True}}",True
+aura_attack_count,6,6,True
+aura_all_transplants_rejected,all rejected,"[False, False, False, False, False, False]",True
+aura_no_new_bind_t,zero Bind_t generated,0,True
+aura_no_profile_delivery,zero attack Profile deliveries,0,True
+aura_no_unauthorized_operation,zero unauthorized operations,0,True
+profile_context_mutation_invalidates_proof,both Profile mutations invalidate Pi_auth,"[False, False]",True
+cross_profile_bind_t_rejected,BIND_T_MISMATCH,BIND_T_MISMATCH,True
+operation_mutations_rejected_by_ticket,all operation mutations rejected before Bind_t,"{'operation_download_to_delete': 'INVALID_OR_EXPIRED_TICKET', 'operation_download_to_reinstall': 'INVALID_OR_EXPIRED_TICKET', 'operation_download_to_enable': 'INVALID_OR_EXPIRED_TICKET'}",True
+aura_public_transcripts_hide_eid,no EID in public transcripts,False,True
+standard_all_profile_transplants_rejected,all Standard controls rejected,"[False, False, False]",True
+standard_no_bpp_delivery,zero BPP deliveries,0,True
+source_checkpoints_present,all source checkpoints found,"{'matching_id_profile_path': 641, 'session_matching_id': 647, 'bpp_transaction_lookup': 690, 'euicc_signature_2': 711, 'signed_outer_transaction': 715, 'bpp_encode_session': 757, 'client_bpp_signature_todo': 285}",True

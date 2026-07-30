@@ -1,0 +1,4 @@
+﻿authentication,bind_t_generated,profile_delivered,protocol_mode,reason,scenario,stable_eid_exposed
+False,False,False,aura_rsp,credential_ticket_secret_mismatch,ticket_transfer,False
+False,False,False,standard_rsp,eid_mismatch,eid_prebound_order,True
+True,False,True,standard_rsp,ok,unbound_activation_code,True

@@ -1,0 +1,8 @@
+{
+  "experiment_name": "experiment-06-lifecycle-resilience",
+  "seed": 20260729,
+  "base_time": 1785312000,
+  "ticket_valid_seconds": 30,
+  "profile_lph": "lph:exp06:profile-001",
+  "subtests": ["6A", "6B", "6C", "6D", "6E", "6F"]
+}

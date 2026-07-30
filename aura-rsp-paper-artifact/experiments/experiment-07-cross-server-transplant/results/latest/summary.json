@@ -1,0 +1,374 @@
+{
+  "assertions": [
+    {
+      "assertion": "aura_positive_controls_accept",
+      "expected": "both A and B accept their own request and issue valid Bind_t",
+      "observed": [
+        {
+          "accepted": true,
+          "bind_t_generated": true,
+          "bind_t_valid": true,
+          "http_status": 200,
+          "protocol": "AURA-RSP",
+          "reason": "OK",
+          "scenario": "positive_server_a"
+        },
+        {
+          "accepted": true,
+          "bind_t_generated": true,
+          "bind_t_valid": true,
+          "http_status": 200,
+          "protocol": "AURA-RSP",
+          "reason": "OK",
+          "scenario": "positive_server_b"
+        }
+      ],
+      "passed": true
+    },
+    {
+      "assertion": "aura_attack_count",
+      "expected": "7",
+      "observed": 7,
+      "passed": true
+    },
+    {
+      "assertion": "aura_all_transplants_rejected",
+      "expected": "all rejected",
+      "observed": [
+        false,
+        false,
+        false,
+        false,
+        false,
+        false,
+        false
+      ],
+      "passed": true
+    },
+    {
+      "assertion": "aura_no_bind_t_on_attack",
+      "expected": "zero Bind_t",
+      "observed": 0,
+      "passed": true
+    },
+    {
+      "assertion": "aura_no_profile_delivery_on_attack",
+      "expected": "zero profile deliveries",
+      "observed": 0,
+      "passed": true
+    },
+    {
+      "assertion": "aura_mutated_context_invalidates_proof",
+      "expected": "all five mutated contexts invalidate Pi_auth",
+      "observed": {
+        "modify_cap": false,
+        "modify_praddr": false,
+        "modify_server_oid": false,
+        "modify_sid": false,
+        "modify_transaction_nonce": false
+      },
+      "passed": true
+    },
+    {
+      "assertion": "aura_no_stable_identity_exposure",
+      "expected": "no EID in public transcripts",
+      "observed": false,
+      "passed": true
+    },
+    {
+      "assertion": "standard_test_cert_chains_valid",
+      "expected": "both test server certificates verify under the test CI",
+      "observed": {
+        "server_a_cert_valid_for_server_b": false,
+        "server_a_chain_valid": true,
+        "server_a_hostname_valid": true,
+        "server_a_names": [
+          "testsmdpplus1.example.com"
+        ],
+        "server_b_cert_valid_for_server_a": false,
+        "server_b_chain_valid": true,
+        "server_b_hostname_valid": true,
+        "server_b_names": [
+          "testsmdpplus4.example.com"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "assertion": "standard_own_hostnames_valid",
+      "expected": "each certificate matches its own server",
+      "observed": {
+        "server_a_cert_valid_for_server_b": false,
+        "server_a_chain_valid": true,
+        "server_a_hostname_valid": true,
+        "server_a_names": [
+          "testsmdpplus1.example.com"
+        ],
+        "server_b_cert_valid_for_server_a": false,
+        "server_b_chain_valid": true,
+        "server_b_hostname_valid": true,
+        "server_b_names": [
+          "testsmdpplus4.example.com"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "assertion": "standard_cross_hostnames_invalid",
+      "expected": "cross-host certificate use rejected",
+      "observed": {
+        "server_a_cert_valid_for_server_b": false,
+        "server_a_chain_valid": true,
+        "server_a_hostname_valid": true,
+        "server_a_names": [
+          "testsmdpplus1.example.com"
+        ],
+        "server_b_cert_valid_for_server_a": false,
+        "server_b_chain_valid": true,
+        "server_b_hostname_valid": true,
+        "server_b_names": [
+          "testsmdpplus4.example.com"
+        ]
+      },
+      "passed": true
+    },
+    {
+      "assertion": "standard_all_transplants_rejected",
+      "expected": "all rejected",
+      "observed": [
+        false,
+        false,
+        false,
+        false
+      ],
+      "passed": true
+    },
+    {
+      "assertion": "standard_no_bpp_on_attack",
+      "expected": "no BPP path reached",
+      "observed": 0,
+      "passed": true
+    },
+    {
+      "assertion": "source_checkpoints_present",
+      "expected": "all source checkpoints located",
+      "observed": {
+        "client_server_certificate_todo": 191,
+        "client_server_signature_todo": 185,
+        "client_tls_ca": 116,
+        "euicc_signature_check": 614,
+        "server_address_refusal": 483,
+        "server_challenge_check": 627,
+        "server_signed_address": 531,
+        "server_signed_challenge": 532,
+        "server_signed_transaction": 529,
+        "unknown_transaction": 587
+      },
+      "passed": true
+    }
+  ],
+  "assertions_passed": 13,
+  "assertions_total": 13,
+  "aura": {
+    "attacks": [
+      {
+        "accepted": false,
+        "bind_t_generated": false,
+        "elapsed_ms": 12.057,
+        "http_status": 404,
+        "mutated_field": "none",
+        "profile_delivery_reached": false,
+        "proof_valid_for_mutated_context": true,
+        "protocol": "AURA-RSP",
+        "reason": "UNKNOWN_TRANSACTION",
+        "rejection_stage": "session_lookup",
+        "request_bytes": 3101,
+        "scenario": "direct_replay_to_server_b",
+        "white_box_cloned_session": false
+      },
+      {
+        "accepted": false,
+        "bind_t_generated": false,
+        "elapsed_ms": 13.27,
+        "http_status": 403,
+        "mutated_field": "sid",
+        "profile_delivery_reached": false,
+        "proof_reason": "gamma/context mismatch",
+        "proof_valid_for_mutated_context": false,
+        "protocol": "AURA-RSP",
+        "reason": "INVALID_OR_EXPIRED_TICKET",
+        "rejection_stage": "server_context_or_ticket",
+        "request_bytes": 3101,
+        "scenario": "modify_sid",
+        "white_box_cloned_session": true
+      },
+      {
+        "accepted": false,
+        "bind_t_generated": false,
+        "elapsed_ms": 14.577,
+        "http_status": 401,
+        "mutated_field": "serverOID",
+        "profile_delivery_reached": false,
+        "proof_reason": "gamma/context mismatch",
+        "proof_valid_for_mutated_context": false,
+        "protocol": "AURA-RSP",
+        "reason": "INVALID_TAU_AUTH",
+        "rejection_stage": "cryptographic_authentication",
+        "request_bytes": 3101,
+        "scenario": "modify_server_oid",
+        "white_box_cloned_session": true
+      },
+      {
+        "accepted": false,
+        "bind_t_generated": false,
+        "elapsed_ms": 10.813,
+        "http_status": 403,
+        "mutated_field": "PRaddr",
+        "profile_delivery_reached": false,
+        "proof_reason": "gamma/context mismatch",
+        "proof_valid_for_mutated_context": false,
+        "protocol": "AURA-RSP",
+        "reason": "INVALID_OR_EXPIRED_TICKET",
+        "rejection_stage": "server_context_or_ticket",
+        "request_bytes": 3101,
+        "scenario": "modify_praddr",
+        "white_box_cloned_session": true
+      },
+      {
+        "a_signature_valid_with_a_key": true,
+        "a_signature_valid_with_b_key": false,
+        "accepted": false,
+        "bind_t_generated": false,
+        "elapsed_ms": 0.0,
+        "http_status": 0,
+        "mutated_field": "transport_target",
+        "profile_delivery_reached": false,
+        "proof_valid_for_mutated_context": true,
+        "protocol": "AURA-RSP",
+        "reason": "SERVER_AUTH_SIGNATURE_MISMATCH",
+        "rejection_stage": "server_authentication",
+        "request_bytes": 3101,
+        "scenario": "replace_target_address_only",
+        "white_box_cloned_session": false
+      },
+      {
+        "accepted": false,
+        "bind_t_generated": false,
+        "elapsed_ms": 15.14,
+        "http_status": 401,
+        "mutated_field": "cap",
+        "profile_delivery_reached": false,
+        "proof_reason": "gamma/context mismatch",
+        "proof_valid_for_mutated_context": false,
+        "protocol": "AURA-RSP",
+        "reason": "INVALID_TAU_AUTH",
+        "rejection_stage": "cryptographic_authentication",
+        "request_bytes": 3103,
+        "scenario": "modify_cap",
+        "white_box_cloned_session": true
+      },
+      {
+        "accepted": false,
+        "bind_t_generated": false,
+        "elapsed_ms": 22.577,
+        "http_status": 401,
+        "mutated_field": "N_S",
+        "profile_delivery_reached": false,
+        "proof_reason": "gamma/context mismatch",
+        "proof_valid_for_mutated_context": false,
+        "protocol": "AURA-RSP",
+        "reason": "INVALID_TAU_AUTH",
+        "rejection_stage": "cryptographic_authentication",
+        "request_bytes": 3101,
+        "scenario": "modify_transaction_nonce",
+        "white_box_cloned_session": true
+      }
+    ],
+    "captured_request_sha256": "405fe7de12a0de82986d4231894c1ed826a886f4c54e0c1c6be5c822a796fe5d",
+    "captured_transaction_id": "E57426457310CCFB822A003BC14BB769",
+    "eid_in_public_transcripts": false,
+    "positive_controls": [
+      {
+        "accepted": true,
+        "bind_t_generated": true,
+        "bind_t_valid": true,
+        "http_status": 200,
+        "protocol": "AURA-RSP",
+        "reason": "OK",
+        "scenario": "positive_server_a"
+      },
+      {
+        "accepted": true,
+        "bind_t_generated": true,
+        "bind_t_valid": true,
+        "http_status": 200,
+        "protocol": "AURA-RSP",
+        "reason": "OK",
+        "scenario": "positive_server_b"
+      }
+    ],
+    "stable_identity_exposed": false
+  },
+  "experiment": "experiment-07-cross-server-transplant",
+  "profile_bytes": 12207,
+  "profile_path": "/path/to/aura-rsp-paper-artifact/rsp-baseline/runtime/software-euicc-output/8949449999999990007f.upp.der",
+  "profile_sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422",
+  "scope": {
+    "aura": "real AURA production authenticate path with real BBS+ proofs",
+    "claim": "AURA preserves cross-server transplant resistance after stable device identity removal; Standard is expected to reject too.",
+    "standard": "source-backed controlled check; not a two-process network run"
+  },
+  "seed": 20260729,
+  "standard": {
+    "attacks": [
+      {
+        "accepted": false,
+        "bound_profile_package_reached": false,
+        "protocol": "Standard RSP",
+        "reason": "TRANSACTION_ID_UNKNOWN",
+        "rejection_stage": "session_lookup",
+        "scenario": "direct_replay_to_server_b"
+      },
+      {
+        "accepted": false,
+        "bound_profile_package_reached": false,
+        "protocol": "Standard RSP",
+        "reason": "SERVER_CHALLENGE_MISMATCH",
+        "rejection_stage": "session_challenge",
+        "scenario": "replace_outer_transaction_id"
+      },
+      {
+        "accepted": false,
+        "bound_profile_package_reached": false,
+        "protocol": "Standard RSP",
+        "reason": "EUICC_SIGNATURE_INVALID",
+        "rejection_stage": "euicc_signature",
+        "scenario": "modify_signed_server_address"
+      },
+      {
+        "accepted": false,
+        "bound_profile_package_reached": false,
+        "protocol": "Standard RSP",
+        "reason": "TLS_HOSTNAME_MISMATCH",
+        "rejection_stage": "tls_server_authentication",
+        "scenario": "replace_target_address_only"
+      }
+    ],
+    "certificate_checks": {
+      "server_a_cert_valid_for_server_b": false,
+      "server_a_chain_valid": true,
+      "server_a_hostname_valid": true,
+      "server_a_names": [
+        "testsmdpplus1.example.com"
+      ],
+      "server_b_cert_valid_for_server_a": false,
+      "server_b_chain_valid": true,
+      "server_b_hostname_valid": true,
+      "server_b_names": [
+        "testsmdpplus4.example.com"
+      ]
+    },
+    "mode": "source-backed controlled check; not a two-process network run"
+  },
+  "status": "PASS"
+}

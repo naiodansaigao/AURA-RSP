@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Runtime state and secrets
+**/runtime/
+**/logs/
+*.pid
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.db
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Build outputs
+**/build/
+**/.gradle/
+**/dist/
+**/target/
+*.apk
+
+# IDE and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Experiment reruns
+**/results/qa-*/
+**/results/tmp-*/
+/results/

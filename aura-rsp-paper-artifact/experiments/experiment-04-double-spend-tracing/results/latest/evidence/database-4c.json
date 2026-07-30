@@ -1,0 +1,47 @@
+{
+  "counts": {
+    "business_execution_count": 1,
+    "notifications": 1,
+    "sessions": 2,
+    "traces": 1,
+    "used_nullifiers": 1
+  },
+  "notifications": [
+    {
+      "receipt_json": "{\"counter\": 1, \"mac\": \"Kzoyy2X36xBO+9A6lGgP0X+42nPXAhQ9AFX4bNPBPRA=\", \"profileSha256\": \"38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422\", \"status\": \"installed\", \"transactionId\": \"95249F719C66368F15A4803D6170A7CE\"}",
+      "transaction_id": "95249F719C66368F15A4803D6170A7CE"
+    }
+  ],
+  "sessions": [
+    {
+      "bind_t": "MEUCIQCVj+hKc/HVie3ERDIesfBxHlUjUpx8XKJdILfXwh/pHwIgY3S4lRsYnBFclOc732plrTJ02HrO/EAPd4vkZc/oa94=",
+      "profile_sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422",
+      "status": "installed",
+      "transaction_id": "95249F719C66368F15A4803D6170A7CE"
+    },
+    {
+      "bind_t": null,
+      "profile_sha256": null,
+      "status": "initiated",
+      "transaction_id": "A10E4A2C22F26B1C9B4893056FBDC5BC"
+    }
+  ],
+  "traces": [
+    {
+      "eid": "89049032123451234512345678904001",
+      "first_transaction_id": "95249F719C66368F15A4803D6170A7CE",
+      "recovered_k": "RZJKrCYAsiQEkgHLvxuXNZZ5f2+DWbWzKg/il3L0gVk=",
+      "second_transaction_id": "A10E4A2C22F26B1C9B4893056FBDC5BC",
+      "v": "oy/8ZTQtNu24Ca8H6bU3lAbEk3uzG5f7u3f8yLEucaXaqkluGLVJTV99vbA06ZCi"
+    }
+  ],
+  "used_nullifiers": [
+    {
+      "auth_hash": "3b411844c9ab65e3a3dddb9bd7f23444e37adf7c01c3eb40abbb6aeccfb5b91b",
+      "c_value": "QBdZT+3KZ5+DdVCNlbDO24awjdFqa2IYmnTqLXjT3Ew=",
+      "gamma": "BWpornEQ4MRUWduewOIxAKKO4zfkKzNEsaiAg/kbdjk=",
+      "transaction_id": "95249F719C66368F15A4803D6170A7CE",
+      "v": "oy/8ZTQtNu24Ca8H6bU3lAbEk3uzG5f7u3f8yLEucaXaqkluGLVJTV99vbA06ZCi"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+﻿Current source-New valid response,Current source-Outcome,Modified field,Paper reference guard-New valid response,Paper reference guard-Outcome
+no,local_ticket_context_conflict,N_S,no,local_ticket_context_conflict
+no,local_ticket_context_conflict,I_t,no,local_ticket_context_conflict
+no,local_ticket_context_conflict,cap,no,local_ticket_context_conflict
+no,local_ticket_context_conflict,serverOID,no,local_ticket_context_conflict
+no,server_authentication_context_mismatch,sid,no,server_authentication_context_mismatch
+no,invalid_mno_ticket_signature,pid_h,no,invalid_mno_ticket_signature
+no,invalid_mno_ticket_signature,op,no,invalid_mno_ticket_signature
+no,server_authentication_context_mismatch,PRaddr,no,server_authentication_context_mismatch
