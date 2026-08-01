@@ -1,3 +1,0 @@
-Figure 1. Stolen operation-ticket transfer outcomes. In AURA-RSP, Device-B owns a valid Cred_B and a complete copy of Tok_A, but the hidden secrets differ. The unchanged server returns HTTP 401, emits no Bind_t, and delivers no profile. Standard can reject an EID-prebound order by exposing a stable EID; an unbound activation code may be consumed first by Device-B.
-
-Figure 2. AURA-RSP server-side validation chain. Even when a malicious client bypasses the prover's local fast-fail and forces submission, the unchanged SM-DP+ rejects the inconsistent BBS+ joint proof.

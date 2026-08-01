@@ -1,0 +1,7 @@
+| Metric | Standard RSP | AURA-RSP |
+|---|---:|---:|
+| Order-to-download join rate | 1.0000 | 1.0000 |
+| Cross-MNO exact history recovery | 1.0000 | 0.0000 |
+| Mean profiles per cluster (2B) | 4.0000 | 1.0000 |
+| Full device-history recovery (2B) | 1.0000 | 0.0000 |
+| Within-profile lifecycle link rate (2B) | 1.0000 | 1.0000 |

@@ -20,7 +20,7 @@ from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 
 import numpy as np
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageChops, ImageDraw, ImageFont
 
 from plot_paper_results import (
     auc_rank,
@@ -32,8 +32,8 @@ from plot_paper_results import (
 
 
 DPI = 600
-WIDTH = 4200
-HEIGHT = 3000
+WIDTH = 3100
+HEIGHT = 2050
 STANDARD = "#4C72B0"
 AURA = "#DD8452"
 BLACK = "#202020"
@@ -103,6 +103,24 @@ def dashed_line(
         position += dash + gap
 
 
+def save_tightly_cropped(image: Image.Image, output: Path) -> None:
+    """Remove unused white canvas while retaining a minimal print-safe edge."""
+    difference = ImageChops.difference(
+        image, Image.new(image.mode, image.size, WHITE)
+    )
+    bbox = difference.getbbox()
+    if bbox is None:
+        raise RuntimeError("refusing to save an empty figure")
+    padding = 24
+    left = max(0, bbox[0] - padding)
+    top = max(0, bbox[1] - padding)
+    right = min(image.width, bbox[2] + padding)
+    bottom = min(image.height, bbox[3] + padding)
+    cropped = image.crop((left, top, right, bottom))
+    output.parent.mkdir(parents=True, exist_ok=True)
+    cropped.save(output, format="PNG", dpi=(DPI, DPI), optimize=True)
+
+
 def draw_roc_figure(
     *,
     standard_points: list[tuple[float, float]],
@@ -113,79 +131,86 @@ def draw_roc_figure(
 ) -> None:
     image = Image.new("RGB", (WIDTH, HEIGHT), WHITE)
     draw = ImageDraw.Draw(image)
-    left, right, top, bottom = 680, 3980, 520, 2390
+    left, right, top, bottom = 420, 3020, 260, 1640
     plot_width = right - left
     plot_height = bottom - top
 
     for tick in np.linspace(0.0, 1.0, 6):
         x = round(left + tick * plot_width)
         y = round(bottom - tick * plot_height)
-        draw.line((x, top, x, bottom), fill=GRID, width=7)
-        draw.line((left, y, right, y), fill=GRID, width=7)
-        label(draw, (x, bottom + 95), f"{tick:.1f}", 104, fill=GRAY, anchor="ma")
-        label(draw, (left - 75, y), f"{tick:.1f}", 104, fill=GRAY, anchor="ra")
+        draw.line((x, top, x, bottom), fill=GRID, width=5)
+        draw.line((left, y, right, y), fill=GRID, width=5)
+        label(draw, (x, bottom + 74), f"{tick:.1f}", 94, fill=GRAY, anchor="ma")
+        label(draw, (left - 58, y), f"{tick:.1f}", 94, fill=GRAY, anchor="ra")
 
     dashed_line(
         draw,
         (left, bottom),
         (right, top),
         fill="#8A8A8A",
-        width=16,
-        dash=52,
-        gap=30,
+        width=14,
+        dash=44,
+        gap=25,
     )
     standard_path = step_points(
         standard_points, left, top, plot_width, plot_height
     )
     aura_path = step_points(aura_points, left, top, plot_width, plot_height)
-    draw.line(standard_path, fill=STANDARD, width=32, joint="curve")
-    draw.line(aura_path, fill=AURA, width=32, joint="curve")
+    draw.line(standard_path, fill=STANDARD, width=28, joint="curve")
+    draw.line(aura_path, fill=AURA, width=28, joint="curve")
 
-    draw.line((left, bottom, right, bottom), fill=BLACK, width=15)
-    draw.line((left, top, left, bottom), fill=BLACK, width=15)
+    draw.line((left, bottom, right, bottom), fill=BLACK, width=13)
+    draw.line((left, top, left, bottom), fill=BLACK, width=13)
     label(
         draw,
-        ((left + right) // 2, 2715),
+        ((left + right) // 2, 1840),
         "False positive rate",
         126,
+        bold=True,
         anchor="ma",
     )
-    y_layer = Image.new("RGBA", (1120, 220), (255, 255, 255, 0))
+    y_layer = Image.new("RGBA", (1040, 220), (255, 255, 255, 0))
     y_draw = ImageDraw.Draw(y_layer)
-    label(y_draw, (560, 110), "True positive rate", 126, anchor="mm")
+    label(
+        y_draw,
+        (520, 110),
+        "True positive rate",
+        126,
+        bold=True,
+        anchor="mm",
+    )
     y_layer = y_layer.rotate(90, expand=True)
-    image.paste(y_layer, (90, 900), y_layer)
+    image.paste(y_layer, (10, 450), y_layer)
 
-    legend_y = 245
-    draw.line((400, legend_y, 580, legend_y), fill=STANDARD, width=30)
+    legend_y = 105
+    draw.line((110, legend_y, 225, legend_y), fill=STANDARD, width=25)
     label(
         draw,
-        (620, legend_y),
-        f"Standard RSP (AUC = {standard_auc:.3f})",
-        94,
+        (255, legend_y),
+        f"Standard RSP (AUC {standard_auc:.3f})",
+        88,
+        bold=True,
         anchor="lm",
     )
-    draw.line((2020, legend_y, 2200, legend_y), fill=AURA, width=30)
+    draw.line((1570, legend_y, 1685, legend_y), fill=AURA, width=25)
     label(
         draw,
-        (2240, legend_y),
-        f"AURA-RSP (AUC = {aura_auc:.3f})",
-        94,
+        (1715, legend_y),
+        f"AURA-RSP (AUC {aura_auc:.3f})",
+        88,
+        bold=True,
         anchor="lm",
     )
-    dashed_line(
+    label(
         draw,
-        (3480, legend_y),
-        (3660, legend_y),
-        fill="#8A8A8A",
-        width=16,
-        dash=45,
-        gap=24,
+        (2580, 430),
+        "Random",
+        86,
+        fill=GRAY,
+        anchor="mm",
     )
-    label(draw, (3700, legend_y), "Random", 94, fill=GRAY, anchor="lm")
 
-    output.parent.mkdir(parents=True, exist_ok=True)
-    image.save(output, format="PNG", dpi=(DPI, DPI), optimize=True)
+    save_tightly_cropped(image, output)
 
 
 def draw_bar_figure(
@@ -196,83 +221,88 @@ def draw_bar_figure(
 ) -> None:
     image = Image.new("RGB", (WIDTH, HEIGHT), WHITE)
     draw = ImageDraw.Draw(image)
-    left, right, top, bottom = 620, 4010, 450, 2250
+    left, right, top, bottom = 1030, 2990, 245, 1690
     plot_width = right - left
     plot_height = bottom - top
     y_max = 1.10
 
     for tick in np.linspace(0.0, 1.0, 6):
-        y = round(bottom - (tick / y_max) * plot_height)
-        draw.line((left, y, right, y), fill=GRID, width=7)
-        label(draw, (left - 75, y), f"{tick:.1f}", 102, fill=GRAY, anchor="ra")
-    draw.line((left, bottom, right, bottom), fill=BLACK, width=15)
-    draw.line((left, top, left, bottom), fill=BLACK, width=15)
+        x = round(left + (tick / y_max) * plot_width)
+        draw.line((x, top, x, bottom), fill=GRID, width=5)
+        label(draw, (x, bottom + 62), f"{tick:.1f}", 86, fill=GRAY, anchor="ma")
+    draw.line((left, bottom, right, bottom), fill=BLACK, width=13)
+    draw.line((left, top, left, bottom), fill=BLACK, width=13)
 
     categories = [
         "ROC-AUC",
-        "Pairwise\naccuracy",
+        "Pairwise accuracy",
         "Exact device-history\nrecovery",
         "Direct cross-profile\nlinkage",
     ]
-    centers = np.linspace(left + 0.13 * plot_width, right - 0.13 * plot_width, 4)
-    bar_width = 290
-    gap = 54
+    centers = np.linspace(top + 0.13 * plot_height, bottom - 0.13 * plot_height, 4)
+    bar_height = 112
+    gap = 26
     for center, category, standard_value, aura_value in zip(
         centers, categories, standard_values, aura_values
     ):
-        x_standard_1 = round(center - gap / 2 - bar_width)
-        x_standard_2 = round(center - gap / 2)
-        x_aura_1 = round(center + gap / 2)
-        x_aura_2 = round(center + gap / 2 + bar_width)
-        y_standard = round(bottom - (standard_value / y_max) * plot_height)
-        y_aura = round(bottom - (aura_value / y_max) * plot_height)
+        y_standard_1 = round(center - gap / 2 - bar_height)
+        y_standard_2 = round(center - gap / 2)
+        y_aura_1 = round(center + gap / 2)
+        y_aura_2 = round(center + gap / 2 + bar_height)
+        x_standard = round(left + (standard_value / y_max) * plot_width)
+        x_aura = round(left + (aura_value / y_max) * plot_width)
         draw.rectangle(
-            (x_standard_1, y_standard, x_standard_2, bottom),
+            (left, y_standard_1, max(left + 2, x_standard), y_standard_2),
             fill=STANDARD,
         )
-        draw.rectangle((x_aura_1, y_aura, x_aura_2, bottom), fill=AURA)
+        draw.rectangle(
+            (left, y_aura_1, max(left + 2, x_aura), y_aura_2),
+            fill=AURA,
+        )
         label(
             draw,
-            ((x_standard_1 + x_standard_2) // 2, y_standard - 40),
+            (max(left + 28, x_standard + 24), (y_standard_1 + y_standard_2) // 2),
             f"{standard_value:.3f}",
-            94,
+            92,
             bold=True,
             fill=STANDARD,
-            anchor="ms",
+            anchor="lm",
         )
         label(
             draw,
-            ((x_aura_1 + x_aura_2) // 2, y_aura - 40),
+            (max(left + 28, x_aura + 24), (y_aura_1 + y_aura_2) // 2),
             f"{aura_value:.3f}",
-            94,
+            92,
             bold=True,
             fill=AURA,
-            anchor="ms",
+            anchor="lm",
         )
         draw.multiline_text(
-            (round(center), bottom + 95),
+            (left - 70, round(center)),
             category,
-            font=font(96),
+            font=font(92, bold=True),
             fill=BLACK,
-            spacing=14,
-            anchor="ma",
-            align="center",
+            spacing=10,
+            anchor="rm",
+            align="right",
         )
 
-    y_layer = Image.new("RGBA", (1000, 220), (255, 255, 255, 0))
-    y_draw = ImageDraw.Draw(y_layer)
-    label(y_draw, (500, 110), "Metric value", 126, anchor="mm")
-    y_layer = y_layer.rotate(90, expand=True)
-    image.paste(y_layer, (75, 790), y_layer)
+    label(
+        draw,
+        ((left + right) // 2, 1895),
+        "Metric value",
+        112,
+        bold=True,
+        anchor="ma",
+    )
 
-    legend_y = 220
-    draw.rectangle((1240, legend_y - 60, 1370, legend_y + 60), fill=STANDARD)
-    label(draw, (1420, legend_y), "Standard RSP", 108, anchor="lm")
-    draw.rectangle((2540, legend_y - 60, 2670, legend_y + 60), fill=AURA)
-    label(draw, (2720, legend_y), "AURA-RSP", 108, anchor="lm")
+    legend_y = 105
+    draw.rectangle((850, legend_y - 40, 930, legend_y + 40), fill=STANDARD)
+    label(draw, (970, legend_y), "Standard RSP", 96, bold=True, anchor="lm")
+    draw.rectangle((1920, legend_y - 40, 2000, legend_y + 40), fill=AURA)
+    label(draw, (2040, legend_y), "AURA-RSP", 96, bold=True, anchor="lm")
 
-    output.parent.mkdir(parents=True, exist_ok=True)
-    image.save(output, format="PNG", dpi=(DPI, DPI), optimize=True)
+    save_tightly_cropped(image, output)
 
 
 def sha256(path: Path) -> str:

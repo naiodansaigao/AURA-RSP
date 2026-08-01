@@ -1,0 +1,307 @@
+{
+  "assertions": [
+    {
+      "assertion": "wrong_x_control_rejected",
+      "expected": false,
+      "observed": false,
+      "passed": true
+    },
+    {
+      "assertion": "x_alone_not_reported_as_signing_key",
+      "expected": false,
+      "observed": false,
+      "passed": true
+    },
+    {
+      "assertion": "full_endpoint_holder_clone_accepted",
+      "expected": true,
+      "observed": true,
+      "passed": true
+    },
+    {
+      "assertion": "eta_d_without_matching_x_k_rejected",
+      "expected": false,
+      "observed": false,
+      "passed": true
+    },
+    {
+      "assertion": "eta_d_with_complete_state_accepted",
+      "expected": true,
+      "observed": true,
+      "passed": true
+    },
+    {
+      "assertion": "unrelated_eum_key_control_rejected",
+      "expected": false,
+      "observed": false,
+      "passed": true
+    },
+    {
+      "assertion": "leaked_eum_key_forges_credential",
+      "expected": true,
+      "observed": true,
+      "passed": true
+    },
+    {
+      "assertion": "unrelated_mno_key_control_rejected",
+      "expected": false,
+      "observed": false,
+      "passed": true
+    },
+    {
+      "assertion": "leaked_mno_key_forges_ticket",
+      "expected": true,
+      "observed": true,
+      "passed": true
+    },
+    {
+      "assertion": "unrelated_server_auth_key_rejected",
+      "expected": false,
+      "observed": false,
+      "passed": true
+    },
+    {
+      "assertion": "leaked_server_auth_key_impersonates",
+      "expected": true,
+      "observed": true,
+      "passed": true
+    },
+    {
+      "assertion": "unrelated_binding_key_rejected",
+      "expected": false,
+      "observed": false,
+      "passed": true
+    },
+    {
+      "assertion": "leaked_binding_key_forges_bind_t",
+      "expected": true,
+      "observed": true,
+      "passed": true
+    },
+    {
+      "assertion": "trace_db_resolves_correct_eid",
+      "expected": true,
+      "observed": true,
+      "passed": true
+    },
+    {
+      "assertion": "trace_db_discloses_all_test_records",
+      "expected": true,
+      "observed": true,
+      "passed": true
+    },
+    {
+      "assertion": "trace_db_does_not_grant_signing",
+      "expected": false,
+      "observed": false,
+      "passed": true
+    },
+    {
+      "assertion": "all_six_classified_out_of_scope",
+      "expected": 6,
+      "observed": 6,
+      "passed": true
+    },
+    {
+      "assertion": "all_targeted_compromise_effects_observed",
+      "expected": 6,
+      "observed": 6,
+      "passed": true
+    },
+    {
+      "assertion": "all_controls_match_expected",
+      "expected": true,
+      "observed": true,
+      "passed": true
+    },
+    {
+      "assertion": "source_audit_complete",
+      "expected": true,
+      "observed": true,
+      "passed": true
+    }
+  ],
+  "assertions_passed": 20,
+  "assertions_total": 20,
+  "backend_limitation": null,
+  "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE",
+  "details": {
+    "issuer_and_holder_secrets": {
+      "backend": "aura_production_bbs_plus",
+      "eta_d_with_complete_holder_state_accepted": true,
+      "eta_d_without_matching_x_k_accepted": false,
+      "eum_control_forgery_accepted": false,
+      "eum_leaked_key_forgery_accepted": true,
+      "limitation": null,
+      "mno_control_forgery_accepted": false,
+      "mno_leaked_key_forgery_accepted": true,
+      "production_bbs": true,
+      "x_with_complete_holder_state_accepted": true,
+      "x_without_matching_state_accepted": false
+    },
+    "smdpp_keys": {
+      "binding_forgery_succeeded": true,
+      "control_binding_forgery_accepted": false,
+      "control_server_auth_forgery_accepted": false,
+      "leaked_binding_key_forgery_accepted": true,
+      "leaked_server_auth_key_forgery_accepted": true,
+      "server_impersonation_succeeded": true
+    },
+    "trace_database": {
+      "all_identity_records_disclosed": true,
+      "expected_eid": "89049032123451234512345678900002",
+      "identity_records": 5,
+      "signing_capability_gained": false,
+      "trace_resolution_succeeded": true,
+      "with_leaked_database_eid": "89049032123451234512345678900002",
+      "without_database_eid": null
+    }
+  },
+  "elapsed_ms": 5240.017,
+  "experiment": "experiment-13-out-of-scope-secret-compromise",
+  "host": {
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "python": "3.12.3"
+  },
+  "issuer_backend": "aura_production_bbs_plus",
+  "metrics": {
+    "compromise_effects_observed": 6,
+    "conditional_on_holder_state": 2,
+    "controls_rejected": 7,
+    "post_compromise_attacks_accepted": 7,
+    "scenarios_total": 6,
+    "standalone_sufficient": 4
+  },
+  "production_bbs": true,
+  "results_dir": "results/latest",
+  "scenarios": [
+    {
+      "affected_property": "endpoint holder-state clone resistance",
+      "attack_succeeded": true,
+      "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE",
+      "leaked_asset": "eUICC long-term x",
+      "required_additional_material": "k, issued credential, signed ticket, eta, d",
+      "scenario": "euicc_x",
+      "standalone_sufficient": false
+    },
+    {
+      "affected_property": "ticket holder-state confidentiality",
+      "attack_succeeded": true,
+      "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE",
+      "leaked_asset": "ticket witnesses eta,d",
+      "required_additional_material": "matching x/k, device credential, signed ticket",
+      "scenario": "ticket_eta_d",
+      "standalone_sufficient": false
+    },
+    {
+      "affected_property": "device credential unforgeability",
+      "attack_succeeded": true,
+      "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE",
+      "leaked_asset": "EUM credential issuing private key",
+      "required_additional_material": "attacker-chosen credential messages",
+      "scenario": "eum_signing_key",
+      "standalone_sufficient": true
+    },
+    {
+      "affected_property": "operation ticket unforgeability",
+      "attack_succeeded": true,
+      "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE",
+      "leaked_asset": "MNO ticket issuing private key",
+      "required_additional_material": "attacker-chosen ticket messages",
+      "scenario": "mno_signing_key",
+      "standalone_sufficient": true
+    },
+    {
+      "affected_property": "server authenticity and Profile Binding",
+      "attack_succeeded": true,
+      "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE",
+      "leaked_asset": "SM-DP+ authentication and binding private keys",
+      "required_additional_material": "chosen server transcript",
+      "scenario": "smdpp_signing_keys",
+      "standalone_sufficient": true
+    },
+    {
+      "affected_property": "conditional identity-map confidentiality",
+      "attack_succeeded": true,
+      "classification": "EXPECTED OUT-OF-SCOPE COMPROMISE",
+      "leaked_asset": "EUM trace_index database",
+      "required_additional_material": "database read access",
+      "scenario": "eum_trace_database",
+      "standalone_sufficient": true
+    }
+  ],
+  "scope": {
+    "production_source_modified": false,
+    "protocol_attack": false,
+    "result_interpretation": "EXPECTED OUT-OF-SCOPE COMPROMISE",
+    "root_or_endpoint_compromise": true
+  },
+  "source_audit": {
+    "all_checkpoints_found": true,
+    "checkpoints": {
+      "authority_private_key_storage": {
+        "file": "../../pysim-aura-integration/pySim/esim/aura/bootstrap.py",
+        "line": 99,
+        "pattern": "\"secret_key\": scalar_to_b64(eum_sk)"
+      },
+      "binding_signature": {
+        "file": "../../pysim-aura-integration/pySim/esim/aura/service.py",
+        "line": 356,
+        "pattern": "bind_t = sign_binding("
+      },
+      "device_x_storage": {
+        "file": "../../pysim-aura-integration/pySim/esim/aura/bootstrap.py",
+        "line": 157,
+        "pattern": "\"x\": scalar_to_b64(x)"
+      },
+      "eum_mno_key_generation": {
+        "file": "../../pysim-aura-integration/pySim/esim/aura/bootstrap.py",
+        "line": 81,
+        "pattern": "eum_sk, eum_pk = keygen()"
+      },
+      "server_auth_signature": {
+        "file": "../../pysim-aura-integration/pySim/esim/aura/service.py",
+        "line": 194,
+        "pattern": "\"serverSignature\": p256_sign(self.server_auth_key, server_auth)"
+      },
+      "shared_x_witness": {
+        "file": "../../pysim-aura-integration/pySim/esim/aura/proof.py",
+        "line": 227,
+        "pattern": "witnesses.update({\"x\": x, \"k\": k, \"eta\": eta, \"d\": d_value})"
+      },
+      "ticket_hidden_d": {
+        "file": "../../pysim-aura-integration/pySim/esim/aura/ticket.py",
+        "line": 116,
+        "pattern": "\"d\": scalar_to_b64(d_value)"
+      },
+      "ticket_hidden_eta": {
+        "file": "../../pysim-aura-integration/pySim/esim/aura/ticket.py",
+        "line": 115,
+        "pattern": "\"eta\": scalar_to_b64(eta)"
+      },
+      "trace_index_write": {
+        "file": "../../pysim-aura-integration/pySim/esim/aura/bootstrap.py",
+        "line": 51,
+        "pattern": "store.put_trace_index(k_value, entry[\"eid\"], entry[\"r_tr\"])"
+      },
+      "trace_lookup": {
+        "file": "../../pysim-aura-integration/pySim/esim/aura/service.py",
+        "line": 335,
+        "pattern": "trace_lookup=self.store.lookup_trace"
+      },
+      "trace_schema": {
+        "file": "../../pysim-aura-integration/pySim/esim/aura/store.py",
+        "line": 66,
+        "pattern": "def put_trace_index("
+      }
+    },
+    "source_sha256": {
+      "bootstrap": "32b5f719d335ea39efc8cfbbdab08fab124de2e6f982138e26a02757770933e1",
+      "proof": "93caa7a32d1ea81d8ea5fbaf7f7bf7acb7f580c1b262e0580b8b5a92481ec0cf",
+      "server": "b2a33b08ec9c52184594e750d2fb18f5b5cd58decfc03de9ab9449fdf56bea6f",
+      "storage": "5e29218dbd2227fca9c598e381361350651914414848459e7bf3f86bf5af0d11",
+      "ticket": "ce15b94a4b76d0228ca2a089c4ef2e383fb26306955d861b857962fc493d3ecf"
+    }
+  },
+  "status": "PASS"
+}

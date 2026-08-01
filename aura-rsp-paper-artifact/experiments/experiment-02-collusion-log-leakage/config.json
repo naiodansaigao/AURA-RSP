@@ -14,10 +14,7 @@
   ],
   "shared_smdpp": "shared-smdpp.test",
   "shared_network_egress": "198.51.100.10",
-  "aura_sid": "aura-smdpp.test",
-  "aura_praddr": "aura-pr.test",
-  "aura_server_oid": "2.999.10",
-  "profile_source": "../../rsp-baseline/third_party/pysim/smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
+  "profile_source": "../../pysim-aura-integration/smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
   "time_window_seconds": 2592000,
   "lifecycle_events": [
     "downloaded",

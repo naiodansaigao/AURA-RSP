@@ -1,3 +1,0 @@
-{"accepted": false, "bpp_delivered": false, "protocol": "Standard RSP", "reason": "BPP_BINDING_SIGNATURE_INVALID", "rejection_stage": "bpp_signature", "scenario": "modify_profile_hash_keep_binding_signature"}
-{"accepted": false, "bpp_delivered": false, "protocol": "Standard RSP", "reason": "SIGNED_TRANSACTION_MISMATCH", "rejection_stage": "transaction_binding", "scenario": "profile_a_binding_to_profile_b_transaction"}
-{"accepted": false, "bpp_delivered": false, "protocol": "Standard RSP", "reason": "BPP_BINDING_SIGNATURE_INVALID", "rejection_stage": "bpp_signature", "scenario": "replace_outer_and_signed_transaction"}

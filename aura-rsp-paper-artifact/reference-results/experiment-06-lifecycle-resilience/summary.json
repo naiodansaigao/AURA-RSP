@@ -1,0 +1,128 @@
+{
+  "assertions": {
+    "6A": true,
+    "6B": true,
+    "6C": true,
+    "6D": true,
+    "6E": true,
+    "6F": true
+  },
+  "assertions_passed": true,
+  "cases": {
+    "concurrency": {
+      "accepted_operation": "enable",
+      "case": "concurrent_enable_delete",
+      "final_state": "enabled",
+      "pass": true,
+      "rejected_reason": "STATE_PREDECESSOR_MISMATCH",
+      "successor_count": 1
+    },
+    "legal_chain": {
+      "case": "legal_chain_and_replay",
+      "final_ctr": 7,
+      "final_state": "installed",
+      "pass": true,
+      "same_rprep": true
+    },
+    "recovery": {
+      "case": "atomic_fault_and_delete_recovery",
+      "commit_after_ticket_expiry": true,
+      "final_state": "tombstone",
+      "pass": true,
+      "post_commit_retry_idempotent": true,
+      "rolled_back_faults": [
+        "before_update",
+        "after_update_before_commit"
+      ],
+      "same_rprep_after_loss": true
+    },
+    "tamper": {
+      "case": "receipt_tamper_and_semantic_checks",
+      "final_state_unchanged": true,
+      "network_tamper_rejected": 7,
+      "pass": true,
+      "reasons": {
+        "counter": "COUNTER_MISMATCH",
+        "ctr_new": "INVALID_STATE_RECEIPT_MAC",
+        "last_hash": "LAST_HASH_MISMATCH",
+        "last_hash_old": "INVALID_STATE_RECEIPT_MAC",
+        "lph": "INVALID_STATE_RECEIPT_MAC",
+        "predecessor": "STATE_PREDECESSOR_MISMATCH",
+        "rid_op": "INVALID_STATE_RECEIPT_MAC",
+        "salt_p": "PROFILE_CONTEXT_MISMATCH",
+        "st_new": "INVALID_STATE_RECEIPT_MAC",
+        "st_old": "INVALID_STATE_RECEIPT_MAC",
+        "tag_op": "INVALID_STATE_RECEIPT_MAC",
+        "transition": "INVALID_STATE_TRANSITION"
+      },
+      "semantic_checks_rejected": 5
+    }
+  },
+  "execution_ms": 1798.704,
+  "experiment": "experiment-06-lifecycle-resilience",
+  "implementation": "pysim-osmo-smdpp-integrated-aura",
+  "metrics": {
+    "concurrent_successor_count": 1,
+    "delete_recovery_converged": true,
+    "expired_ticket_commit_completed": true,
+    "latest_receipt_retry": "idempotent",
+    "old_receipt_replay": "rejected",
+    "same_rprep": true,
+    "semantic_tamper_rejected": 5,
+    "tamper_rejected": 7
+  },
+  "migration_comparison": {
+    "conclusion_unchanged": true,
+    "previous_status": "PASS"
+  },
+  "source_audit": {
+    "modules": {
+      "pySim/esim/aura/lifecycle.py": "e75a436f35a1b6c7db16173ee57c7049f4fab226a30e3f049e885e336b9edb00",
+      "pySim/esim/aura/lifecycle_selftest.py": "3a82fb9a335617cfca30cb5299a54a00af23bfb0bc7bd4c8d2595ef390931222",
+      "pySim/esim/aura/service.py": "b2a33b08ec9c52184594e750d2fb18f5b5cd58decfc03de9ab9449fdf56bea6f"
+    }
+  },
+  "standard": {
+    "claim_boundary": "No Standard lifecycle-chain interface in the current baseline; no Standard vulnerability claim.",
+    "status": "UNSUPPORTED"
+  },
+  "status": "PASS",
+  "subtests": [
+    {
+      "passed": true,
+      "result": "stale rejected; latest retry idempotent",
+      "scenario": "old receipt replay and latest exact retry",
+      "subtest": "6A"
+    },
+    {
+      "passed": true,
+      "result": "all MAC and semantic mutations rejected",
+      "scenario": "receipt field tampering",
+      "subtest": "6B"
+    },
+    {
+      "passed": true,
+      "result": "exactly one successor committed",
+      "scenario": "concurrent enable/delete fork",
+      "subtest": "6C"
+    },
+    {
+      "passed": true,
+      "result": "same cached Rprep returned",
+      "scenario": "lost Rprep",
+      "subtest": "6D"
+    },
+    {
+      "passed": true,
+      "result": "retry idempotent; state converged",
+      "scenario": "lost commit receipt/final acknowledgement",
+      "subtest": "6E"
+    },
+    {
+      "passed": true,
+      "result": "valid pending delete completed",
+      "scenario": "commit after delete-ticket expiry",
+      "subtest": "6F"
+    }
+  ]
+}

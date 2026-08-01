@@ -1,15 +1,16 @@
 {
   "experiment_name": "experiment-10-profile-ciphertext-integrity",
   "seed": 20260730,
-  "profile_a_path": "../../rsp-baseline/runtime/software-euicc-output/8949449999999990007f.upp.der",
-  "profile_a_fallback_path": "../../rsp-baseline/third_party/pysim/smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
-  "profile_b_path": "../../rsp-baseline/third_party/pysim/smdpp-data/upp/TS48V1-A-UNIQUE.der",
-  "capability": "ECDHE-P256-HKDF-SHA256-AES256GCM",
+  "profile_b_matching_id": "TS48V1-A-UNIQUE",
+  "aura": {
+    "sid": "testsmdpplus1.example.com",
+    "server_oid": "2.999.10",
+    "praddr": "aura-pr.test"
+  },
   "aura_source": {
-    "client": "../../aura-rsp/src/aura_rsp/client.py",
-    "server": "../../aura-rsp/src/aura_rsp/server.py",
-    "ticket": "../../aura-rsp/src/aura_rsp/ticket.py",
-    "primitives": "../../aura-rsp/src/aura_rsp/primitives.py"
+    "client": "../../pysim-aura-integration/pySim/esim/aura/client.py",
+    "server": "../../pysim-aura-integration/pySim/esim/aura/service.py",
+    "validation": "../../pysim-aura-integration/pySim/esim/aura/profile_validation.py",
+    "primitives": "../../pysim-aura-integration/pySim/esim/aura/primitives.py"
   }
 }
-

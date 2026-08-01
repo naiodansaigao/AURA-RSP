@@ -13,7 +13,7 @@ Binding、密钥协商或Profile交付代码。它比较同一批受控事务在
 在WSL2 Ubuntu中执行：
 
 ```bash
-cd /path/to/aura-rsp-paper-artifact/experiments/experiment-12-pr-source-address-privacy
+cd experiments/experiment-12-pr-source-address-privacy
 bash ./run_demo.sh
 ```
 

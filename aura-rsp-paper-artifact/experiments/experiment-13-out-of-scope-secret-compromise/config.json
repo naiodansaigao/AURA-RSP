@@ -13,10 +13,10 @@
     "PRaddr": "aura-pr.test"
   },
   "aura_source": {
-    "bootstrap": "../../aura-rsp/src/aura_rsp/bootstrap.py",
-    "ticket": "../../aura-rsp/src/aura_rsp/ticket.py",
-    "proof": "../../aura-rsp/src/aura_rsp/proof.py",
-    "server": "../../aura-rsp/src/aura_rsp/server.py",
-    "storage": "../../aura-rsp/src/aura_rsp/storage.py"
+    "bootstrap": "../../pysim-aura-integration/pySim/esim/aura/bootstrap.py",
+    "ticket": "../../pysim-aura-integration/pySim/esim/aura/ticket.py",
+    "proof": "../../pysim-aura-integration/pySim/esim/aura/proof.py",
+    "server": "../../pysim-aura-integration/pySim/esim/aura/service.py",
+    "storage": "../../pysim-aura-integration/pySim/esim/aura/store.py"
   }
 }

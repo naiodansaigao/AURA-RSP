@@ -1,5 +1,0 @@
-set debug true
-set echo true
-
-# Export the entire file system
-cardinfo > $CARDNAME-cardinfo.tmp

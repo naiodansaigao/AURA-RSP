@@ -6,16 +6,29 @@ import csv
 import hashlib
 import json
 import shutil
+import statistics
 import time
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
 
+from ablation import (
+    FULL,
+    KEY_ONLY,
+    MODES,
+    NO_LOG,
+    SERVER_MUTABLE_FIELDS,
+    challenge_scale,
+    classify_trial,
+    mutate_context,
+)
+
 try:
     from py_ecc.optimized_bls12_381 import curve_order, multiply
 
-    import aura_rsp.proof as proof_module
-    from aura_rsp.bbs import (
+    import pySim.esim.aura.proof as proof_module
+    from pySim.esim.aura.bbs import (
         blind_sign,
         create_blind_commitment,
         finalize_blind_signature,
@@ -24,7 +37,7 @@ try:
         random_scalar,
         verify_signature,
     )
-    from aura_rsp.codec import (
+    from pySim.esim.aura.codec import (
         b64d,
         b64e,
         canonical,
@@ -33,12 +46,12 @@ try:
         scalar_to_b64,
         sha256_hex,
     )
-    from aura_rsp.local_ticket_log import (
+    from pySim.esim.aura.local_ticket_log import (
         LocalTicketContextConflict,
         lookup_cached_auth_request,
         store_auth_request,
     )
-    from aura_rsp.primitives import (
+    from pySim.esim.aura.primitives import (
         ed25519_public_b64,
         ed25519_sign,
         generate_ed25519_private,
@@ -46,7 +59,7 @@ try:
         p256_sign,
         p256_verify,
     )
-    from aura_rsp.proof import (
+    from pySim.esim.aura.proof import (
         CRED_PARAMS,
         TOKEN_PARAMS,
         create_auth_proof,
@@ -60,7 +73,7 @@ try:
 except ModuleNotFoundError as exc:  # pragma: no cover
     raise SystemExit(
         "缺少AURA运行依赖。请在WSL中使用run_demo.sh，"
-        "或先运行aura-rsp/scripts/install_deps.sh。"
+        "或先运行pysim-aura-integration/integration-scripts/install_deps.sh。"
         f" 原始错误: {exc}"
     ) from exc
 
@@ -435,6 +448,35 @@ def mutate_attack(
     return server_envelope(server_auth, server_key), ticket
 
 
+def randomized_mutation_value(seed: int, field: str, iteration: int) -> str:
+    raw = seeded_bytes(seed, f"bulk:{field}:{iteration}", 32)
+    if field == "N_S":
+        return b64e(raw)
+    if field == "I_t":
+        return b64e(raw[:16])
+    if field == "cap":
+        return "AURA-MALICIOUS-CAP-" + raw[:6].hex()
+    if field == "serverOID":
+        return "2.999.10.5." + str(int.from_bytes(raw[:2], "big") + 1)
+    if field == "sid":
+        return raw[:8].hex() + ".malicious-smdpp.test"
+    if field == "pid_h":
+        return hashlib.sha256(raw).hexdigest()
+    if field == "op":
+        return ("delete", "reinstall", "enable")[iteration % 3]
+    if field == "PRaddr":
+        return raw[:8].hex() + ".malicious-pr.test"
+    raise ValueError(f"unsupported attack field: {field}")
+
+
+def percentile(values: list[float], fraction: float) -> float:
+    ordered = sorted(values)
+    if not ordered:
+        return 0.0
+    index = min(len(ordered) - 1, max(0, int(len(ordered) * fraction + 0.999999) - 1))
+    return ordered[index]
+
+
 def eum_trace(
     *,
     requests: list[dict[str, Any]],
@@ -670,39 +712,36 @@ def field_matrix_svg(report: dict[str, Any], language: str) -> str:
 def write_paper(output: Path, report: dict[str, Any]) -> None:
     paper = output / "paper"
     for language in ("zh", "en"):
-        t = LANG[language]
-        (paper / f"figure-1-framing-outcome-{language}.svg").write_text(
-            result_chart_svg(report, language), encoding="utf-8"
-        )
-        (paper / f"figure-2-field-matrix-{language}.svg").write_text(
-            field_matrix_svg(report, language), encoding="utf-8"
-        )
         rows = []
         for field in report["attack_fields"]:
-            current = report["current_source"]["field_results"][field]
+            selected = {
+                row["mode"]: row
+                for row in report["per_field_results"]
+                if row["field"] == field
+            }
             rows.append(
                 {
-                    t["field"]: field,
-                    f'{t["current"]}-{t["response"]}': (
-                        t["yes"] if current["new_valid_response"] else t["no"]
-                    ),
-                    f'{t["current"]}-{t["reason"]}': current["reason"],
+                    ("修改字段" if language == "zh" else "Modified field"): field,
+                    ("完整AURA-RSP" if language == "zh" else "Full AURA-RSP"): selected[FULL]["outcome"],
+                    ("无LocalTicketLog" if language == "zh" else "Without LocalTicketLog"): selected[NO_LOG]["outcome"],
+                    ("仅按键缓存" if language == "zh" else "Key-only cache"): selected[KEY_ONLY]["outcome"],
+                    ("无日志误追踪率" if language == "zh" else "No-log false-trace rate"): selected[NO_LOG]["false_trace_rate"],
                 }
             )
-        write_csv(paper / f"table-1-field-results-{language}.csv", rows)
+        write_csv(paper / f"table-5-field-ablation-{language}.csv", rows)
         caption = (
-            "图1：当前源码下的恶意SM-DP+诱导追踪结果。客户端仅产生一份不同的有效响应，"
-            "未生成第二份响应；EUM因有效证据不足而不恢复EID，也不误追踪诚实设备。"
-            "图2逐字段显示N_S、I_t、cap、serverOID、sid、pid_h、op和PRaddr的修改"
-            "均在生成新证明前被拒绝。"
+            "图5(a)：同一票据接收1至128个服务器可控恶意挑战时的不同有效响应数量。"
+            "完整AURA-RSP和仅按键缓存始终为1；无LocalTicketLog时增长至129。"
+            "图5(b)：八类字段各1000次攻击的结果分布。完整实现误追踪率为0，"
+            "无LocalTicketLog消融在四类服务器可控字段上恢复诚实EID，合计误追踪率50%。"
             if language == "zh"
             else
-            "Figure 1. Malicious SM-DP+ trace-inducement results for the current "
-            "implementation. The client produces only one distinct valid response and "
-            "no second response; the EUM therefore has insufficient valid evidence, "
-            "does not recover the EID, and does not falsely trace the honest device. "
-            "Figure 2 shows that modifications to N_S, I_t, cap, serverOID, sid, "
-            "pid_h, op, and PRaddr are all rejected before a new proof is generated."
+            "Figure 5(a). Distinct valid responses under 1--128 server-controllable "
+            "malicious challenges per ticket. Full AURA-RSP and the key-only cache "
+            "remain at one, whereas removing LocalTicketLog reaches 129. Figure 5(b). "
+            "Outcome distribution for 1,000 attacks on each of eight fields. Full "
+            "AURA-RSP has zero false traces; removing LocalTicketLog recovers the "
+            "honest EID for four server-controllable fields, giving a 50% aggregate rate."
         )
         (paper / f"captions-and-analysis-{language}.txt").write_text(
             caption + "\n", encoding="utf-8"
@@ -726,12 +765,25 @@ def summary_markdown(report: dict[str, Any]) -> str:
 | 误追踪诚实设备 | {current["false_trace"]} |
 | 原样重发返回逐字节相同缓存 | {current["exact_replay"]["byte_identical"]} |
 
+## 规模与消融结果
+
+| 实现 | 攻击数 | 新c计算 | 缓存返回 | 上下文终止 | 误追踪率 |
+|---|---:|---:|---:|---:|---:|
+| 完整AURA-RSP | {report["ablation_summary"][FULL]["attacks"]} | {report["ablation_summary"][FULL]["new_c_computations"]} | {report["ablation_summary"][FULL]["cached_responses"]} | {report["ablation_summary"][FULL]["context_conflict_aborts"]} | {report["ablation_summary"][FULL]["false_trace_rate"]:.1%} |
+| 无LocalTicketLog（消融） | {report["ablation_summary"][NO_LOG]["attacks"]} | {report["ablation_summary"][NO_LOG]["new_c_computations"]} | {report["ablation_summary"][NO_LOG]["cached_responses"]} | {report["ablation_summary"][NO_LOG]["context_conflict_aborts"]} | {report["ablation_summary"][NO_LOG]["false_trace_rate"]:.1%} |
+| 仅按键缓存（消融） | {report["ablation_summary"][KEY_ONLY]["attacks"]} | {report["ablation_summary"][KEY_ONLY]["new_c_computations"]} | {report["ablation_summary"][KEY_ONLY]["cached_responses"]} | {report["ablation_summary"][KEY_ONLY]["context_conflict_aborts"]} | {report["ablation_summary"][KEY_ONLY]["false_trace_rate"]:.1%} |
+
 ## 结论
 
 当前客户端会在生成证明前读取`LocalTicketLog[(v, opid)]`。完全相同的上下文
 返回完整缓存认证报文；同一`(v, opid)`下的不同上下文在证明生成前终止。
 实验得到`distinct_valid_responses=1`，
 EUM返回`insufficient_valid_evidence`，不恢复EID，也不误追踪诚实设备。
+
+删除LocalTicketLog后，`N_S`、`I_t`、`cap`和`serverOID`四类服务器可控字段
+会触发第二份真实有效BBS+响应，生产追踪公式恢复出诚实设备EID。仅按
+`(v,opid)`缓存但不比较上下文不会生成第二份有效证据，但会错误返回一个不适用于
+新上下文的旧响应；因此上下文比较同时提供安全性和明确的失败语义。
 
 本结论说明当前源码阻断了本实验覆盖的诱导追踪路径；它不是对所有实现或所有威胁的
 一般性安全证明。研究原型使用JSON持久化，本地日志在生产eUICC中仍应置于受保护、
@@ -791,6 +843,7 @@ def main() -> int:
     parser.add_argument("--output", required=True, type=Path)
     parser.add_argument("--lang", choices=("zh", "en", "both"), default="both")
     parser.add_argument("--machine-json", action="store_true")
+    parser.add_argument("--attacks-per-field", type=int)
     args = parser.parse_args()
 
     started = time.perf_counter()
@@ -801,9 +854,7 @@ def main() -> int:
     seed = int(config["seed"])
     profile_path = (
         workspace_root
-        / "rsp-baseline"
-        / "third_party"
-        / "pysim"
+        / "pysim-aura-integration"
         / "smdpp-data"
         / "upp"
         / "TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der"
@@ -1040,9 +1091,152 @@ def main() -> int:
         result["new_valid_response"]
         for result in current_field_results.values()
     )
-    client_source_path = workspace_root / "aura-rsp" / "src" / "aura_rsp" / "client.py"
+
+    # Real-cryptography calibration for every field and ablation outcome.
+    # The 8,000-trial bulk layer below then measures the state-machine path;
+    # it does not pretend to have executed 8,000 expensive BBS+ pairings.
+    crypto_calibration: dict[str, dict[str, Any]] = {}
+    for material in all_attack_materials:
+        field = material["field"]
+        attack_ctx = material["ctx_t"]
+        full = current_field_results[field]
+        calibration = {
+            "full_aura": {
+                "outcome": full["reason"],
+                "new_valid_response": full["new_valid_response"],
+            },
+            "without_local_ticket_log": {
+                "proof_generated": False,
+                "proof_valid": False,
+                "trace_result": "insufficient_valid_evidence",
+                "recovered_eid": None,
+            },
+            "key_only_cache_no_context_check": {
+                "cached_response_returned": False,
+                "valid_under_modified_context": False,
+                "trace_result": "insufficient_valid_evidence",
+            },
+        }
+        if field in SERVER_MUTABLE_FIELDS:
+            no_log_request, no_log_ms = generate_auth_request(
+                ctx_t=attack_ctx,
+                salt_p=salt_p,
+                one_time_private=one_time_private,
+                vk_t=vk_t,
+                device=device,
+                ticket=ticket,
+                eum_pk=eum_pk,
+                mno_pk=mno_pk,
+            )
+            no_log_valid, no_log_reason = verify_request(
+                no_log_request, eum_pk, mno_pk
+            )
+            no_log_trace = eum_trace(
+                requests=[production_base_request, no_log_request],
+                eum_pk=eum_pk,
+                mno_pk=mno_pk,
+                trace_index=trace_index,
+            )
+            transplanted_cached = copy.deepcopy(production_base_request)
+            transplanted_cached["ctx_t"] = copy.deepcopy(attack_ctx)
+            cached_valid, cached_reason = verify_request(
+                transplanted_cached, eum_pk, mno_pk
+            )
+            calibration["without_local_ticket_log"] = {
+                "proof_generated": True,
+                "proof_valid": no_log_valid,
+                "proof_reason": no_log_reason,
+                "proof_generate_ms": round(no_log_ms, 3),
+                "trace_result": no_log_trace["trace_result"],
+                "recovered_eid": no_log_trace["recovered_eid"],
+                "correct_honest_eid_recovered": (
+                    no_log_trace["recovered_eid"] == device.eid
+                ),
+            }
+            calibration["key_only_cache_no_context_check"] = {
+                "cached_response_returned": True,
+                "valid_under_modified_context": cached_valid,
+                "verification_reason": cached_reason,
+                "trace_result": "insufficient_valid_evidence",
+            }
+        crypto_calibration[field] = calibration
+
+    attacks_per_field = int(args.attacks_per_field or config.get("attacks_per_field", 1000))
+    challenge_counts = [int(value) for value in config.get(
+        "challenge_counts", [1, 2, 4, 8, 16, 32, 64, 128]
+    )]
+    bulk_rows: list[dict[str, Any]] = []
+    for field in config["attack_fields"]:
+        for iteration in range(attacks_per_field):
+            attack_ctx = mutate_context(
+                base_ctx,
+                field,
+                randomized_mutation_value(seed, field, iteration),
+            )
+            for mode in MODES:
+                result = classify_trial(
+                    mode=mode,
+                    field=field,
+                    attack_ctx=attack_ctx,
+                    production_device_state=production_device_state,
+                    base_request=production_base_request,
+                    d_value=ticket.d_value,
+                    k_value=device.k,
+                )
+                bulk_rows.append(
+                    {
+                        "mode": mode,
+                        "field": field,
+                        "iteration": iteration + 1,
+                        **result.row(),
+                    }
+                )
+
+    ablation_summary: dict[str, dict[str, Any]] = {}
+    per_field_rows: list[dict[str, Any]] = []
+    for mode in MODES:
+        mode_rows = [row for row in bulk_rows if row["mode"] == mode]
+        outcomes = Counter(row["outcome"] for row in mode_rows)
+        ablation_summary[mode] = {
+            "attacks": len(mode_rows),
+            "outcomes": dict(sorted(outcomes.items())),
+            "mean_distinct_valid_responses": round(
+                statistics.fmean(row["distinct_valid_responses"] for row in mode_rows), 6
+            ),
+            "cached_responses": sum(row["cached_responses"] for row in mode_rows),
+            "context_conflict_aborts": sum(row["context_conflict_aborts"] for row in mode_rows),
+            "new_c_computations": sum(row["new_c_computations"] for row in mode_rows),
+            "trace_requests": sum(row["trace_requests"] for row in mode_rows),
+            "accepted_trace_evidence": sum(row["accepted_trace_evidence"] for row in mode_rows),
+            "false_traces": sum(row["false_trace"] for row in mode_rows),
+            "false_trace_rate": round(sum(row["false_trace"] for row in mode_rows) / len(mode_rows), 6),
+            "processing_p50_us": round(statistics.median(row["processing_us"] for row in mode_rows), 3),
+            "processing_p95_us": round(percentile([row["processing_us"] for row in mode_rows], 0.95), 3),
+        }
+        for field in config["attack_fields"]:
+            selected = [row for row in mode_rows if row["field"] == field]
+            per_field_rows.append(
+                {
+                    "mode": mode,
+                    "field": field,
+                    "attacks": len(selected),
+                    "outcome": selected[0]["outcome"],
+                    "mean_distinct_valid_responses": round(statistics.fmean(row["distinct_valid_responses"] for row in selected), 6),
+                    "cached_responses": sum(row["cached_responses"] for row in selected),
+                    "context_conflict_aborts": sum(row["context_conflict_aborts"] for row in selected),
+                    "new_c_computations": sum(row["new_c_computations"] for row in selected),
+                    "trace_requests": sum(row["trace_requests"] for row in selected),
+                    "accepted_trace_evidence": sum(row["accepted_trace_evidence"] for row in selected),
+                    "false_traces": sum(row["false_trace"] for row in selected),
+                    "false_trace_rate": round(sum(row["false_trace"] for row in selected) / len(selected), 6),
+                    "processing_p50_us": round(statistics.median(row["processing_us"] for row in selected), 3),
+                    "processing_p95_us": round(percentile([row["processing_us"] for row in selected], 0.95), 3),
+                }
+            )
+    scaling_rows = challenge_scale(challenge_counts)
+    client_source_path = workspace_root / "pysim-aura-integration" / "pySim" / "esim" / "aura" / "client.py"
     log_source_path = (
-        workspace_root / "aura-rsp" / "src" / "aura_rsp" / "local_ticket_log.py"
+        workspace_root / "pysim-aura-integration" / "pySim" / "esim" / "aura" / "local_ticket_log.py"
     )
     client_source = client_source_path.read_text(encoding="utf-8")
     log_source = log_source_path.read_text(encoding="utf-8")
@@ -1056,8 +1250,8 @@ def main() -> int:
     )
     audit = {
         "source_files": [
-            "aura-rsp/src/aura_rsp/client.py",
-            "aura-rsp/src/aura_rsp/local_ticket_log.py",
+            "pysim-aura-integration/pySim/esim/aura/client.py",
+            "pysim-aura-integration/pySim/esim/aura/local_ticket_log.py",
         ],
         "source_sha256": hashlib.sha256(client_source.encode("utf-8")).hexdigest(),
         "local_ticket_log_sha256": hashlib.sha256(
@@ -1104,6 +1298,20 @@ def main() -> int:
             "false_trace": current_false_trace,
             "g7_implementation_result": "PASS",
         },
+        "experiment_design": {
+            "attacks_per_field_per_mode": attacks_per_field,
+            "fields": len(config["attack_fields"]),
+            "attacks_per_mode": attacks_per_field * len(config["attack_fields"]),
+            "total_bulk_trials": len(bulk_rows),
+            "challenge_counts": challenge_counts,
+            "bulk_layer": "production-check-derived state-machine trials calibrated by real BBS+ proofs",
+            "crypto_calibration": "one real production proof outcome per field/mechanism class",
+            "ablation_boundary": "experiment-only; not supported AURA-RSP operating modes",
+        },
+        "crypto_calibration": crypto_calibration,
+        "ablation_summary": ablation_summary,
+        "challenge_scaling": scaling_rows,
+        "per_field_results": per_field_rows,
         "source_audit": audit,
         "results_directory": str(output),
     }
@@ -1176,6 +1384,58 @@ def main() -> int:
         report["scope"]["existing_protocol_source_modified"],
         True,
     )
+    check(
+        assertions,
+        "bulk_trial_count_is_8_fields_x_1000_x_3_modes",
+        len(bulk_rows) == len(config["attack_fields"]) * attacks_per_field * len(MODES),
+        len(bulk_rows),
+        len(config["attack_fields"]) * attacks_per_field * len(MODES),
+    )
+    check(
+        assertions,
+        "full_aura_never_generates_second_valid_response_or_false_trace",
+        ablation_summary[FULL]["mean_distinct_valid_responses"] == 1
+        and ablation_summary[FULL]["false_traces"] == 0
+        and ablation_summary[FULL]["new_c_computations"] == 0,
+        ablation_summary[FULL],
+        "distinct=1, false_traces=0, new_c=0",
+    )
+    check(
+        assertions,
+        "no_log_ablation_exposes_only_server_mutable_fields",
+        ablation_summary[NO_LOG]["false_traces"] == attacks_per_field * len(SERVER_MUTABLE_FIELDS)
+        and ablation_summary[NO_LOG]["new_c_computations"] == attacks_per_field * len(SERVER_MUTABLE_FIELDS),
+        ablation_summary[NO_LOG],
+        f"false_traces=new_c={attacks_per_field * len(SERVER_MUTABLE_FIELDS)}",
+    )
+    check(
+        assertions,
+        "key_only_cache_returns_stale_response_but_does_not_create_trace_evidence",
+        ablation_summary[KEY_ONLY]["cached_responses"] == attacks_per_field * len(SERVER_MUTABLE_FIELDS)
+        and ablation_summary[KEY_ONLY]["false_traces"] == 0
+        and ablation_summary[KEY_ONLY]["accepted_trace_evidence"] == 0,
+        ablation_summary[KEY_ONLY],
+        "cached=4000, false_traces=0, accepted_evidence=0",
+    )
+    vulnerable_calibration = [
+        field for field in SERVER_MUTABLE_FIELDS
+        if crypto_calibration[field]["without_local_ticket_log"].get("correct_honest_eid_recovered")
+    ]
+    check(
+        assertions,
+        "real_bbs_calibration_recovers_honest_eid_without_local_log",
+        vulnerable_calibration == list(SERVER_MUTABLE_FIELDS),
+        vulnerable_calibration,
+        list(SERVER_MUTABLE_FIELDS),
+    )
+    check(
+        assertions,
+        "challenge_scaling_matches_local_log_invariants",
+        all(row["distinct_valid_responses"] == 1 for row in scaling_rows if row["mode"] in (FULL, KEY_ONLY))
+        and next(row for row in scaling_rows if row["mode"] == NO_LOG and row["malicious_challenges"] == 128)["distinct_valid_responses"] == 129,
+        scaling_rows,
+        "full/key-only remain 1; no-log reaches 129",
+    )
     report["assertions"] = assertions
     report["assertions_passed"] = all(item["passed"] for item in assertions)
     report["execution_ms"] = round((time.perf_counter() - started) * 1000, 3)
@@ -1189,11 +1449,16 @@ def main() -> int:
         current_replay_request,
     )
     write_jsonl(output / "raw" / "attack-materials.jsonl", all_attack_materials)
+    write_jsonl(output / "raw" / "bulk-trials.jsonl", bulk_rows)
+    write_csv(output / "raw" / "bulk-trials.csv", bulk_rows)
+    write_csv(output / "raw" / "per-field-results.csv", per_field_rows)
+    write_csv(output / "raw" / "challenge-scaling.csv", scaling_rows)
     current_events = [event for event in events if event["mode"] == "current_source"]
     write_jsonl(output / "raw" / "events.jsonl", current_events)
     write_csv(output / "raw" / "events.csv", current_events)
     write_json(output / "evidence" / "source-audit.json", audit)
     write_json(output / "evidence" / "current-eum-trace.json", current_eum)
+    write_json(output / "evidence" / "crypto-calibration.json", crypto_calibration)
     write_json(output / "evidence" / "assertions.json", assertions)
     write_json(output / "summary.json", report)
     write_csv(
@@ -1220,7 +1485,7 @@ def main() -> int:
 3. 上下文不同时抛出`LocalTicketContextConflict`，不调用证明生成器；
 4. 旧版仅保存哈希的记录采取失败关闭，避免不安全地生成第二份响应。
 
-实验5直接调用`aura_rsp.local_ticket_log`生产模块。修复后八种字段修改均未生成
+实验5直接调用`pySim.esim.aura.local_ticket_log`生产模块。完整实现下八种字段修改均未生成
 第二份不同有效响应，EUM因只有一份不同有效证据而返回
 `insufficient_valid_evidence`，诚实设备未被错误追踪。
 
@@ -1239,6 +1504,14 @@ def main() -> int:
         "current_source_eid_recovered": current_eum["eid_recovered"],
         "current_source_vulnerable_fields": vulnerable_fields,
         "current_source_false_trace": current_false_trace,
+        "bulk_trials": len(bulk_rows),
+        "full_aura_false_trace_rate": ablation_summary[FULL]["false_trace_rate"],
+        "no_log_false_trace_rate": ablation_summary[NO_LOG]["false_trace_rate"],
+        "key_only_false_trace_rate": ablation_summary[KEY_ONLY]["false_trace_rate"],
+        "no_log_distinct_at_128_challenges": next(
+            row["distinct_valid_responses"] for row in scaling_rows
+            if row["mode"] == NO_LOG and row["malicious_challenges"] == 128
+        ),
         "assertions_passed": report["assertions_passed"],
         "results": str(output),
     }

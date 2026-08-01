@@ -1,1 +1,0 @@
-pm uninstall "{PKG_NAME}"

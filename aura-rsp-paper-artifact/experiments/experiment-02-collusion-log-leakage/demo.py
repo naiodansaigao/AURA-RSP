@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """Experiment 02: MNO/Reseller collusion and leaked SM-DP+ logs.
 
-The program generates controlled protocol-visible logs and then evaluates what
-an attacker can reconstruct.  It does not claim to execute one thousand live
-RSP network downloads.  Lifecycle rows are controlled audit-log semantics,
-because the current AURA demo does not implement the complete lifecycle state
-machine.
+The program generates implementation-derived protocol-visible logs and then
+evaluates what an attacker can reconstruct.  It does not claim to execute one
+thousand live RSP network downloads.  AURA lifecycle rows use the integrated
+install-receipt and authenticated state-receipt formulas.
 """
 
 from __future__ import annotations
@@ -26,6 +25,8 @@ import unicodedata
 from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Iterable
+
+from integration_adapter import IntegratedLogFactory
 
 
 LANG = {
@@ -212,6 +213,7 @@ def derived_profile_hash(
 def generate_logs(
     config: dict[str, Any],
     base_profile: bytes,
+    implementation: IntegratedLogFactory,
 ) -> tuple[
     list[dict[str, Any]],
     list[dict[str, Any]],
@@ -225,9 +227,7 @@ def generate_logs(
     for device_index in range(int(config["device_count"])):
         device = f"Device-{device_index + 1:04d}"
         eid = "89049032" + f"{device_index + 1:024d}"
-        cert_fp = tokens.hex("standard-cert", device)
-        pub_fp = tokens.hex("standard-pub", device)
-        hidden_x = tokens.raw("aura-hidden-x", device)
+        identity = implementation.standard_device_identity(device, eid)
         for mno_index, mno in enumerate(config["mnos"]):
             logical_id = f"D{device_index + 1:04d}-M{mno_index + 1:02d}"
             profile_hash = derived_profile_hash(base_profile, tokens, logical_id)
@@ -236,10 +236,7 @@ def generate_logs(
                     "logical_id": logical_id,
                     "true_device_id": device,
                     "mno": mno,
-                    "eid": eid,
-                    "cert_fp": cert_fp,
-                    "pub_fp": pub_fp,
-                    "hidden_x": hidden_x,
+                    "identity": identity,
                     "profile_hash": profile_hash,
                     "profile_size": len(base_profile),
                     "order_time": 1_800_000_000
@@ -259,7 +256,7 @@ def generate_logs(
             "mno": slot["mno"],
             "order_id": "ORDER-" + tokens.hex("order", logical_id, 12).upper(),
             "test_account_id": "ACCOUNT-" + tokens.hex("account", logical_id, 12),
-            "sid": config["aura_sid"],
+            "sid": implementation.config["sid"],
             "pid_h": slot["profile_hash"],
             "op": "download",
             "order_time_unix": slot["order_time"],
@@ -275,45 +272,48 @@ def generate_logs(
                 transaction_id = tokens.hex("std-transaction", logical_id, 16).upper()
                 authorization_kind = "matching_id"
                 identity_fields = {
-                    "eid": slot["eid"],
-                    "euicc_certificate_fingerprint": slot["cert_fp"],
-                    "euicc_public_key_fingerprint": slot["pub_fp"],
-                    "euicc_signature_hash": tokens.hex("std-signature", logical_id),
+                    **slot["identity"],
+                    "euicc_signature_hash": implementation.standard_auth_hash(
+                        transaction_id=transaction_id,
+                        identity=slot["identity"],
+                        logical_id=logical_id,
+                    ),
                 }
                 transcript_fields = {
                     "matching_id": activation_handle,
-                    "server_challenge": tokens.hex("std-challenge", logical_id, 16),
-                }
-                lifecycle_link = slot["eid"]
-            else:
-                activation_handle = (
-                    "IAC-" + tokens.hex("aura-iac", logical_id, 16).upper()
-                )
-                transaction_id = tokens.hex("aura-transaction", logical_id, 16).upper()
-                authorization_kind = "I_ac"
-                salt_p = tokens.raw("aura-profile-salt", logical_id)
-                lph = b64(
-                    hmac.new(
-                        slot["hidden_x"],
-                        b"AURA-lph:"
-                        + bytes.fromhex(slot["profile_hash"])
-                        + salt_p,
-                        hashlib.sha256,
-                    ).digest()
-                )
-                identity_fields = {}
-                transcript_fields = {
-                    "nu": tokens.b64("aura-nullifier", logical_id, 48),
-                    "lph": lph,
-                    "opid": tokens.b64("aura-opid", logical_id, 16),
-                    "vk_t": tokens.b64("aura-vk-t", logical_id, 32),
-                    "proof_hash": tokens.hex("aura-proof", logical_id),
-                    "Bind_t_hash": tokens.hex("aura-bind", logical_id),
-                    "session_public_key": tokens.b64(
-                        "aura-session-public", logical_id, 65
+                    "server_challenge": tokens.b64(
+                        "standard-server-challenge", logical_id, 32
                     ),
                 }
-                lifecycle_link = lph
+                lifecycle_link = slot["identity"]["eid"]
+                lifecycle_evidence = [
+                    {
+                        "event": event,
+                        "counter": counter,
+                        "state": counter,
+                        "last_hash": "",
+                        "receipt_hash": tokens.hex(
+                            f"standard-lifecycle-{event}", logical_id
+                        ),
+                        "semantic_scope": "standard_smdpp_audit_log",
+                    }
+                    for counter, event in enumerate(config["lifecycle_events"])
+                ]
+            else:
+                transaction_id = tokens.hex("aura-transaction", logical_id, 16).upper()
+                transcript_fields, lifecycle_evidence = (
+                    implementation.aura_download_bundle(
+                        device_id=slot["true_device_id"],
+                        logical_id=logical_id,
+                        transaction_id=transaction_id,
+                        pid_h=slot["profile_hash"],
+                        timestamp=slot["order_time"],
+                    )
+                )
+                activation_handle = transcript_fields["I_ac"]
+                authorization_kind = "I_ac"
+                identity_fields = {}
+                lifecycle_link = transcript_fields["lph"]
 
             mno_logs.append(
                 {
@@ -333,7 +333,9 @@ def generate_logs(
                     "protocol_mode": mode,
                     "transaction_id": transaction_id,
                     "I_ac": activation_handle,
-                    "sid": config["aura_sid"],
+                    "sid": transcript_fields.get(
+                        "sid", implementation.config["sid"]
+                    ),
                     "pid_h": slot["profile_hash"],
                     "op": "download",
                     "mno": slot["mno"],
@@ -350,7 +352,7 @@ def generate_logs(
                     **transcript_fields,
                 }
             )
-            for counter, lifecycle_event in enumerate(config["lifecycle_events"], 1):
+            for evidence in lifecycle_evidence:
                 lifecycle_logs.append(
                     {
                         "protocol_mode": mode,
@@ -359,10 +361,10 @@ def generate_logs(
                         "pid_h": slot["profile_hash"],
                         "mno": slot["mno"],
                         "lifecycle_link": lifecycle_link,
-                        "event": lifecycle_event,
-                        "counter": counter,
-                        "event_time_unix": slot["order_time"] + 30 + counter * 10,
-                        "semantic_scope": "controlled_audit_log",
+                        **evidence,
+                        "event_time_unix": slot["order_time"]
+                        + 30
+                        + int(evidence["counter"]) * 10,
                     }
                 )
             truth.append(
@@ -564,6 +566,17 @@ def analyze_leakage(
     complete_lifecycle = sum(
         count == lifecycle_events_per_profile for count in events_by_profile.values()
     )
+    lifecycle_by_cluster: dict[str, list[dict[str, Any]]] = defaultdict(list)
+    for row in lifecycle:
+        prefix = "STD:" if mode == "standard_rsp" else "AURA:"
+        lifecycle_by_cluster[prefix + row["lifecycle_link"]].append(row)
+    download_records_per_cluster = [len(members) for members in clusters.values()]
+    mnos_per_cluster = [
+        len({row["mno"] for row in members}) for members in clusters.values()
+    ]
+    lifecycle_records_per_cluster = [
+        len(lifecycle_by_cluster.get(cluster_id, [])) for cluster_id in clusters
+    ]
     metrics.update(
         {
             "leaked_download_records": len(rows),
@@ -575,7 +588,16 @@ def analyze_leakage(
                 6,
             ),
             "lifecycle_events_per_profile": lifecycle_events_per_profile,
-            "lifecycle_scope": "controlled_audit_log_semantics",
+            "lifecycle_scope": "integrated_authenticated_state_chain_logs",
+            "mean_download_records_per_cluster": round(
+                statistics.mean(download_records_per_cluster), 6
+            ),
+            "mean_mnos_per_cluster": round(
+                statistics.mean(mnos_per_cluster), 6
+            ),
+            "mean_lifecycle_records_per_cluster": round(
+                statistics.mean(lifecycle_records_per_cluster), 6
+            ),
         }
     )
     return metrics, per_device, clusters
@@ -898,7 +920,7 @@ def write_paper_outputs(
 
 图3  泄露日志重建关系示例。AURA-RSP并不隐藏某个订单已经完成下载，也不阻止同一lph下的生命周期事件关联；它阻止的是把不同票据和不同Profile生命周期继续归并为同一物理eUICC。
 
-注：本实验为受控协议可见日志实验，并未执行每种协议{report["design"]["transactions_per_protocol"]}次完整网络下载。生命周期记录用于验证关联语义，当前AURA demo尚未实现论文中的完整生命周期状态机。
+注：本实验为集成实现派生的协议可见日志实验，并未执行每种协议{report["design"]["transactions_per_protocol"]}次完整网络下载。AURA生命周期记录使用集成版安装收据和认证状态收据公式；完整HTTPS闭环由集成回归测试单独覆盖。
 """
     captions_en = f"""Figure 1. Collusion between MNO/Reseller logs and a shared SM-DP+. In both modes, an order authorization handle links an MNO order to its current download. Standard RSP additionally exposes stable EID, eUICC-certificate, and public-key values that recover cross-MNO device history; AURA-RSP does not form a device cluster across distinct profile lifecycles.
 
@@ -906,7 +928,7 @@ Figure 2. History impact radius after SM-DP+ log leakage. Each leaked Standard R
 
 Figure 3. Example relationship reconstruction from leaked logs. AURA-RSP does not hide that a specific order completed a download, nor does it prevent events under the same lph from being linked. It prevents distinct tickets and profile lifecycles from being merged into one physical-eUICC history.
 
-Note: this is a controlled protocol-visible log experiment; it does not execute {report["design"]["transactions_per_protocol"]} complete network downloads per protocol. Lifecycle rows evaluate linkage semantics because the current AURA demo does not implement the paper's complete lifecycle state machine.
+Note: this is an implementation-derived protocol-visible log experiment; it does not execute {report["design"]["transactions_per_protocol"]} complete network downloads per protocol. AURA lifecycle rows use the integrated install-receipt and authenticated state-receipt formulas; complete HTTPS execution is covered separately by the integration regression suite.
 """
     (paper / "captions-and-analysis-zh.txt").write_text(
         captions_zh, encoding="utf-8"
@@ -1049,7 +1071,7 @@ def summary_markdown(report: dict[str, Any]) -> str:
 - 两种协议都允许MNO确认自己的订单和Profile已经完成下载；AURA-RSP并不隐藏业务事实。
 - Standard RSP中的稳定EID、证书和公钥把日志泄露影响扩大为完整设备历史。
 - AURA-RSP把可关联范围限制到一个订单和一个Profile生命周期，不把不同Profile继续连接到同一物理eUICC。
-- 生命周期记录是受控日志关联语义；当前AURA demo尚未实现论文中的完整生命周期状态机。
+- AURA生命周期记录由集成版安装收据和认证状态收据公式生成；完整HTTPS闭环由集成回归测试单独覆盖。
 """
 
 
@@ -1065,15 +1087,20 @@ def main() -> int:
     started = time.perf_counter()
     config_path = args.config.resolve()
     experiment_root = Path(__file__).resolve().parent
+    integration_root = (experiment_root / "../../pysim-aura-integration").resolve()
     config = load_config(config_path)
     if args.devices is not None:
         config["device_count"] = args.devices
     base_profile = load_profile(config_path, config)
+    tokens = DeterministicTokens(int(config["seed"]))
+    implementation = IntegratedLogFactory(integration_root, tokens)
     prepare_output(args.output, experiment_root)
     output = args.output.resolve()
 
-    mno_logs, smdpp_logs, lifecycle_logs, truth = generate_logs(config, base_profile)
-    second = generate_logs(config, base_profile)
+    mno_logs, smdpp_logs, lifecycle_logs, truth = generate_logs(
+        config, base_profile, implementation
+    )
+    second = generate_logs(config, base_profile, implementation)
     reproducible = all(
         sha256_records(first_rows) == sha256_records(second_rows)
         for first_rows, second_rows in zip(
@@ -1238,6 +1265,39 @@ def main() -> int:
         result_2b["aura_rsp"]["within_profile_lifecycle_link_rate"],
         "1.0",
     )
+    exposure_radius = {
+        "standard_downloads": result_2b["standard_rsp"][
+            "mean_download_records_per_cluster"
+        ],
+        "aura_downloads": result_2b["aura_rsp"][
+            "mean_download_records_per_cluster"
+        ],
+        "standard_mnos": result_2b["standard_rsp"]["mean_mnos_per_cluster"],
+        "aura_mnos": result_2b["aura_rsp"]["mean_mnos_per_cluster"],
+        "standard_lifecycle": result_2b["standard_rsp"][
+            "mean_lifecycle_records_per_cluster"
+        ],
+        "aura_lifecycle": result_2b["aura_rsp"][
+            "mean_lifecycle_records_per_cluster"
+        ],
+    }
+    expected_exposure_radius = {
+        "standard_downloads": float(len(config["mnos"])),
+        "aura_downloads": 1.0,
+        "standard_mnos": float(len(config["mnos"])),
+        "aura_mnos": 1.0,
+        "standard_lifecycle": float(
+            len(config["mnos"]) * len(config["lifecycle_events"])
+        ),
+        "aura_lifecycle": float(len(config["lifecycle_events"])),
+    }
+    assertion(
+        assertions,
+        "2b_exposure_radius_aggregates_consistent",
+        exposure_radius == expected_exposure_radius,
+        exposure_radius,
+        expected_exposure_radius,
+    )
     assertion(
         assertions,
         "no_false_device_links",
@@ -1257,7 +1317,7 @@ def main() -> int:
     report = {
         "experiment": config["experiment_name"],
         "status": status,
-        "method": "controlled_protocol_visible_log_experiment",
+        "method": "implementation_derived_protocol_visible_log_experiment",
         "design": {
             "seed": config["seed"],
             "device_count": config["device_count"],
@@ -1266,10 +1326,11 @@ def main() -> int:
             "profiles_per_device": len(config["mnos"]),
             "transactions_per_protocol": expected_per_mode,
             "complete_network_downloads_executed": False,
-            "lifecycle_scope": "controlled_audit_log_semantics",
+            "lifecycle_scope": "integrated_authenticated_state_chain_logs",
             "unique_test_account_per_order": True,
             "profile_source_sha256": hashlib.sha256(base_profile).hexdigest(),
             "profile_bytes": len(base_profile),
+            "implementation_audit": implementation.audit(),
         },
         "subexperiment_2a_collusion": result_2a,
         "subexperiment_2b_log_leakage": result_2b,

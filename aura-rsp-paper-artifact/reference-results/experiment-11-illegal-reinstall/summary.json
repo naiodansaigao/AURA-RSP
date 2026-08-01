@@ -1,0 +1,93 @@
+{
+  "assertions": {
+    "all_eight_illegal_reinstall_subtests_rejected": true,
+    "exact_latest_retry_idempotent": true,
+    "legal_tombstone_to_installed": true,
+    "old_receipt_rejected_after_chain_advance": true
+  },
+  "assertions_passed": 4,
+  "assertions_total": 4,
+  "execution_ms": 2331.487,
+  "experiment": "experiment-11-illegal-reinstall",
+  "implementation": "pysim-osmo-smdpp-integrated-aura",
+  "metrics": {
+    "attacks_rejected": 8,
+    "attacks_total": 8,
+    "illegal_business_executions": 0,
+    "illegal_state_changes": 0,
+    "legal_final_state": "installed",
+    "legal_lph_preserved": true,
+    "legal_reinstall_accepted": true
+  },
+  "migration_comparison": {
+    "conclusion_unchanged": true,
+    "previous_status": "PASS"
+  },
+  "scenarios": [
+    {
+      "accepted": false,
+      "passed": true,
+      "reason": "INVALID_STATE_TRANSITION",
+      "scenario": "installed_direct_reinstall"
+    },
+    {
+      "accepted": false,
+      "passed": true,
+      "reason": "INVALID_STATE_TRANSITION",
+      "scenario": "enabled_direct_reinstall"
+    },
+    {
+      "accepted": false,
+      "passed": true,
+      "reason": "INVALID_STATE_TRANSITION",
+      "scenario": "disabled_direct_reinstall"
+    },
+    {
+      "accepted": false,
+      "passed": true,
+      "reason": "UNKNOWN_LPH",
+      "scenario": "wrong_lph"
+    },
+    {
+      "accepted": false,
+      "passed": true,
+      "reason": "PROFILE_CONTEXT_MISMATCH",
+      "scenario": "new_salt_p"
+    },
+    {
+      "accepted": false,
+      "passed": true,
+      "reason": "INVALID_OR_EXPIRED_ORDER",
+      "scenario": "old_ticket"
+    },
+    {
+      "accepted": false,
+      "passed": true,
+      "reason": "STALE_RECEIPT_REPLAY",
+      "scenario": "old_reinstall_receipt"
+    },
+    {
+      "accepted": false,
+      "passed": true,
+      "reason": "COUNTER_MISMATCH+LAST_HASH_MISMATCH",
+      "scenario": "counter_or_last_hash_tamper"
+    },
+    {
+      "accepted": true,
+      "exact_retry_idempotent": true,
+      "passed": true,
+      "same_lifecycle": true,
+      "scenario": "legal_tombstone_reinstall",
+      "state": "installed"
+    }
+  ],
+  "source_audit": {
+    "modules": {
+      "pySim/esim/aura/lifecycle.py": "e75a436f35a1b6c7db16173ee57c7049f4fab226a30e3f049e885e336b9edb00",
+      "pySim/esim/aura/lifecycle_selftest.py": "3a82fb9a335617cfca30cb5299a54a00af23bfb0bc7bd4c8d2595ef390931222",
+      "pySim/esim/aura/service.py": "b2a33b08ec9c52184594e750d2fb18f5b5cd58decfc03de9ab9449fdf56bea6f"
+    }
+  },
+  "standard_baseline_status": "UNSUPPORTED",
+  "status": "PASS"
+}

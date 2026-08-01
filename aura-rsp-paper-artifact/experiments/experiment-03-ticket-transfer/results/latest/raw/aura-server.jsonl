@@ -1,4 +1,0 @@
-{"event": "initiateAuthentication", "transactionId": "311E46035A474703B2D336F7302E6168", "ts": 1785413139.4765577}
-{"event": "authenticateClient", "proof_bytes": 1975, "proof_verify_ms": 1279.705378023209, "transactionId": "311E46035A474703B2D336F7302E6168", "ts": 1785413118.557324}
-{"event": "initiateAuthentication", "transactionId": "3B5FC8909ED4FF9EFFB242F66C984F2F", "ts": 1785413118.574241}
-{"event": "authenticateClientRejected", "proof_verify_ms": 1065.4623479931615, "reason": "BBS+ randomized signature pairing failed", "transactionId": "3B5FC8909ED4FF9EFFB242F66C984F2F", "ts": 1785413121.1985102}

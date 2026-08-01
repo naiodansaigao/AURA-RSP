@@ -27,6 +27,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Iterable
 
+from integration_adapter import IntegratedTranscriptFactory
+
 
 PAIR_FEATURES = [
     "eq_eid",
@@ -211,6 +213,7 @@ def derived_profile(base_profile: bytes, tokens: DeterministicTokens, logical_id
 def generate_dataset(
     config: dict[str, Any],
     base_profile: bytes,
+    implementation: IntegratedTranscriptFactory,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]], list[dict[str, Any]]]:
     seed = int(config["seed"])
     rng = random.Random(seed)
@@ -223,9 +226,7 @@ def generate_dataset(
     for device_index in range(count):
         device_id = f"Device-{device_index + 1:02d}"
         eid = "89049032" + f"{device_index + 1:024d}"
-        cert_fp = tokens.hex("standard-cert-fingerprint", device_id)
-        pubkey_fp = tokens.hex("standard-pubkey-fingerprint", device_id)
-        device_secret = tokens.raw("aura-hidden-x", device_id)
+        identity = implementation.standard_device_identity(device_id, eid)
         for mno_index, mno in enumerate(mnos):
             logical_id = f"D{device_index + 1:02d}-M{mno_index + 1:02d}"
             profile = derived_profile(base_profile, tokens, logical_id)
@@ -237,9 +238,7 @@ def generate_dataset(
                     "true_device_id": device_id,
                     "mno": mno,
                     "eid": eid,
-                    "cert_fp": cert_fp,
-                    "pubkey_fp": pubkey_fp,
-                    "device_secret": device_secret,
+                    "identity": identity,
                     "profile_hash": profile_hash,
                     "profile_size": len(profile),
                     "timestamp_offset": rng.randrange(int(config["time_window_seconds"])),
@@ -274,10 +273,12 @@ def generate_dataset(
             "protocol_mode": "standard_rsp",
             "transaction_id": standard_tx,
             **common,
-            "eid": slot["eid"],
-            "euicc_certificate_fingerprint": slot["cert_fp"],
-            "euicc_public_key_fingerprint": slot["pubkey_fp"],
-            "euicc_signature_hash": tokens.hex("standard-signature", logical_id),
+            **slot["identity"],
+            "euicc_signature_hash": implementation.standard_auth_hash(
+                transaction_id=standard_tx,
+                identity=slot["identity"],
+                logical_id=logical_id,
+            ),
             "matching_id": "MID-" + tokens.hex("matching-id", logical_id, 12),
         }
         standard.append(standard_record)
@@ -291,53 +292,19 @@ def generate_dataset(
         )
 
         aura_tx = tokens.hex("aura-transaction", logical_id, 16).upper()
-        salt_p = tokens.raw("aura-profile-salt", logical_id)
         pid_h = slot["profile_hash"]
-        lph = b64(
-            hmac.new(
-                slot["device_secret"],
-                b"AURA-lph:" + bytes.fromhex(pid_h) + salt_p,
-                hashlib.sha256,
-            ).digest()
-        )
-        nu = tokens.b64("aura-ticket-nullifier", logical_id, 48)
-        opid = tokens.b64("aura-opid", logical_id, 16)
-        vk_t = tokens.b64("aura-vk-t", logical_id, 32)
-        proof_seed = canonical_json(
-            {
-                "I_ac": "IAC-" + tokens.hex("aura-iac", logical_id, 16).upper(),
-                "pid_h": pid_h,
-                "nu": nu,
-                "lph": lph,
-                "opid": opid,
-                "vk_t": vk_t,
-            }
-        )
-        proof_hash = sha256_text(proof_seed + tokens.hex("aura-proof", logical_id))
-        bind_hash = sha256_text(
-            "AURA-RSP-v14:bind:" + proof_hash + aura_tx + pid_h
+        aura_fields = implementation.aura_public_fields(
+            device_id=slot["true_device_id"],
+            logical_id=logical_id,
+            transaction_id=aura_tx,
+            pid_h=pid_h,
+            timestamp=timestamp,
         )
         aura_record = {
             "protocol_mode": "aura_rsp",
             "transaction_id": aura_tx,
             **common,
-            "I_ac": "IAC-" + tokens.hex("aura-iac", logical_id, 16).upper(),
-            "I_t": tokens.b64("aura-I-t", logical_id, 16),
-            "sid": config["aura_sid"],
-            "pid_h": pid_h,
-            "op": "download",
-            "nu": nu,
-            "lph": lph,
-            "opid": opid,
-            "vk_t": vk_t,
-            "proof_hash": proof_hash,
-            "Bind_t_hash": bind_hash,
-            "session_public_key": tokens.b64("aura-session-pubkey", logical_id, 65),
-            "N_U": tokens.b64("aura-N-U", logical_id, 16),
-            "N_S": tokens.b64("aura-N-S", logical_id, 16),
-            "serverOID": config["aura_server_oid"],
-            "PRaddr": config["aura_praddr"],
-            "cap": list(config["aura_capabilities"]),
+            **aura_fields,
         }
         aura.append(aura_record)
         truth.append(
@@ -1482,11 +1449,22 @@ def main() -> int:
     if args.devices is not None:
         config["device_count"] = args.devices
     profile = resolved_profile(config_path, config)
+    integration_root = (
+        config_path.parent / config["integration_root"]
+    ).resolve()
+    implementation = IntegratedTranscriptFactory(
+        integration_root,
+        DeterministicTokens(int(config["seed"])),
+    )
     prepare_output(args.output, experiment_root)
     output = args.output.resolve()
 
-    standard, aura, truth = generate_dataset(config, profile)
-    standard_again, aura_again, truth_again = generate_dataset(config, profile)
+    standard, aura, truth = generate_dataset(
+        config, profile, implementation
+    )
+    standard_again, aura_again, truth_again = generate_dataset(
+        config, profile, implementation
+    )
     reproducible = (
         sha256_records(standard) == sha256_records(standard_again)
         and sha256_records(aura) == sha256_records(aura_again)
@@ -1690,6 +1668,7 @@ def main() -> int:
             "profile_source_sha256": hashlib.sha256(profile).hexdigest(),
             "profile_bytes": len(profile),
             "same_network_egress": config["shared_network_egress"],
+            "implementation_audit": implementation.audit(),
         },
         "reproducibility_hashes": {
             "standard_public_transcript_sha256": sha256_records(standard),

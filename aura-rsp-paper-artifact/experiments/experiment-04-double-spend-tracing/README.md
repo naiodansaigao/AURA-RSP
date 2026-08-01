@@ -1,122 +1,87 @@
-# 实验4：票据双花、重放识别与条件追踪
+# 实验4：双花、精确重传与条件追踪
 
-本目录是完全独立的 AURA-RSP 差分实验，不修改：
+本目录是基于 `pysim-aura-integration` 的独立实验。它不再导入旧
+`aura-rsp`，并直接复用集成版的：
 
-- `rsp-baseline/`
-- `aura-rsp/`
-- 实验1、实验2、实验3
+- BBS+ 凭证、操作票据和联合证明；
+- `gamma`、`c`、nullifier 与追踪密钥恢复公式；
+- SM-DP+ 生产双花判定顺序；
+- EUM `k -> EID` 查询语义。
 
-实验真实调用现有 AURA-RSP 的 BBS+ 凭证与票据、匿名证明验证、`UsedNullifier`
-数据库分流、双花追踪公式、EUM 追踪索引、`Bind_t`、P-256 ECDHE、HKDF、
-AES-GCM Profile 下载和安装通知代码。Standard RSP 部分只做稳定身份可见性对照。
-
-## 一条命令运行
-
-在 WSL2 Ubuntu 中执行：
+## 运行
 
 ```bash
-cd /path/to/aura-rsp-paper-artifact/experiments/experiment-04-double-spend-tracing
+cd experiments/experiment-04-double-spend-tracing
 bash ./run_demo.sh
 ```
 
-默认依次打印中文和英文结果。也可以只显示一种语言：
+小规模冒烟测试：
 
 ```bash
-bash ./run_demo.sh --lang zh
-bash ./run_demo.sh --lang en
+bash ./run_demo.sh --tickets 40 --max-db-size 1000 --machine-json
 ```
 
-机器可读取的单行 JSON：
+## 两层测量口径
 
-```bash
-bash ./run_demo.sh --machine-json
-```
+实验明确分离两个阶段，避免混淆：
 
-## 三个子实验
+1. **真实密码学路径**：使用集成版 `create_auth_proof()` 和
+   `verify_auth_proof()` 生成并验证同一票据的两份不同有效转录，随后真实恢复
+   `k` 并查询 EID。
+2. **UsedNullifier 数据库路径**：证明已经验证后，使用与生产服务相同的
+   `classify_nullifier()` 判定函数，在 SQLite WAL、唯一主键和原子事务上测量
+   新记录、精确重传和真正双花的分类延迟。
 
-### 4A 正常单次使用
+因此，图4(a)和图4(c)表示数据库分类阶段，不包含约秒级的BBS12-381配对；
+图4(d)单独给出密码学验证和条件追踪各组成部分。
 
-设备使用一张新票据完成一次匿名认证、Profile 解密、摘要核验和安装通知。
-预期只有一条 `UsedNullifier`，没有追踪记录，公开认证转录中没有 EID。
+## 默认规模
 
-### 4B 完全相同报文重传
+- 每个混合场景：1000张票据；
+- 双花比例：0%、1%、5%、10%、20%、50%；
+- 精确重传次数：1、2、4、8、16；
+- 真正双花转录数：2、4、8；
+- 并发度：1、8、32；
+- 票据到达窗口：0--5000 ms；
+- UsedNullifier：10²、10³、10⁴、10⁵；
+- 每种数据库规模、每类请求：100次真实测量。
 
-攻击代理保存首次认证请求的规范化字节，并逐字节重放。服务器重新验证证明后，
-通过相同 `auth_hash` 识别精确重传，返回原缓存 `Bind_t` 并设置
-`replayed=true`。实验检查只有一次 Profile 交付、一次业务执行和零追踪。
+`10^6` 被保留为可选扩展规模，但默认止于 `10^5`，以避免在论文复现环境中
+生成过大的临时数据库。若需要，可把 `config.json` 的 `sizes` 增加到
+`1000000` 后运行。
 
-### 4C 真正双花
+## 正确语义
 
-恶意 eUICC 测试夹具明确绕过 `LocalTicketLog`，复用同一票据的 `eta,d`，
-在两个不同服务器上下文和不同 `opid` 下生成两份真实有效证明。两份证明具有：
+- 新 nullifier：只执行一次业务并写入一条唯一记录；
+- 完全相同认证报文：返回幂等缓存，不执行第二次业务，不追踪；
+- 相同 nullifier 的不同有效转录：拒绝第二次业务，恢复 `k` 并查询 EID；
+- 同一 `(nu, opid)` 的不同上下文：按集成版生产顺序返回上下文冲突，不作为
+  可追踪双花证据。
 
-- 相同 `nu`；
-- 不同 `gamma`；
-- 不同 `c`；
-- 都能通过现有 `verify_auth_proof`。
-
-服务端拒绝第二次业务执行，并计算：
-
-```text
-k = (c - c') * (gamma - gamma')^(-1) mod q
-```
-
-随后用隔离的 EUM 追踪索引 `L_tr[k]` 恢复违规设备 EID。
-
-## 关键输出
-
-运行结果位于 `results/latest/`：
+## 输出
 
 ```text
 results/latest/
 ├── summary.json
-├── summary.csv
-├── summary.md
 ├── raw/
-│   ├── events.jsonl
-│   ├── events.csv
-│   ├── aura-server-4a.jsonl
-│   ├── aura-server-4b.jsonl
-│   ├── aura-server-4c.jsonl
-│   ├── 4a-auth-request.json
-│   ├── 4b-auth-original.canonical.json
-│   ├── 4b-auth-replay.canonical.json
-│   ├── 4c-first-auth.json
-│   └── 4c-second-auth.json
-├── evidence/
-│   ├── assertions.json
-│   ├── database-4a.json
-│   ├── database-4b.json
-│   ├── database-4c.json
-│   └── 4a-downloaded-profile.der
+│   ├── mixed-events.csv/jsonl
+│   ├── mixed-scenarios.csv
+│   ├── scale-samples.csv
+│   └── trace-breakdown-samples.csv
+├── evidence/assertions.json
 └── paper/
-    ├── figure-1-scenario-outcomes-zh.svg
-    ├── figure-1-scenario-outcomes-en.svg
-    ├── figure-2-replay-double-spend-flow-zh.svg
-    ├── figure-2-replay-double-spend-flow-en.svg
-    ├── table-1-double-spend-results-zh.csv
-    ├── table-1-double-spend-results-en.csv
-    ├── captions-and-analysis-zh.txt
-    └── captions-and-analysis-en.txt
+    ├── figure-4a-nullifier-scale-latency.png
+    ├── figure-4b-request-outcomes.png
+    ├── figure-4c-nullifier-latency-scatter.png
+    ├── figure-4d-tracing-breakdown.png
+    └── table-4-mixed-load.csv
 ```
 
-论文中最直接使用的四个指标是：
+四张PNG均使用英文、大字号、粗线条、紧凑裁边和600 DPI。
 
-- `trace_success`
-- `recovered_eid_matches_malicious_device`
-- `false_trace_count`
-- `business_execution_count`
+## 边界
 
-## 如何理解 Standard 对照
-
-Standard RSP 从第一次正常 eUICC 认证起就可以看到 EID、eUICC 证书或稳定指纹，
-因此不存在“平时匿名、违规后才追踪”的状态区分。这是标准身份认证的预期行为，
-本实验不把它描述为消息完整性漏洞。
-
-## 实验边界
-
-- EUM 查询在本 demo 中由隔离的本地 `eum-trace.sqlite` 模拟，验证的是追踪触发条件、
-  恢复公式和正确性；生产系统应拆成独立 EUM 服务和最小权限查询接口。
-- 固定种子控制场景、上下文标签和测试材料；BBS+/P-256/Ed25519 的临时随机数仍使用
-  密码学安全随机源，所以原始证明字节和耗时每次会变化，机器安全结论应保持一致。
-- 本实验不测试生命周期状态机，也不把纯阻断型 DoS 纳入安全失败。
+- 这是研究原型的本地 SQLite 性能测试，不代表工业集群数据库吞吐。
+- 入口到达窗口用于制造受控并发，不计入单条请求的分类延迟。
+- Standard RSP从首次认证起即可获知稳定设备身份，因此没有AURA所定义的
+  “正常匿名、双花后条件追踪”区分；本实验不把Standard的身份认证描述为漏洞。

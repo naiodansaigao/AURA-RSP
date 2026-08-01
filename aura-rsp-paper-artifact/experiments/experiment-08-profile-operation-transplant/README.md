@@ -9,7 +9,7 @@
 在WSL2 Ubuntu中执行：
 
 ```bash
-cd /path/to/aura-rsp-paper-artifact/experiments/experiment-08-profile-operation-transplant
+cd experiments/experiment-08-profile-operation-transplant
 bash ./run_demo.sh
 ```
 

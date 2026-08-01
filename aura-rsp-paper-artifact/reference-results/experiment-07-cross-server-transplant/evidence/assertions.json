@@ -1,0 +1,7 @@
+{
+  "all_cross_server_transplants_rejected": true,
+  "no_attack_bind_t": true,
+  "no_attack_profile_delivery": true,
+  "positive_server_a_authenticates": true,
+  "positive_server_b_authenticates": true
+}

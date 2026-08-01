@@ -1,0 +1,67 @@
+{
+  "all_checkpoints_found": true,
+  "checkpoints": {
+    "authority_private_key_storage": {
+      "file": "../../pysim-aura-integration/pySim/esim/aura/bootstrap.py",
+      "line": 99,
+      "pattern": "\"secret_key\": scalar_to_b64(eum_sk)"
+    },
+    "binding_signature": {
+      "file": "../../pysim-aura-integration/pySim/esim/aura/service.py",
+      "line": 356,
+      "pattern": "bind_t = sign_binding("
+    },
+    "device_x_storage": {
+      "file": "../../pysim-aura-integration/pySim/esim/aura/bootstrap.py",
+      "line": 157,
+      "pattern": "\"x\": scalar_to_b64(x)"
+    },
+    "eum_mno_key_generation": {
+      "file": "../../pysim-aura-integration/pySim/esim/aura/bootstrap.py",
+      "line": 81,
+      "pattern": "eum_sk, eum_pk = keygen()"
+    },
+    "server_auth_signature": {
+      "file": "../../pysim-aura-integration/pySim/esim/aura/service.py",
+      "line": 194,
+      "pattern": "\"serverSignature\": p256_sign(self.server_auth_key, server_auth)"
+    },
+    "shared_x_witness": {
+      "file": "../../pysim-aura-integration/pySim/esim/aura/proof.py",
+      "line": 227,
+      "pattern": "witnesses.update({\"x\": x, \"k\": k, \"eta\": eta, \"d\": d_value})"
+    },
+    "ticket_hidden_d": {
+      "file": "../../pysim-aura-integration/pySim/esim/aura/ticket.py",
+      "line": 116,
+      "pattern": "\"d\": scalar_to_b64(d_value)"
+    },
+    "ticket_hidden_eta": {
+      "file": "../../pysim-aura-integration/pySim/esim/aura/ticket.py",
+      "line": 115,
+      "pattern": "\"eta\": scalar_to_b64(eta)"
+    },
+    "trace_index_write": {
+      "file": "../../pysim-aura-integration/pySim/esim/aura/bootstrap.py",
+      "line": 51,
+      "pattern": "store.put_trace_index(k_value, entry[\"eid\"], entry[\"r_tr\"])"
+    },
+    "trace_lookup": {
+      "file": "../../pysim-aura-integration/pySim/esim/aura/service.py",
+      "line": 335,
+      "pattern": "trace_lookup=self.store.lookup_trace"
+    },
+    "trace_schema": {
+      "file": "../../pysim-aura-integration/pySim/esim/aura/store.py",
+      "line": 66,
+      "pattern": "def put_trace_index("
+    }
+  },
+  "source_sha256": {
+    "bootstrap": "32b5f719d335ea39efc8cfbbdab08fab124de2e6f982138e26a02757770933e1",
+    "proof": "93caa7a32d1ea81d8ea5fbaf7f7bf7acb7f580c1b262e0580b8b5a92481ec0cf",
+    "server": "b2a33b08ec9c52184594e750d2fb18f5b5cd58decfc03de9ab9449fdf56bea6f",
+    "storage": "5e29218dbd2227fca9c598e381361350651914414848459e7bf3f86bf5af0d11",
+    "ticket": "ce15b94a4b76d0228ca2a089c4ef2e383fb26306955d861b857962fc493d3ecf"
+  }
+}

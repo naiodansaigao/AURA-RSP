@@ -1,89 +1,65 @@
-# 实验5：恶意SM-DP+诱导追踪与栽赃
+# 实验5：恶意 SM-DP+ 诱导追踪与栽赃
 
-本实验验证：持有合法服务器签名密钥的恶意SM-DP+，能否通过修改挑战上下文，
-诱导诚实eUICC为同一票据生成两份不同有效响应，再提交给EUM恢复EID。
+本实验验证持有合法服务器签名密钥的恶意 SM-DP+，能否反复修改挑战上下文，诱导诚实 eUICC 为同一 `(v,opid)` 生成两份不同有效响应，再向 EUM 栽赃并恢复其 EID。
 
-实验直接测试当前AURA客户端的`LocalTicketLog`读取逻辑。Standard RSP baseline、
-实验1至实验4均未被改写。
+完整实现直接使用 `pysim-aura-integration/pySim/esim/aura/local_ticket_log.py`。两个消融版本只存在于本实验目录，不是 AURA-RSP 支持的协议模式：
+
+- `Full AURA-RSP`：按 `(v,opid)` 缓存，并比较完整规范化上下文；
+- `Without LocalTicketLog`：完全不缓存第一次响应；
+- `Key-only cache`：按 `(v,opid)` 返回旧响应，但故意不比较上下文。
 
 ## 运行
 
-在WSL2 Ubuntu中执行：
-
 ```bash
-cd /path/to/aura-rsp-paper-artifact/experiments/experiment-05-malicious-smdpp-framing
+cd experiments/experiment-05-malicious-smdpp-framing
 bash ./run_demo.sh
 ```
 
-只显示中文、英文或机器JSON：
+仅输出机器 JSON：
 
 ```bash
-bash ./run_demo.sh --lang zh
-bash ./run_demo.sh --lang en
 bash ./run_demo.sh --machine-json
 ```
 
-## 实验做了什么
+快速冒烟测试：
 
-恶意SM-DP+保持同一`(v, opid)`，分别修改：
-
-```text
-N_S, I_t, cap, serverOID, sid, pid_h, op, PRaddr
+```bash
+bash ./run_demo.sh --attacks-per-field 10 --machine-json
 ```
 
-- `N_S/I_t/cap/serverOID`可由持有合法服务器密钥的SM-DP+重新签名；
-- `sid/PRaddr`还会被客户端的服务器上下文一致性检查拒绝；
-- `pid_h/op`位于MNO签名票据内，直接修改会使票据签名无效。
+## 正式实验规模
 
-生产客户端现在于`create_auth_proof`之前查询`LocalTicketLog[(v, opid)]`：
+- 八个字段：`N_S`、`I_t`、`cap`、`serverOID`、`sid`、`pid_h`、`op`、`PRaddr`；
+- 每字段、每模式 1000 次固定种子随机篡改；
+- 每个模式 8000 次，总计 24000 条逐攻击记录；
+- 同一票据恶意挑战数：1、2、4、8、16、32、64、128；
+- 每种安全结果类别另生成并验证真实 BBS+ 证明，使用生产追踪公式恢复 `k` 并查询 EID。
 
-1. 首次使用：保存`ctx_t`哈希和完整认证请求；
-2. 完全相同上下文：返回逐字节相同的缓存请求；
-3. 不同上下文：抛出`LocalTicketContextConflict`，不生成新证明；
-4. 旧版只有哈希的记录：失败关闭，不冒险生成第二份响应。
+批量层测量 LocalTicketLog 状态机和上下文分类，不虚构执行 24000 次秒级 BBS+ 配对。真实密码学路径单独保存在 `evidence/crypto-calibration.json`。
 
-## 预期结果（当前源码）
+## 结果解释
 
-```text
-status = PASS
-distinct_valid_responses = 1
-trace_result = insufficient_valid_evidence
-false_trace = false
-```
+`N_S`、`I_t`、`cap` 和 `serverOID` 可由持有合法密钥的恶意服务器修改并重签。完整实现对它们触发 `LocalTicketContextConflict`，不会计算新 `c`。删除 LocalTicketLog 后，这四类字段会产生第二份真实有效证明，EUM 能恢复诚实设备 EID。
 
-## 输出
+`sid`、`PRaddr` 先被设备的订单上下文检查拒绝，`pid_h`、`op` 先被 MNO 票据签名拒绝，因此删除 LocalTicketLog 也不会让这四类攻击成功。正式汇总误追踪率为：
 
-```text
-results/latest/
-├── summary.json
-├── summary.csv
-├── summary.md
-├── FIX-VERIFICATION.md
-├── raw/
-│   ├── current-base-auth-request.json
-│   ├── current-cached-replay-request.json
-│   ├── attack-materials.jsonl
-│   ├── events.jsonl
-│   └── events.csv
-├── evidence/
-│   ├── source-audit.json
-│   ├── current-eum-trace.json
-│   └── assertions.json
-└── paper/
-    ├── figure-1-framing-outcome-zh.svg
-    ├── figure-1-framing-outcome-en.svg
-    ├── figure-2-field-matrix-zh.svg
-    ├── figure-2-field-matrix-en.svg
-    ├── table-1-field-results-zh.csv
-    ├── table-1-field-results-en.csv
-    ├── captions-and-analysis-zh.txt
-    └── captions-and-analysis-en.txt
-```
+| 实现 | 误追踪率 |
+|---|---:|
+| Full AURA-RSP | 0% |
+| Without LocalTicketLog（消融） | 50% |
+| Key-only cache（消融） | 0% |
 
-## 结论边界
+Key-only cache 虽未产生第二份有效追踪证据，却会把旧响应错误返回给新上下文，随后被证明上下文验证拒绝。因此“缓存”和“比较上下文”分别解决重复生成与状态一致性问题，两者缺一不可。
 
-本实验支持的结论是：当前原型在这组诱导追踪路径上，能够做到精确重传幂等、
-上下文冲突终止以及EUM证据不足时不追踪。
+## 论文材料
 
-它不是对全部AURA-RSP实现或所有攻击的通用安全证明。研究原型仍使用JSON文件
-保存本地日志；生产eUICC需要受保护存储、原子写入、崩溃恢复、过期归档和容量限制。
+- `paper/figure-5a-challenge-scaling-en-600dpi.png`：挑战数量与不同有效响应数；
+- `paper/figure-5b-ablation-outcomes-en-600dpi.png`：三种实现的攻击结果分布；
+- 同名 `zh` 文件：中文版本；
+- `paper/table-5-field-ablation-en.csv`：八字段消融结果表；
+- `raw/bulk-trials.csv/jsonl`：24000 条原始记录；
+- `raw/per-field-results.csv`：字段级聚合；
+- `evidence/crypto-calibration.json`：真实 BBS+ 与追踪校准；
+- `evidence/assertions.json`：机器可检查断言。
+
+该实验支持“LocalTicketLog 阻止恶意服务器单方面制造追踪证据”的实现结论，不替代完整形式化证明。研究原型使用 JSON 状态；生产 eUICC 仍需受保护、原子且可恢复的本地存储。

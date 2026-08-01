@@ -23,7 +23,7 @@ EXPECTED OUT-OF-SCOPE COMPROMISE
 在WSL2 Ubuntu中执行：
 
 ```bash
-cd /path/to/aura-rsp-paper-artifact/experiments/experiment-13-out-of-scope-secret-compromise
+cd experiments/experiment-13-out-of-scope-secret-compromise
 bash ./run_demo.sh
 ```
 

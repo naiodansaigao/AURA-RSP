@@ -1,5 +1,0 @@
-set debug true
-set echo true
-
-select ADF.ISD-R
-get_eid > get_eid.tmp

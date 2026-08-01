@@ -1,0 +1,86 @@
+{
+  "assertions": {
+    "all_network_tampering_rejected": true,
+    "classical_allow_positive_control": true,
+    "hybrid_positive_control": true,
+    "no_network_attack_profile_delivery": true,
+    "require_hybrid_rejects_legitimate_classical": true
+  },
+  "execution_ms": 6995.064,
+  "experiment": "experiment-09-capability-downgrade",
+  "implementation": "pysim-osmo-smdpp-integrated-aura",
+  "interpretation": "A legitimate server may select Classical only when device policy allows it; this is not a transcript attack.",
+  "metrics": {
+    "network_attacks": 7,
+    "network_attacks_rejected": 7,
+    "require_hybrid_rejected": true
+  },
+  "migration_comparison": {
+    "conclusion_unchanged": true,
+    "previous_status": "PASS",
+    "production_fix": "integrated Hybrid P-256 + ML-KEM-768 path"
+  },
+  "positive_controls": {
+    "classical_profile_bytes": 12207,
+    "hybrid_profile_bytes": 12207
+  },
+  "scenarios": [
+    {
+      "accepted": false,
+      "elapsed_ms": 0.003,
+      "reason": "CAPABILITY_OFFER_TRANSCRIPT_MISMATCH",
+      "scenario": "mitm_offer_hybrid_to_classical"
+    },
+    {
+      "accepted": false,
+      "elapsed_ms": 0.089,
+      "reason": "INVALID_SERVER_AUTH_SIGNATURE",
+      "scenario": "tamper_signed_selection"
+    },
+    {
+      "accepted": false,
+      "elapsed_ms": 0.069,
+      "reason": "MISSING_MLKEM_PUBLIC_KEY",
+      "scenario": "remove_mlkem_public_key"
+    },
+    {
+      "accepted": false,
+      "elapsed_ms": 0.022,
+      "reason": "MISSING_MLKEM_KEY_MATERIAL",
+      "scenario": "delete_mlkem_ciphertext"
+    },
+    {
+      "accepted": false,
+      "elapsed_ms": 0.02,
+      "reason": "CTX_K_MISMATCH",
+      "scenario": "replace_mlkem_ciphertext"
+    },
+    {
+      "accepted": false,
+      "elapsed_ms": 0.189,
+      "reason": "INVALID_KA_U_SIGNATURE",
+      "scenario": "splice_classical_ephemeral_into_hybrid"
+    },
+    {
+      "accepted": false,
+      "elapsed_ms": 0.001,
+      "reason": "CAPABILITY_MODE_MISMATCH",
+      "scenario": "mark_hybrid_response_as_classical"
+    },
+    {
+      "accepted": false,
+      "elapsed_ms": 0.004,
+      "reason": "HYBRID_REQUIRED",
+      "scenario": "legitimate_classical_require_hybrid"
+    }
+  ],
+  "source_audit": {
+    "modules": {
+      "pySim/esim/aura/client.py": "4554e095bd2010c1e7c94d49b730a2bd5a61b8c8db45806bd3b1bf1a6df24916",
+      "pySim/esim/aura/key_agreement.py": "5cd7a878aa2e4b6c7946eda0288335038a1d191085c2393ecfbc52a21f294598",
+      "pySim/esim/aura/lifecycle_client.py": "a467d5514dc447808482370fc4139e5c81040228fb9c457a2d898df81baf46f3",
+      "pySim/esim/aura/service.py": "b2a33b08ec9c52184594e750d2fb18f5b5cd58decfc03de9ab9449fdf56bea6f"
+    }
+  },
+  "status": "PASS"
+}

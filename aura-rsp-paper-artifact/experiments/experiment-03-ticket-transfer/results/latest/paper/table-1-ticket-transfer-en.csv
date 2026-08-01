@@ -1,4 +1,0 @@
-﻿Authentication,Bind_t,Profile delivery,Scenario,Stable EID exposed
-rejected,not generated,no,AURA: ticket transferred to Device-B,no
-rejected,-,no,Standard: EID-prebound order,yes
-accepted,-,yes,Standard: unbound activation code,yes

@@ -1,0 +1,416 @@
+{
+  "ablation_warning": "EXPERIMENT ONLY: AURA-RSP w/o secret binding uses separate x_cred and x_ticket witnesses and is not the normal protocol implementation.",
+  "assertions": {
+    "ablation_accepts_cross_device_transfers": true,
+    "aura_full_accepts_all_owner_controls": true,
+    "aura_full_delivers_no_profile_to_transfer_attacks": true,
+    "aura_full_rejects_all_cross_device_transfers": true,
+    "concurrency_outcomes_match_expected": true,
+    "concurrency_uses_multiple_processes": true,
+    "experiment_only_ablation_proofs_verify": true,
+    "forced_invalid_submissions_rejected_by_production_verifier": true,
+    "matrix_contains_all_four_configurations": true,
+    "process_pool_warmup_outcomes_match_expected": true,
+    "production_cross_device_proofs_not_constructible": true,
+    "production_owner_proofs_verify": true,
+    "standard_prebound_rejects_cross_device_transfers": true,
+    "standard_unbound_code_is_transferable": true
+  },
+  "concurrency": [
+    {
+      "accepted_requests": 1,
+      "concurrency": 1,
+      "configured_process_workers": 20,
+      "effective_parallel_workers": 1,
+      "execution_backend": "prewarmed_process_pool",
+      "mean_latency_ms": 1167.673,
+      "mean_queue_wait_ms": 0.284,
+      "mean_service_ms": 1167.388,
+      "outcomes_match_expected": true,
+      "p95_latency_ms": 1167.673,
+      "p95_queue_wait_ms": 0.284,
+      "p95_service_ms": 1167.388,
+      "rejected_requests": 0,
+      "requests": 1,
+      "server_path": "pysim_aura_verify_auth_proof",
+      "throughput_req_s": 0.856,
+      "wall_ms": 1167.965,
+      "worker_processes_used": 1,
+      "workload": "normal_authentication"
+    },
+    {
+      "accepted_requests": 0,
+      "concurrency": 1,
+      "configured_process_workers": 20,
+      "effective_parallel_workers": 1,
+      "execution_backend": "prewarmed_process_pool",
+      "mean_latency_ms": 1030.367,
+      "mean_queue_wait_ms": 0.262,
+      "mean_service_ms": 1030.104,
+      "outcomes_match_expected": true,
+      "p95_latency_ms": 1030.367,
+      "p95_queue_wait_ms": 0.262,
+      "p95_service_ms": 1030.104,
+      "rejected_requests": 1,
+      "requests": 1,
+      "server_path": "pysim_aura_verify_auth_proof",
+      "throughput_req_s": 0.97,
+      "wall_ms": 1030.628,
+      "worker_processes_used": 1,
+      "workload": "forced_invalid_ticket_transfer"
+    },
+    {
+      "accepted_requests": 8,
+      "concurrency": 8,
+      "configured_process_workers": 20,
+      "effective_parallel_workers": 8,
+      "execution_backend": "prewarmed_process_pool",
+      "mean_latency_ms": 1690.067,
+      "mean_queue_wait_ms": 0.566,
+      "mean_service_ms": 1689.5,
+      "outcomes_match_expected": true,
+      "p95_latency_ms": 1719.831,
+      "p95_queue_wait_ms": 0.728,
+      "p95_service_ms": 1719.231,
+      "rejected_requests": 0,
+      "requests": 8,
+      "server_path": "pysim_aura_verify_auth_proof",
+      "throughput_req_s": 4.645,
+      "wall_ms": 1722.222,
+      "worker_processes_used": 8,
+      "workload": "normal_authentication"
+    },
+    {
+      "accepted_requests": 0,
+      "concurrency": 8,
+      "configured_process_workers": 20,
+      "effective_parallel_workers": 8,
+      "execution_backend": "prewarmed_process_pool",
+      "mean_latency_ms": 1543.021,
+      "mean_queue_wait_ms": 0.478,
+      "mean_service_ms": 1542.542,
+      "outcomes_match_expected": true,
+      "p95_latency_ms": 1582.845,
+      "p95_queue_wait_ms": 0.667,
+      "p95_service_ms": 1582.337,
+      "rejected_requests": 8,
+      "requests": 8,
+      "server_path": "pysim_aura_verify_auth_proof",
+      "throughput_req_s": 5.027,
+      "wall_ms": 1591.509,
+      "worker_processes_used": 8,
+      "workload": "forced_invalid_ticket_transfer"
+    },
+    {
+      "accepted_requests": 32,
+      "concurrency": 32,
+      "configured_process_workers": 20,
+      "effective_parallel_workers": 20,
+      "execution_backend": "prewarmed_process_pool",
+      "mean_latency_ms": 3389.167,
+      "mean_queue_wait_ms": 978.66,
+      "mean_service_ms": 2410.507,
+      "outcomes_match_expected": true,
+      "p95_latency_ms": 4618.342,
+      "p95_queue_wait_ms": 2627.979,
+      "p95_service_ms": 2780.012,
+      "rejected_requests": 0,
+      "requests": 32,
+      "server_path": "pysim_aura_verify_auth_proof",
+      "throughput_req_s": 6.903,
+      "wall_ms": 4635.923,
+      "worker_processes_used": 20,
+      "workload": "normal_authentication"
+    },
+    {
+      "accepted_requests": 0,
+      "concurrency": 32,
+      "configured_process_workers": 20,
+      "effective_parallel_workers": 20,
+      "execution_backend": "prewarmed_process_pool",
+      "mean_latency_ms": 3415.728,
+      "mean_queue_wait_ms": 990.685,
+      "mean_service_ms": 2425.043,
+      "outcomes_match_expected": true,
+      "p95_latency_ms": 4575.657,
+      "p95_queue_wait_ms": 2715.952,
+      "p95_service_ms": 2930.637,
+      "rejected_requests": 32,
+      "requests": 32,
+      "server_path": "pysim_aura_verify_auth_proof",
+      "throughput_req_s": 6.955,
+      "wall_ms": 4601.233,
+      "worker_processes_used": 20,
+      "workload": "forced_invalid_ticket_transfer"
+    },
+    {
+      "accepted_requests": 64,
+      "concurrency": 64,
+      "configured_process_workers": 20,
+      "effective_parallel_workers": 20,
+      "execution_backend": "prewarmed_process_pool",
+      "mean_latency_ms": 5562.647,
+      "mean_queue_wait_ms": 2988.475,
+      "mean_service_ms": 2574.172,
+      "outcomes_match_expected": true,
+      "p95_latency_ms": 9027.068,
+      "p95_queue_wait_ms": 7462.213,
+      "p95_service_ms": 2778.629,
+      "rejected_requests": 0,
+      "requests": 64,
+      "server_path": "pysim_aura_verify_auth_proof",
+      "throughput_req_s": 6.96,
+      "wall_ms": 9195.713,
+      "worker_processes_used": 20,
+      "workload": "normal_authentication"
+    },
+    {
+      "accepted_requests": 0,
+      "concurrency": 64,
+      "configured_process_workers": 20,
+      "effective_parallel_workers": 20,
+      "execution_backend": "prewarmed_process_pool",
+      "mean_latency_ms": 5456.924,
+      "mean_queue_wait_ms": 2979.205,
+      "mean_service_ms": 2477.719,
+      "outcomes_match_expected": true,
+      "p95_latency_ms": 8642.203,
+      "p95_queue_wait_ms": 7193.247,
+      "p95_service_ms": 2830.09,
+      "rejected_requests": 64,
+      "requests": 64,
+      "server_path": "pysim_aura_verify_auth_proof",
+      "throughput_req_s": 7.259,
+      "wall_ms": 8816.2,
+      "worker_processes_used": 20,
+      "workload": "forced_invalid_ticket_transfer"
+    },
+    {
+      "accepted_requests": 128,
+      "concurrency": 128,
+      "configured_process_workers": 20,
+      "effective_parallel_workers": 20,
+      "execution_backend": "prewarmed_process_pool",
+      "mean_latency_ms": 10892.689,
+      "mean_queue_wait_ms": 8062.886,
+      "mean_service_ms": 2829.803,
+      "outcomes_match_expected": true,
+      "p95_latency_ms": 18828.09,
+      "p95_queue_wait_ms": 16889.009,
+      "p95_service_ms": 3282.766,
+      "rejected_requests": 0,
+      "requests": 128,
+      "server_path": "pysim_aura_verify_auth_proof",
+      "throughput_req_s": 6.767,
+      "wall_ms": 18915.903,
+      "worker_processes_used": 20,
+      "workload": "normal_authentication"
+    },
+    {
+      "accepted_requests": 0,
+      "concurrency": 128,
+      "configured_process_workers": 20,
+      "effective_parallel_workers": 20,
+      "execution_backend": "prewarmed_process_pool",
+      "mean_latency_ms": 9510.066,
+      "mean_queue_wait_ms": 7033.226,
+      "mean_service_ms": 2476.84,
+      "outcomes_match_expected": true,
+      "p95_latency_ms": 16461.808,
+      "p95_queue_wait_ms": 14708.589,
+      "p95_service_ms": 2888.304,
+      "rejected_requests": 128,
+      "requests": 128,
+      "server_path": "pysim_aura_verify_auth_proof",
+      "throughput_req_s": 7.743,
+      "wall_ms": 16531.918,
+      "worker_processes_used": 20,
+      "workload": "forced_invalid_ticket_transfer"
+    }
+  ],
+  "concurrency_backend": {
+    "available_logical_cpus": 20,
+    "backend": "prewarmed_process_pool",
+    "configured_process_workers": 20,
+    "pool_startup_ms": 79.627,
+    "pool_warmup_ms": 3087.145,
+    "process_start_method": "fork",
+    "ready_worker_processes_observed": 20,
+    "startup_and_warmup_excluded_from_online_batches": true,
+    "warmup_outcomes_match_expected": true,
+    "warmup_requests": 20,
+    "warmup_worker_processes_used": 20
+  },
+  "configurations": {
+    "aura_full": {
+      "label": "AURA-RSP",
+      "legal_attempts": 500,
+      "legal_authentication_acceptance_rate": 1.0,
+      "rejection_stage_counts": {
+        "client_joint_proof_generation": 24500
+      },
+      "transfer_attack_attempts": 24500,
+      "transfer_authentication_acceptance_rate": 0.0,
+      "transfer_joint_proof_generation_rate": 0.0,
+      "transfer_profile_delivery_rate": 0.0
+    },
+    "aura_no_secret_binding": {
+      "label": "AURA-RSP w/o secret binding",
+      "legal_attempts": 500,
+      "legal_authentication_acceptance_rate": 1.0,
+      "rejection_stage_counts": {
+        "none": 24500
+      },
+      "transfer_attack_attempts": 24500,
+      "transfer_authentication_acceptance_rate": 1.0,
+      "transfer_joint_proof_generation_rate": 1.0,
+      "transfer_profile_delivery_rate": 1.0
+    },
+    "standard_prebound_eid": {
+      "label": "Standard RSP (EID pre-bound)",
+      "legal_attempts": 500,
+      "legal_authentication_acceptance_rate": 1.0,
+      "rejection_stage_counts": {
+        "eid_order_binding": 24500
+      },
+      "transfer_attack_attempts": 24500,
+      "transfer_authentication_acceptance_rate": 0.0,
+      "transfer_joint_proof_generation_rate": null,
+      "transfer_profile_delivery_rate": 0.0
+    },
+    "standard_unbound_activation_code": {
+      "label": "Standard RSP (unbound code)",
+      "legal_attempts": 500,
+      "legal_authentication_acceptance_rate": 1.0,
+      "rejection_stage_counts": {
+        "none": 24500
+      },
+      "transfer_attack_attempts": 24500,
+      "transfer_authentication_acceptance_rate": 1.0,
+      "transfer_joint_proof_generation_rate": null,
+      "transfer_profile_delivery_rate": 1.0
+    }
+  },
+  "credential_setup_ms": 29795.043,
+  "cryptographic_samples": {
+    "aura_ablation_cross_device": {
+      "client_compute": {
+        "max_ms": 1296.433,
+        "mean_ms": 1271.303,
+        "median_ms": 1269.021,
+        "min_ms": 1258.178,
+        "n": 10,
+        "p95_ms": 1290.943
+      },
+      "server_verification": {
+        "max_ms": 1197.846,
+        "mean_ms": 1172.024,
+        "median_ms": 1167.644,
+        "min_ms": 1157.385,
+        "n": 10,
+        "p95_ms": 1192.035
+      }
+    },
+    "aura_cross_device_honest_client": {
+      "client_compute": {
+        "max_ms": 1142.452,
+        "mean_ms": 1120.678,
+        "median_ms": 1120.672,
+        "min_ms": 1100.976,
+        "n": 10,
+        "p95_ms": 1141.801
+      },
+      "server_verification": {
+        "max_ms": null,
+        "mean_ms": null,
+        "median_ms": null,
+        "min_ms": null,
+        "n": 0,
+        "p95_ms": null
+      }
+    },
+    "aura_owner_control": {
+      "client_compute": {
+        "max_ms": 1279.903,
+        "mean_ms": 1262.389,
+        "median_ms": 1260.088,
+        "min_ms": 1242.922,
+        "n": 10,
+        "p95_ms": 1279.739
+      },
+      "server_verification": {
+        "max_ms": 1195.459,
+        "mean_ms": 1173.934,
+        "median_ms": 1170.958,
+        "min_ms": 1162.684,
+        "n": 10,
+        "p95_ms": 1190.491
+      }
+    },
+    "forced_invalid_transfer_submission": {
+      "client_compute": {
+        "max_ms": 1304.024,
+        "mean_ms": 1268.847,
+        "median_ms": 1268.657,
+        "min_ms": 1245.329,
+        "n": 10,
+        "p95_ms": 1295.851
+      },
+      "server_verification": {
+        "max_ms": 1051.239,
+        "mean_ms": 1040.833,
+        "median_ms": 1039.95,
+        "min_ms": 1029.374,
+        "n": 10,
+        "p95_ms": 1049.838
+      }
+    }
+  },
+  "devices": 50,
+  "experiment": "ticket_theft_cross_device_transfer_matrix",
+  "experiment_runtime_ms": 502077.467,
+  "host": {
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "python": "3.12.3"
+  },
+  "implementation": "pysim-osmo-smdpp-integrated-aura",
+  "legal_controls_per_configuration": 500,
+  "measurement_scope": {
+    "concurrency": "prewarmed multi-process production proof-verifier CPU path; pool startup and warmup are reported separately and excluded; forced invalid transfer submissions are defense-in-depth because honest AURA clients reject locally",
+    "crypto": "real integrated create_auth_proof/verify_auth_proof calls; one legal, one honest transfer, one ablation transfer, and one forced server submission per round",
+    "matrix": "all ticket-device pairs; test-oracle decision backed by holder-verified integrated BBS+ credentials/tickets",
+    "profile_delivery": "authorization-gate outcome; bulk matrix does not repeatedly encrypt or write the identical 12 KiB profile",
+    "standard_unbound": "pairwise transferability with fresh order state per ticket-device pair; not a simultaneous first-consumer race"
+  },
+  "profile": {
+    "bytes": 12207,
+    "sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422"
+  },
+  "round_seeds": [
+    20260731,
+    20260732,
+    20260733,
+    20260734,
+    20260735,
+    20260736,
+    20260737,
+    20260738,
+    20260739,
+    20260740
+  ],
+  "rounds": 10,
+  "seed": 20260731,
+  "source_audit": {
+    "integration_root": "../../pysim-aura-integration",
+    "modules": {
+      "pySim/esim/aura/bbs.py": "ecdaad9789c2eb09470330bc05fad822703e9a6761a3240888e6eb79122212b6",
+      "pySim/esim/aura/proof.py": "93caa7a32d1ea81d8ea5fbaf7f7bf7acb7f580c1b262e0580b8b5a92481ec0cf",
+      "pySim/esim/aura/service.py": "444076a94aa03404f52a150ce3306820fe4e5583ef953377960d964ea98d79fd"
+    },
+    "profile_bytes": 12207,
+    "profile_sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422"
+  },
+  "status": "PASS",
+  "total_matrix_attempts": 100000,
+  "transfer_attacks_per_configuration": 24500
+}

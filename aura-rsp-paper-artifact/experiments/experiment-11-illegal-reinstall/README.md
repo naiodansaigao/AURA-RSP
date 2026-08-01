@@ -1,7 +1,7 @@
 # 实验11：非法Reinstall
 
-本实验位于独立目录，直接调用`aura_rsp.lifecycle`生产生命周期核心，不修改Standard
-RSP baseline或实验1—10。实验验证AURA-RSP只允许同一Profile生命周期从
+本实验位于独立目录，直接调用 `pysim-aura-integration/pySim/esim/aura/lifecycle.py`
+集成生命周期核心，不修改 Standard RSP 模式或实验1—10。实验验证AURA-RSP只允许同一Profile生命周期从
 `tombstone -> installed`执行Reinstall。
 
 ## 一键运行
@@ -9,7 +9,7 @@ RSP baseline或实验1—10。实验验证AURA-RSP只允许同一Profile生命�
 在WSL2 Ubuntu中执行：
 
 ```bash
-cd /path/to/aura-rsp-paper-artifact/experiments/experiment-11-illegal-reinstall
+cd experiments/experiment-11-illegal-reinstall
 bash ./run_demo.sh
 ```
 

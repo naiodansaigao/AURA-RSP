@@ -1,0 +1,10 @@
+{
+  "integration_root": "../../pysim-aura-integration",
+  "modules": {
+    "pySim/esim/aura/bbs.py": "ecdaad9789c2eb09470330bc05fad822703e9a6761a3240888e6eb79122212b6",
+    "pySim/esim/aura/proof.py": "93caa7a32d1ea81d8ea5fbaf7f7bf7acb7f580c1b262e0580b8b5a92481ec0cf",
+    "pySim/esim/aura/service.py": "444076a94aa03404f52a150ce3306820fe4e5583ef953377960d964ea98d79fd"
+  },
+  "profile_bytes": 12207,
+  "profile_sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422"
+}

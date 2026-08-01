@@ -1,110 +1,94 @@
-# AURA-RSP Paper Artifact
+# AURA-RSP pySim/osmo-smdpp Research Artifact
 
-本仓库是论文实验的可复现软件制品，包含：
+本仓库是论文实验使用的可复现研究原型。它不是三套互不相关的模拟器，而是在同一份 Osmocom pySim/osmo-smdpp 代码中提供两种运行模式：
 
-1. 基于 **pySim/osmo-smdpp + 软件eUICC/LPA** 的Standard RSP baseline；
-2. AURA-RSP研究原型，包括匿名凭证、匿名操作票据、Privacy Relay、Profile
-   Binding、密钥协商、安全Profile下载和生命周期状态链；
-3. 13个彼此独立的安全与隐私实验；
-4. 固定依赖、上游源码版本、机器可读结果和复现脚本。
+- **Standard RSP**：原始 ES9+ 流程、软件 eUICC/LPA、Bound Profile Package 下载与安装通知；
+- **AURA-RSP**：在相同 SM-DP+、Profile、主机和 Python 环境中加入匿名凭证/操作票据、Privacy Relay、条件追踪、Profile Binding、会话密钥绑定与完整生命周期；
+- **13 个独立实验**：全部以这份集成代码为后端，不依赖旧的独立 AURA-RSP 仿真目录。
 
-The repository is a reproducible research artifact containing the Standard RSP
-baseline, the AURA-RSP prototype, thirteen independent experiments, pinned
-dependencies, recorded evidence, and reproducibility scripts.
-
-## 目录
+## 目录结构
 
 ```text
 .
-├── rsp-baseline/                   # Standard RSP baseline
-├── aura-rsp/                       # AURA-RSP implementation
-├── experiments/                    # Experiment 01–13
-├── scripts/
-│   ├── setup_wsl.sh
-│   ├── run_all_experiments.sh
-│   ├── run_benchmark.sh
-│   └── verify_artifact.py
-├── docs/
-│   ├── EXPERIMENT_INDEX.md
-│   ├── REPRODUCIBILITY.md
-│   ├── SECURITY_SCOPE.md
-│   └── DEPENDENCIES.md
-├── THIRD_PARTY_NOTICES.md
-└── MANIFEST.sha256
+├── pysim-aura-integration/   # Standard RSP + AURA-RSP 共用源码
+├── experiments/              # 13 个相互独立的实验
+├── reference-results/        # 已验证运行的摘要、断言与论文图（不含大体积原始日志）
+├── scripts/                  # 安装、运行、验收和清单工具
+├── docs/                     # 架构、实验索引、安全边界与复现说明
+├── COPYING                   # pySim 衍生代码所适用的 GPL-2.0
+└── MANIFEST.sha256           # 发布文件完整性清单
 ```
 
-## 推荐环境
+## WSL2 Ubuntu 快速复现
 
-- Windows 10/11 + WSL2；
-- Ubuntu 24.04；
-- Python 3.12；
-- 至少4 GB可用内存和5 GB可用磁盘；
-- 网络连接仅在首次安装Python依赖时需要。
-
-全部Profile、证书和身份均为测试材料，不得用于真实eSIM网络。
-
-## 快速开始
+在 WSL2 中进入本目录：
 
 ```bash
-git clone <YOUR_REPOSITORY_URL>
-cd aura-rsp-paper-artifact
-
-bash scripts/setup_wsl.sh
-
-# Standard RSP
-bash rsp-baseline/scripts/run_all.sh
-
-# AURA-RSP
-bash aura-rsp/scripts/run_all.sh
-
-# 13个独立实验
-bash scripts/run_all_experiments.sh
-
-# Standard/AURA同机性能对比，10轮
-bash scripts/run_benchmark.sh 10
+cd /path/to/aura-rsp-pysim-artifact
 ```
 
-运行单个实验：
+首次安装依赖并生成**仅用于本地测试**的 Standard RSP 与 AURA-RSP 密钥材料：
 
 ```bash
-bash experiments/experiment-04-double-spend-tracing/run_demo.sh
-bash experiments/experiment-12-pr-source-address-privacy/run_demo.sh
-bash experiments/experiment-13-out-of-scope-secret-compromise/run_demo.sh \
-  --backend production
+bash ./scripts/setup_wsl.sh
 ```
 
-静态检查制品完整性：
+运行 Standard RSP：
 
 ```bash
-python3 scripts/verify_artifact.py
-sha256sum -c MANIFEST.sha256
+bash ./scripts/run_standard.sh
 ```
 
-## 结果解释
+运行 AURA-RSP：
 
-- `PASS`表示观察结果满足该实验定义的机器断言。
-- `EXPECTED_BOUNDARY_FAILURE`表示攻击位于声明的隐私边界之外，例如PR与SM-DP+
-  合谋后通过流量特征恢复连接。
-- `EXPECTED OUT-OF-SCOPE COMPROMISE`表示根密钥、服务器私钥、诚实eUICC秘密或追踪
-  数据库已经泄露；这用于标明保证前提，不表示协议威胁模型内攻击成功。
-- Standard RSP已经防御的消息篡改和BPP移植只作为AURA匿名化后的安全回归测试，不
-  被描述为Standard RSP漏洞。
+```bash
+bash ./scripts/run_aura.sh
+```
 
-## 仿真边界
+按论文采用的进程级计时边界对比 10 次：
 
-- Standard流程使用软件eUICC/LPA，不执行实体eUICC的ES10 APDU写卡。
-- AURA密码代码是研究参考实现，未经过独立密码工程审计。
-- Python实现的配对、证明和ML-KEM性能不能代表安全芯片或优化C/Rust实现。
-- 测试PKI、Profile和固定种子只用于可复现研究。
-- 实验13必须在安装`py-ecc`的AURA环境中使用`--backend production`，才能作为
-  BBS+生产路径结果；便携后端只验证密钥泄露的因果关系。
+```bash
+bash ./scripts/run_benchmark.sh 10
+```
 
-进一步说明见[复现文档](docs/REPRODUCIBILITY.md)和
-[安全边界](docs/SECURITY_SCOPE.md)。
+运行单个实验（例：实验 5）：
 
-## 许可证
+```bash
+bash ./scripts/run_experiment.sh 5
+```
 
-上游OpenEUICC、lpac、pySim/osmo-smdpp源码保留各自许可证。AURA-RSP和实验代码的
-发布许可证需要由论文作者在公开仓库前确定，详见`LICENSE-NOTICE.md`与
-`THIRD_PARTY_NOTICES.md`。
+运行全部 13 个实验：
 
+```bash
+bash ./scripts/run_all_experiments.sh
+```
+
+执行发布包静态检查：
+
+```bash
+python3 ./scripts/verify_artifact.py
+```
+
+## 预期通过标记
+
+- Standard RSP：`STANDARD_PYSIM_INTEGRATION_ALL_PASS`
+- AURA-RSP：`AURA_PYSIM_INTEGRATION_ALL_PASS`
+- 13 个实验：各实验 `results/latest/summary.json` 中的 `status` 为通过标记；实验 12C 和实验 13 的“攻击成功”是明确标注的威胁模型边界，而不是协议内安全失败。
+
+## 结果与隐私材料
+
+`reference-results/` 仅保存论文所需的摘要、机器断言和小型图片/表格。运行时生成的以下内容均由 `.gitignore` 排除：
+
+- 测试私钥、匿名凭证、票据和追踪数据库；
+- SQLite 数据库、服务 PID、网络日志和软件 eUICC 输出；
+- 实验的大体积逐请求原始数据。
+
+因此，克隆仓库后必须运行 `scripts/setup_wsl.sh` 本地生成测试材料。所有证书均为研究测试用途，不能用于真实运营网络。
+
+## 研究边界
+
+这是研究级纯软件原型，不宣称通过 GSMA SGP.22/SGP.23 认证，也不替代实体 eUICC、生产 EUM、SM-DS 或商业 GSMA PKI。详细威胁模型与实验含义见 [docs/SECURITY_SCOPE.md](docs/SECURITY_SCOPE.md) 和 [docs/EXPERIMENT_INDEX.md](docs/EXPERIMENT_INDEX.md)。
+
+## 许可证与引用
+
+集成代码源自 Osmocom pySim，基线提交见 `pysim-aura-integration/UPSTREAM.md`，相关代码依 GPL-2.0 发布，许可证全文见 `COPYING`。公开仓库前，请作者补全并确认实验代码的版权署名，并将 `CITATION.cff.example` 补全后改名为 `CITATION.cff`。

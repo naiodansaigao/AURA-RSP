@@ -1,3 +1,0 @@
-﻿mode,true_positive,false_positive,true_negative,false_negative,positive_pairs,negative_pairs
-12A_direct,600,0,79200,0,600,79200
-12B_shared_pr,600,79200,0,0,600,79200

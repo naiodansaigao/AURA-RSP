@@ -1,4 +1,0 @@
-﻿both_proofs_valid,business_execution_count,different_context,different_gamma,event_index,exact_request_bytes_equal,http_status,local_ticket_log_bypassed,profile_installed,proof_reason,proof_valid,protocol_mode,reason,recovered_eid_correct,result,same_bind_t,same_nullifier,scenario,second_business_execution,stable_eid_exposed,stable_eid_exposed_before_trace,step,trace_triggered
-,1,,,1,,200,,True,ok,True,aura_rsp,ok,,accepted,,,4A_normal_single_use,,False,,authenticate_download_install,False
-,1,,,2,True,200,,,ok,True,aura_rsp,exact_replay_idempotent,,cached,True,,4B_exact_auth_replay,False,,,byte_identical_replay,False
-True,1,True,True,3,,409,True,,,,aura_rsp,DOUBLE_SPEND_DETECTED,True,rejected_and_traced,,True,4C_true_double_spend,False,,False,second_distinct_valid_transcript,True

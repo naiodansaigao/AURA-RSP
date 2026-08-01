@@ -1,0 +1,533 @@
+{
+  "aggregate": {
+    "business_execution_count": 6000,
+    "double_spend_detection_rate": 1.0,
+    "eid_recovery_accuracy": 1.0,
+    "exact_replay_false_positive_rate": 0.0,
+    "false_trace_count": 0,
+    "latency": {
+      "double_spend": {
+        "max_ms": 1243.788204,
+        "mean_ms": 4.462585,
+        "n": 3124,
+        "p50_ms": 0.4939,
+        "p95_ms": 7.96983,
+        "p99_ms": 85.590528
+      },
+      "exact_replay": {
+        "max_ms": 2249.728808,
+        "mean_ms": 5.858879,
+        "n": 12159,
+        "p50_ms": 0.2528,
+        "p95_ms": 10.3082,
+        "p99_ms": 109.104757
+      },
+      "normal": {
+        "max_ms": 1676.603205,
+        "mean_ms": 44.056055,
+        "n": 6000,
+        "p50_ms": 13.3554,
+        "p95_ms": 153.881101,
+        "p99_ms": 648.276789
+      }
+    },
+    "transaction_retry_count": 0
+  },
+  "assertions": {
+    "all_double_spends_detected": true,
+    "all_exact_replays_are_idempotent": true,
+    "all_first_uses_execute_once": true,
+    "all_recovered_eids_correct": true,
+    "all_scale_eids_correct": true,
+    "all_scale_outcomes_correct": true,
+    "no_exact_replay_false_positive": true,
+    "no_false_trace": true,
+    "no_second_business_execution": true,
+    "production_eid_recovery_correct": true,
+    "production_k_recovery_correct": true,
+    "production_transcripts_both_valid": true,
+    "single_transcript_does_not_expose_eid": true
+  },
+  "database_scale": [
+    {
+      "database_bytes": 147456,
+      "database_size": 100,
+      "latency": {
+        "double_spend": {
+          "max_ms": 1.1204,
+          "mean_ms": 0.485064,
+          "n": 100,
+          "p50_ms": 0.3985,
+          "p95_ms": 0.838835,
+          "p99_ms": 1.046942
+        },
+        "exact_replay": {
+          "max_ms": 0.6461,
+          "mean_ms": 0.254231,
+          "n": 100,
+          "p50_ms": 0.21175,
+          "p95_ms": 0.48357,
+          "p99_ms": 0.645704
+        },
+        "normal": {
+          "max_ms": 2.4287,
+          "mean_ms": 0.795543,
+          "n": 100,
+          "p50_ms": 0.7572,
+          "p95_ms": 1.572105,
+          "p99_ms": 2.268518
+        }
+      },
+      "prefill_ms": 1.161,
+      "samples_per_type": 100,
+      "transaction_retry_count": 0
+    },
+    {
+      "database_bytes": 241664,
+      "database_size": 1000,
+      "latency": {
+        "double_spend": {
+          "max_ms": 1.0482,
+          "mean_ms": 0.42767,
+          "n": 100,
+          "p50_ms": 0.3687,
+          "p95_ms": 0.738445,
+          "p99_ms": 0.999591
+        },
+        "exact_replay": {
+          "max_ms": 0.5208,
+          "mean_ms": 0.243671,
+          "n": 100,
+          "p50_ms": 0.2142,
+          "p95_ms": 0.436335,
+          "p99_ms": 0.513375
+        },
+        "normal": {
+          "max_ms": 2.2496,
+          "mean_ms": 0.727604,
+          "n": 100,
+          "p50_ms": 0.5769,
+          "p95_ms": 1.27826,
+          "p99_ms": 2.058035
+        }
+      },
+      "prefill_ms": 4.733,
+      "samples_per_type": 100,
+      "transaction_retry_count": 0
+    },
+    {
+      "database_bytes": 1036288,
+      "database_size": 10000,
+      "latency": {
+        "double_spend": {
+          "max_ms": 1.8644,
+          "mean_ms": 0.451908,
+          "n": 100,
+          "p50_ms": 0.3716,
+          "p95_ms": 0.820015,
+          "p99_ms": 0.979637
+        },
+        "exact_replay": {
+          "max_ms": 0.6973,
+          "mean_ms": 0.257288,
+          "n": 100,
+          "p50_ms": 0.2203,
+          "p95_ms": 0.50913,
+          "p99_ms": 0.624337
+        },
+        "normal": {
+          "max_ms": 6.3446,
+          "mean_ms": 0.912155,
+          "n": 100,
+          "p50_ms": 0.81085,
+          "p95_ms": 1.876615,
+          "p99_ms": 2.275403
+        }
+      },
+      "prefill_ms": 45.783,
+      "samples_per_type": 100,
+      "transaction_retry_count": 0
+    },
+    {
+      "database_bytes": 9269248,
+      "database_size": 100000,
+      "latency": {
+        "double_spend": {
+          "max_ms": 2.1866,
+          "mean_ms": 1.05937,
+          "n": 100,
+          "p50_ms": 0.898,
+          "p95_ms": 1.709235,
+          "p99_ms": 1.926329
+        },
+        "exact_replay": {
+          "max_ms": 1.2984,
+          "mean_ms": 0.54191,
+          "n": 100,
+          "p50_ms": 0.4593,
+          "p95_ms": 0.936435,
+          "p99_ms": 1.134852
+        },
+        "normal": {
+          "max_ms": 2.9612,
+          "mean_ms": 1.205717,
+          "n": 100,
+          "p50_ms": 1.2026,
+          "p95_ms": 2.174265,
+          "p99_ms": 2.601632
+        }
+      },
+      "prefill_ms": 858.856,
+      "samples_per_type": 100,
+      "transaction_retry_count": 0
+    }
+  ],
+  "experiment": "double_spend_exact_replay_conditional_tracing",
+  "host": {
+    "logical_cpus": 20,
+    "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+    "python": "3.12.3"
+  },
+  "implementation": "pysim-osmo-smdpp-integrated-aura",
+  "measurement_scope": {
+    "arrival_interval": "ticket start offsets span the configured 0--5000 ms window; per-ticket transcript order is preserved",
+    "business_execution": "one atomic business_executions row per first accepted nullifier",
+    "cryptographic_trace": "real integrated create_auth_proof and verify_auth_proof for two valid distinct transcripts",
+    "mixed_and_scale": "post-proof-verification production nullifier classifier with indexed SQLite atomic state"
+  },
+  "mixed_load": [
+    {
+      "arrival_span_ms": 0,
+      "business_execution_count": 1000,
+      "concurrency": 1,
+      "double_spend_detection_rate": 0.0,
+      "double_spend_percent": 0,
+      "double_spend_requests": 0,
+      "eid_recovery_accuracy": 0.0,
+      "exact_replay_false_positive_rate": 0.0,
+      "exact_replay_requests": 2405,
+      "false_trace_count": 0,
+      "latency_by_request_type": {
+        "double_spend": {
+          "max_ms": 0.0,
+          "mean_ms": 0.0,
+          "n": 0,
+          "p50_ms": 0.0,
+          "p95_ms": 0.0,
+          "p99_ms": 0.0
+        },
+        "exact_replay": {
+          "max_ms": 1.9518,
+          "mean_ms": 0.327705,
+          "n": 2405,
+          "p50_ms": 0.214,
+          "p95_ms": 0.77432,
+          "p99_ms": 1.255032
+        },
+        "normal": {
+          "max_ms": 43.817801,
+          "mean_ms": 6.835467,
+          "n": 1000,
+          "p50_ms": 6.49255,
+          "p95_ms": 8.771525,
+          "p99_ms": 11.696704
+        }
+      },
+      "normal_requests": 1000,
+      "requests": 3405,
+      "scenario": "double-00pct",
+      "throughput_req_s": 420.762,
+      "ticket_count": 1000,
+      "transaction_retry_count": 0,
+      "unique_trace_count": 0,
+      "wall_ms": 8092.457
+    },
+    {
+      "arrival_span_ms": 10,
+      "business_execution_count": 1000,
+      "concurrency": 8,
+      "double_spend_detection_rate": 1.0,
+      "double_spend_percent": 1,
+      "double_spend_requests": 30,
+      "eid_recovery_accuracy": 1.0,
+      "exact_replay_false_positive_rate": 0.0,
+      "exact_replay_requests": 2341,
+      "false_trace_count": 0,
+      "latency_by_request_type": {
+        "double_spend": {
+          "max_ms": 20.9128,
+          "mean_ms": 1.564327,
+          "n": 30,
+          "p50_ms": 0.6934,
+          "p95_ms": 3.51958,
+          "p99_ms": 15.923263
+        },
+        "exact_replay": {
+          "max_ms": 134.976001,
+          "mean_ms": 1.31911,
+          "n": 2341,
+          "p50_ms": 0.2479,
+          "p95_ms": 4.1062,
+          "p99_ms": 20.3362
+        },
+        "normal": {
+          "max_ms": 1058.027303,
+          "mean_ms": 30.670366,
+          "n": 1000,
+          "p50_ms": 17.01855,
+          "p95_ms": 99.064951,
+          "p99_ms": 193.869948
+        }
+      },
+      "normal_requests": 1000,
+      "requests": 3371,
+      "scenario": "double-01pct",
+      "throughput_req_s": 776.028,
+      "ticket_count": 1000,
+      "transaction_retry_count": 0,
+      "unique_trace_count": 10,
+      "wall_ms": 4343.915
+    },
+    {
+      "arrival_span_ms": 100,
+      "business_execution_count": 1000,
+      "concurrency": 32,
+      "double_spend_detection_rate": 1.0,
+      "double_spend_percent": 5,
+      "double_spend_requests": 150,
+      "eid_recovery_accuracy": 1.0,
+      "exact_replay_false_positive_rate": 0.0,
+      "exact_replay_requests": 2323,
+      "false_trace_count": 0,
+      "latency_by_request_type": {
+        "double_spend": {
+          "max_ms": 737.311303,
+          "mean_ms": 23.327634,
+          "n": 150,
+          "p50_ms": 1.28145,
+          "p95_ms": 86.97487,
+          "p99_ms": 495.210531
+        },
+        "exact_replay": {
+          "max_ms": 2249.728808,
+          "mean_ms": 15.164756,
+          "n": 2323,
+          "p50_ms": 0.3103,
+          "p95_ms": 56.878941,
+          "p99_ms": 415.1265
+        },
+        "normal": {
+          "max_ms": 1459.414705,
+          "mean_ms": 90.915456,
+          "n": 1000,
+          "p50_ms": 38.7483,
+          "p95_ms": 453.799061,
+          "p99_ms": 773.841958
+        }
+      },
+      "normal_requests": 1000,
+      "requests": 3473,
+      "scenario": "double-05pct",
+      "throughput_req_s": 812.874,
+      "ticket_count": 1000,
+      "transaction_retry_count": 0,
+      "unique_trace_count": 50,
+      "wall_ms": 4272.493
+    },
+    {
+      "arrival_span_ms": 1000,
+      "business_execution_count": 1000,
+      "concurrency": 32,
+      "double_spend_detection_rate": 1.0,
+      "double_spend_percent": 10,
+      "double_spend_requests": 354,
+      "eid_recovery_accuracy": 1.0,
+      "exact_replay_false_positive_rate": 0.0,
+      "exact_replay_requests": 2006,
+      "false_trace_count": 0,
+      "latency_by_request_type": {
+        "double_spend": {
+          "max_ms": 1243.788204,
+          "mean_ms": 20.670232,
+          "n": 354,
+          "p50_ms": 1.10235,
+          "p95_ms": 86.74647,
+          "p99_ms": 338.327978
+        },
+        "exact_replay": {
+          "max_ms": 1045.396803,
+          "mean_ms": 13.474293,
+          "n": 2006,
+          "p50_ms": 0.3318,
+          "p95_ms": 56.14075,
+          "p99_ms": 340.688341
+        },
+        "normal": {
+          "max_ms": 1676.603205,
+          "mean_ms": 99.649732,
+          "n": 1000,
+          "p50_ms": 43.19565,
+          "p95_ms": 450.123732,
+          "p99_ms": 901.897078
+        }
+      },
+      "normal_requests": 1000,
+      "requests": 3360,
+      "scenario": "double-10pct",
+      "throughput_req_s": 737.529,
+      "ticket_count": 1000,
+      "transaction_retry_count": 0,
+      "unique_trace_count": 100,
+      "wall_ms": 4555.755
+    },
+    {
+      "arrival_span_ms": 2500,
+      "business_execution_count": 1000,
+      "concurrency": 8,
+      "double_spend_detection_rate": 1.0,
+      "double_spend_percent": 20,
+      "double_spend_requests": 762,
+      "eid_recovery_accuracy": 1.0,
+      "exact_replay_false_positive_rate": 0.0,
+      "exact_replay_requests": 1867,
+      "false_trace_count": 0,
+      "latency_by_request_type": {
+        "double_spend": {
+          "max_ms": 137.9358,
+          "mean_ms": 2.54412,
+          "n": 762,
+          "p50_ms": 0.5641,
+          "p95_ms": 9.152385,
+          "p99_ms": 36.401553
+        },
+        "exact_replay": {
+          "max_ms": 837.853302,
+          "mean_ms": 2.538875,
+          "n": 1867,
+          "p50_ms": 0.2588,
+          "p95_ms": 5.40014,
+          "p99_ms": 55.209272
+        },
+        "normal": {
+          "max_ms": 341.631101,
+          "mean_ms": 29.734152,
+          "n": 1000,
+          "p50_ms": 17.1293,
+          "p95_ms": 96.020765,
+          "p99_ms": 193.994391
+        }
+      },
+      "normal_requests": 1000,
+      "requests": 3629,
+      "scenario": "double-20pct",
+      "throughput_req_s": 783.206,
+      "ticket_count": 1000,
+      "transaction_retry_count": 0,
+      "unique_trace_count": 200,
+      "wall_ms": 4633.517
+    },
+    {
+      "arrival_span_ms": 5000,
+      "business_execution_count": 1000,
+      "concurrency": 1,
+      "double_spend_detection_rate": 1.0,
+      "double_spend_percent": 50,
+      "double_spend_requests": 1828,
+      "eid_recovery_accuracy": 1.0,
+      "exact_replay_false_positive_rate": 0.0,
+      "exact_replay_requests": 1217,
+      "false_trace_count": 0,
+      "latency_by_request_type": {
+        "double_spend": {
+          "max_ms": 21.4995,
+          "mean_ms": 0.623172,
+          "n": 1828,
+          "p50_ms": 0.3515,
+          "p95_ms": 1.656715,
+          "p99_ms": 2.261896
+        },
+        "exact_replay": {
+          "max_ms": 1.8165,
+          "mean_ms": 0.299669,
+          "n": 1217,
+          "p50_ms": 0.2022,
+          "p95_ms": 0.6838,
+          "p99_ms": 1.16752
+        },
+        "normal": {
+          "max_ms": 42.1373,
+          "mean_ms": 6.531158,
+          "n": 1000,
+          "p50_ms": 6.2908,
+          "p95_ms": 7.86708,
+          "p99_ms": 9.949288
+        }
+      },
+      "normal_requests": 1000,
+      "requests": 4045,
+      "scenario": "double-50pct",
+      "throughput_req_s": 477.951,
+      "ticket_count": 1000,
+      "transaction_retry_count": 0,
+      "unique_trace_count": 500,
+      "wall_ms": 8463.214
+    }
+  ],
+  "runtime_ms": 108662.918,
+  "seed": 20260801,
+  "source_audit": {
+    "implementation": "pysim-osmo-smdpp-integrated-aura",
+    "integration_root": "../../pysim-aura-integration",
+    "modules": {
+      "pySim/esim/aura/double_spend.py": "b76bccae6f09a47db181bcfe422fd3761e902a3f70050d3c53c46b17412bb2f4",
+      "pySim/esim/aura/proof.py": "93caa7a32d1ea81d8ea5fbaf7f7bf7acb7f580c1b262e0580b8b5a92481ec0cf",
+      "pySim/esim/aura/service.py": "495841bb3ec6ba41080acb8bffc7e2cc4bbd0960d0ed4518166afae71cada4f0",
+      "pySim/esim/aura/store.py": "5e29218dbd2227fca9c598e381361350651914414848459e7bf3f86bf5af0d11"
+    },
+    "profile_bytes": 12207,
+    "profile_sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422"
+  },
+  "status": "PASS",
+  "ticket_count_per_mixed_scenario": 1000,
+  "trace_breakdown": {
+    "eid_result_check": {
+      "max_ms": 0.0014,
+      "mean_ms": 8.7e-05,
+      "n": 2000,
+      "p50_ms": 0.0001,
+      "p95_ms": 0.0001,
+      "p99_ms": 0.0001
+    },
+    "k_recovery": {
+      "max_ms": 0.0874,
+      "mean_ms": 0.011462,
+      "n": 2000,
+      "p50_ms": 0.0109,
+      "p95_ms": 0.013505,
+      "p99_ms": 0.021004
+    },
+    "normal_transcript_exposes_eid": false,
+    "proof_generation_ms": {
+      "first": 1288.509,
+      "second": 1299.351
+    },
+    "recovered_eid_correct": true,
+    "recovered_k_correct": true,
+    "trace_index_lookup": {
+      "max_ms": 0.5025,
+      "mean_ms": 0.114698,
+      "n": 2000,
+      "p50_ms": 0.0954,
+      "p95_ms": 0.22606,
+      "p99_ms": 0.35384
+    },
+    "two_transcript_verification": {
+      "max_ms": 2380.265209,
+      "mean_ms": 2350.876169,
+      "n": 5,
+      "p50_ms": 2352.212909,
+      "p95_ms": 2378.402329,
+      "p99_ms": 2379.892633
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "all_network_tampering_rejected": true,
+  "classical_allow_positive_control": true,
+  "hybrid_positive_control": true,
+  "no_network_attack_profile_delivery": true,
+  "require_hybrid_rejects_legitimate_classical": true
+}

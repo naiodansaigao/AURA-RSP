@@ -1,127 +1,150 @@
-# 实验3：操作票据盗取与跨设备转移
+# Experiment 3: Ticket Theft and Cross-Device Transfer Matrix
 
-## 实验问题
+## Research question
 
-Device-A拥有隐藏秘密`x_A`和合法匿名设备凭证`Cred_A`。MNO为它签发隐藏同一
-`x_A`的操作票据`Tok_A`。攻击者复制`Tok_A`、订单公开信息和等价激活材料到另一台
-合法Device-B，但Device-B只能使用包含`x_B`的`Cred_B`。
+Can a valid operation ticket issued for one eUICC be copied together with its
+public order/activation material and used by another legitimate eUICC?
 
-本实验验证：
+This version replaces the former two-device example.  By default, 50 devices
+each receive one fresh ticket per round.  Every ticket is then tested against
+all 50 devices for 10 rounds:
+
+- 500 diagonal owner controls per configuration;
+- 24,500 non-diagonal transfer attacks per configuration;
+- 100,000 total matrix decisions across four configurations.
+
+## Compared configurations
+
+1. **Full AURA-RSP.** The credential and ticket BBS+ statements share the same
+   hidden witness `x`.
+2. **AURA-RSP w/o secret binding.** Experiment-only ablation using separate
+   witnesses `x_cred` and `x_ticket`. This is not the normal protocol and is
+   never loaded by the integrated SM-DP+ service.
+3. **Standard RSP with EID-pre-bound order.** The target EID must match the EID
+   bound to the order.
+4. **Standard RSP with unbound Activation Code.** Pairwise transferability is
+   tested with fresh order state for each source-target pair. This measures
+   whether possession of the code is sufficient; it is not a simultaneous
+   first-consumer race.
+
+The Standard controls model the two deployment policies and must not be read as
+a claim that every Standard RSP deployment permits ticket theft.
+
+## Implementation source
+
+The AURA credential, blind-ticket issuance, BBS+ proof generation, and server
+verification calls are imported from:
 
 ```text
-x_credential = x_ticket
+../../pysim-aura-integration/pySim/esim/aura/
 ```
 
-这一联合证明要求是否会在`x_A != x_B`时拒绝转移，同时不公开EID。
+The Profile hash and size are loaded from the integrated pySim SM-DP+ Profile
+repository. The old standalone `aura-rsp` source is not used.
 
-## 独立性
+## Why the matrix and timing paths are separated
 
-本目录不会修改：
+The matrix is a correctness test, not a latency benchmark. Credentials and
+tickets are issued and holder-verified with the integrated BBS+ implementation.
+The harness then uses the known ground-truth holder relation to evaluate every
+source-target pair. This avoids pretending that a scalar equality test is a
+full cryptographic authentication time.
 
-- `rsp-baseline/`
-- `aura-rsp/`
-- 实验1和实验2
+For every round, the experiment additionally performs real integrated calls for:
 
-AURA部分直接导入现有`aura_rsp`密码模块和`AuraServerState`，使用独立运行目录、
-独立SQLite、独立权威密钥和独立服务器密钥。
+- one valid owner joint proof and server verification;
+- one honest cross-device proof attempt, which must fail locally;
+- one real ablation proof, which must verify only under the experiment verifier;
+- one forced invalid transfer submission, which the production verifier must
+  reject.
 
-## 一键运行
+The concurrency test invokes the production `verify_auth_proof()` path at 1, 8,
+32, 64, and 128 simultaneous requests. A persistent `ProcessPoolExecutor` uses
+one verifier process per available logical CPU by default, so py-ecc pairing
+work is genuinely distributed across CPU cores instead of being serialized by
+the Python thread GIL. Pool startup/warmup is reported separately and excluded
+from online batch latency. The invalid workload is defense-in-depth: an honest
+AURA client does not send a proof after local ticket-secret mismatch.
 
-在WSL2 Ubuntu中：
+Figure 3(c) plots per-worker cryptographic **service time**. The accompanying
+CSV and paper table additionally retain queue-inclusive end-to-end latency,
+queue wait, and throughput. Therefore the figure does not hide overload when
+logical concurrency exceeds the available worker processes.
+
+## Run
+
+From WSL2 Ubuntu:
 
 ```bash
-cd /path/to/aura-rsp-paper-artifact/experiments/experiment-03-ticket-transfer
+cd experiments/experiment-03-ticket-transfer
 bash ./run_demo.sh
 ```
 
-只显示中文或英文：
+Quick smoke test:
+
+```bash
+bash ./run_demo.sh --devices 4 --rounds 1 --concurrency 1,2
+```
+
+Override the verifier process count if the machine is shared:
+
+```bash
+bash ./run_demo.sh --workers 8
+```
+
+Run the full matrix without the costly concurrency benchmark:
+
+```bash
+bash ./run_demo.sh --skip-concurrency
+```
+
+Other output modes:
 
 ```bash
 bash ./run_demo.sh --lang zh
 bash ./run_demo.sh --lang en
-```
-
-机器JSON：
-
-```bash
 bash ./run_demo.sh --machine-json
 ```
 
-## AURA测试步骤
-
-1. 同一EUM为Device-A和Device-B分别盲签合法匿名凭证。
-2. MNO只为Device-A的`x_A`盲签两张票据：一张用于正常持有者对照，一张作为被盗票据。
-3. Device-A使用对照票据完成真实联合证明，服务器应返回200并生成`Bind_t`。
-4. 攻击脚本复制Device-A的被盗票据、隐藏票据状态`eta/d`、公开订单信息和等价激活材料给Device-B。
-5. Device-B正常证明器以`Cred_B/x_B`使用`Tok_A`，应在本地BBS+签名一致性检查中失败。
-6. 为验证服务器端防线，独立恶意客户端夹具仅跳过证明器本地pairing快速失败，仍用真实
-   `create_auth_proof`生成无效联合证明；恢复原始密码函数后提交未修改的
-   `AuraServerState.authenticate`。
-7. 服务器必须返回401；会话保持`initiated`，`bind_t`为空，`used_nullifiers`和
-   `notifications`没有攻击事务，后续Profile请求被拒绝。
-
-实验结果中的统一语义原因：
-
-```text
-credential_ticket_secret_mismatch
-```
-
-同时保留服务器原始原因：
-
-```text
-BBS+ randomized signature pairing failed
-```
-
-统一原因不是伪造服务器错误码，而是由以下证据联合归类：
-
-- `Cred_B`对`x_B`有效；
-- `Tok_A`对`x_A`有效；
-- `Tok_A`对`x_B`无效；
-- `x_A != x_B`；
-- 服务器真实联合证明验证返回401。
-
-## Standard RSP对照
-
-Standard部分明确分成两种订单策略：
-
-- **预绑定EID：** Device-B被拒绝，但服务器必须读取稳定EID并比较。
-- **未绑定Activation Code：** Device-B持有正确激活码时可以抢先消费订单，随后Device-A被拒绝。
-
-这是受控订单策略模型，不声称所有Standard RSP部署都允许转移，也不把未绑定订单策略描述为
-标准协议必然漏洞。
-
-## 输出
+## Outputs
 
 ```text
 results/latest/
 ├── raw/
-│   ├── events.jsonl
-│   ├── events.csv
-│   ├── copied-ticket-public.json
-│   └── aura-server.jsonl
+│   ├── matrix-attempts.csv
+│   ├── matrix-attempts.jsonl
+│   ├── crypto-samples.csv
+│   ├── crypto-samples.jsonl
+│   └── concurrency.csv
 ├── evidence/
-│   ├── database-state.json
-│   └── assertions.json
+│   ├── assertions.json
+│   └── source-audit.json
 ├── paper/
-│   ├── figure-1-transfer-outcomes-zh.svg
-│   ├── figure-1-transfer-outcomes-en.svg
-│   ├── figure-2-aura-transfer-flow-zh.svg
-│   ├── figure-2-aura-transfer-flow-en.svg
-│   ├── table-1-ticket-transfer-zh.csv
-│   ├── table-1-ticket-transfer-en.csv
-│   ├── captions-and-analysis-zh.txt
-│   └── captions-and-analysis-en.txt
+│   ├── figure-3a-ticket-device-acceptance-matrix.png
+│   ├── figure-3b-cross-device-transfer-success-rate.png
+│   ├── figure-3c-concurrent-authentication-latency.png
+│   ├── table-3-ticket-transfer.csv
+│   ├── table-3-cryptographic-timing.csv
+│   └── table-3-concurrency.csv
 ├── summary.json
-├── summary.csv
 └── summary.md
 ```
 
-## 结论边界
+PNG figures are rendered at 600 DPI with compact margins and large labels.
 
-若全部断言通过，可以说明：
+## Machine-checkable expectations
 
-> AURA-RSP在不向SM-DP+公开EID的情况下，通过设备匿名凭证与操作票据共享隐藏秘密`x`
-> 的联合证明，实现了确定的密码学不可转移性。
+- Full AURA accepts every diagonal owner control and rejects every
+  non-diagonal transfer before Profile delivery.
+- The experiment-only no-binding ablation accepts non-diagonal transfers,
+  isolating the contribution of the hidden-secret equality relation.
+- EID-pre-bound Standard orders reject transfer but disclose/use a stable EID.
+- Unbound-code Standard orders are transferable under the stated pairwise
+  possession model.
+- Production AURA proof samples verify for owners, cannot be constructed by an
+  honest non-owner, and reject forced invalid submissions.
 
-本实验不证明AURA-RSP所有安全性质，也不覆盖设备内部秘密泄露、EUM/MNO签发密钥泄露、
-恶意签发机构或纯阻断型DoS。
+Passing these assertions supports the narrow conclusion that AURA-RSP provides
+cryptographic ticket non-transferability without revealing an EID. It does not
+cover device-secret compromise, issuer-key compromise, malicious issuers, or
+pure denial of service.

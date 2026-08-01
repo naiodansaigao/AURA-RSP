@@ -1,3 +1,0 @@
-图1  操作票据盗取与跨设备转移结果。AURA-RSP中，Device-B虽持有合法Cred_B和完整Tok_A副本，但两份凭证隐藏秘密不相等，服务器联合证明验证返回401，未生成Bind_t且未交付Profile。Standard预绑定EID时能够拒绝转移，但需要暴露稳定EID；未绑定Activation Code时，Device-B可抢先消费订单。
-
-图2  AURA-RSP服务器端验证链。恶意客户端即使绕过本地快速失败并强行提交，未修改的SM-DP+仍通过BBS+联合证明关系拒绝不一致的隐藏秘密。

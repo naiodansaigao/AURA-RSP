@@ -1,5 +1,0 @@
-﻿subexperiment,protocol_mode,orders_in_scope,joined_orders,order_join_rate,transaction_count,attacker_visible_cluster_count,mean_profiles_per_cluster,median_profiles_per_cluster,max_profiles_per_cluster,multi_mno_cluster_rate,cross_profile_pair_link_rate,false_link_rate,exact_device_history_recovery_rate,mean_profiles_recovered_per_true_device,mean_history_exposure_fraction,leaked_download_records,leaked_lifecycle_records,within_profile_lifecycle_link_rate,lifecycle_events_per_profile,lifecycle_scope
-2a_collusion,standard_rsp,500,500,1.0,500,250,2.0,2.0,2,1.0,1.0,0.0,1.0,2.0,1.0,,,,,
-2a_collusion,aura_rsp,500,500,1.0,500,500,1.0,1.0,1,0.0,0.0,0.0,0.0,1.0,0.5,,,,,
-2b_log_leakage,standard_rsp,,,,1000,250,4.0,4.0,4,1.0,1.0,0.0,1.0,4.0,1.0,1000,3000,1.0,3,controlled_audit_log_semantics
-2b_log_leakage,aura_rsp,,,,1000,1000,1.0,1.0,1,0.0,0.0,0.0,0.0,1.0,0.25,1000,3000,1.0,3,controlled_audit_log_semantics

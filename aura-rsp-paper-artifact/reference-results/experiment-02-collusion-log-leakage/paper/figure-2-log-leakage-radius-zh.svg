@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1700" height="1020" viewBox="0 0 1700 1020">
+<title>2B 日志泄露后的设备历史影响半径</title>
+<desc>每个攻击者可见簇中包含的不同Profile数量</desc>
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="850.0" y="60" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif" font-size="39" font-weight="600" fill="#222222">2B 日志泄露后的设备历史影响半径</text>
+<text x="850.0" y="108" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif" font-size="22" fill="#666666">每个攻击者可见簇中包含的不同Profile数量</text>
+<line x1="145" y1="790.0" x2="1645" y2="790.0" stroke="#dddddd" stroke-width="1"/>
+<text x="125" y="797.0" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" fill="#444444">0.0</text>
+<line x1="145" y1="662.0" x2="1645" y2="662.0" stroke="#dddddd" stroke-width="1"/>
+<text x="125" y="669.0" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" fill="#444444">0.8</text>
+<line x1="145" y1="534.0" x2="1645" y2="534.0" stroke="#dddddd" stroke-width="1"/>
+<text x="125" y="541.0" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" fill="#444444">1.6</text>
+<line x1="145" y1="406.0" x2="1645" y2="406.0" stroke="#dddddd" stroke-width="1"/>
+<text x="125" y="413.0" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" fill="#444444">2.4</text>
+<line x1="145" y1="278.0" x2="1645" y2="278.0" stroke="#dddddd" stroke-width="1"/>
+<text x="125" y="285.0" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" fill="#444444">3.2</text>
+<line x1="145" y1="150.0" x2="1645" y2="150.0" stroke="#dddddd" stroke-width="1"/>
+<text x="125" y="157.0" text-anchor="end" font-family="Arial, Microsoft YaHei, sans-serif" font-size="20" fill="#444444">4.0</text>
+<line x1="145" y1="150" x2="145" y2="790" stroke="#333333" stroke-width="2"/>
+<line x1="145" y1="790" x2="1645" y2="790" stroke="#333333" stroke-width="2"/>
+<text x="42" y="470.0" transform="rotate(-90 42 470.0)" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif" font-size="25" fill="#222222">Profile数量</text>
+<rect x="198" y="150.0" width="96" height="640.0" fill="#2F5597"/>
+<text x="246" y="143.0" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#222222">4.000</text>
+<rect x="326" y="630.0" width="96" height="160.0" fill="#ED7D31"/>
+<text x="374" y="615.0" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#222222">1.000</text>
+<text x="310" y="838" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif" font-size="21" fill="#222222">平均每簇Profile数</text>
+<rect x="568" y="150.0" width="96" height="640.0" fill="#2F5597"/>
+<text x="616" y="143.0" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#222222">4.000</text>
+<rect x="696" y="630.0" width="96" height="160.0" fill="#ED7D31"/>
+<text x="744" y="615.0" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#222222">1.000</text>
+<text x="680" y="838" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif" font-size="21" fill="#222222">单簇最大Profile数</text>
+<rect x="560" y="905" width="30" height="22" fill="#2F5597"/>
+<text x="605" y="925" font-family="Arial, Microsoft YaHei, sans-serif" font-size="23" fill="#222222">Standard RSP</text>
+<rect x="900" y="905" width="30" height="22" fill="#ED7D31"/>
+<text x="945" y="925" font-family="Arial, Microsoft YaHei, sans-serif" font-size="23" fill="#222222">AURA-RSP</text>
+<text x="850.0" y="982" text-anchor="middle" font-family="Arial, Microsoft YaHei, sans-serif" font-size="18" fill="#666666">生命周期事件只验证日志关联语义，非完整状态机执行</text>
+</svg>

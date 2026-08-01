@@ -1,0 +1,91 @@
+{
+  "assertions": {
+    "all_cross_operation_attacks_rejected": true,
+    "all_cross_profile_attacks_rejected": true,
+    "both_profile_positive_controls_authenticate": true,
+    "both_profile_positive_controls_deliver": true,
+    "no_attack_bind_t": true,
+    "no_attack_profile_delivery": true
+  },
+  "attacks": [
+    {
+      "accepted": false,
+      "bind_t_generated": false,
+      "profile_delivered": false,
+      "reason": "GAMMA_CONTEXT_MISMATCH",
+      "scenario": "profile_a_auth_to_profile_b_session",
+      "stage": "authenticateClient"
+    },
+    {
+      "accepted": false,
+      "bind_t_generated": false,
+      "profile_delivered": false,
+      "reason": "gamma/context mismatch",
+      "scenario": "modify_pid_h_keep_proof",
+      "stage": "Pi_auth"
+    },
+    {
+      "accepted": false,
+      "bind_t_generated": false,
+      "profile_delivered": false,
+      "reason": "SESSION_NOT_AUTHENTICATED",
+      "scenario": "profile_a_bind_t_to_profile_b_session",
+      "stage": "profile"
+    },
+    {
+      "accepted": false,
+      "bind_t_generated": false,
+      "profile_delivered": false,
+      "reason": "gamma/context mismatch",
+      "scenario": "download_to_delete",
+      "stage": "Pi_auth"
+    },
+    {
+      "accepted": false,
+      "bind_t_generated": false,
+      "profile_delivered": false,
+      "reason": "gamma/context mismatch",
+      "scenario": "download_to_reinstall",
+      "stage": "Pi_auth"
+    },
+    {
+      "accepted": false,
+      "bind_t_generated": false,
+      "profile_delivered": false,
+      "reason": "gamma/context mismatch",
+      "scenario": "download_to_enable",
+      "stage": "Pi_auth"
+    }
+  ],
+  "execution_ms": 9928.011,
+  "experiment": "experiment-08-profile-operation-transplant",
+  "implementation": "pysim-osmo-smdpp-integrated-aura",
+  "metrics": {
+    "attacks": 6,
+    "profile_deliveries_under_attack": 0,
+    "rejected": 6
+  },
+  "migration_comparison": {
+    "conclusion_unchanged": true,
+    "previous_status": "PASS"
+  },
+  "positive_controls": {
+    "both_delivered": true,
+    "profile_a_sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422",
+    "profile_b_sha256": "8ec130b606bfd3b12553e5d05027d171a13c63148d67444f142f266dc2e35f8d"
+  },
+  "source_audit": {
+    "modules": {
+      "pySim/esim/aura/binding.py": "e1a1545add75e317a3e8dce042b77624f6969b2642263426c41348ab64de5b22",
+      "pySim/esim/aura/context.py": "0364efb27635f76bf90c8eaeaf7a7accba98dc03e3d8413c87b696f10510b22a",
+      "pySim/esim/aura/key_agreement.py": "5cd7a878aa2e4b6c7946eda0288335038a1d191085c2393ecfbc52a21f294598",
+      "pySim/esim/aura/proof.py": "93caa7a32d1ea81d8ea5fbaf7f7bf7acb7f580c1b262e0580b8b5a92481ec0cf",
+      "pySim/esim/aura/service.py": "b2a33b08ec9c52184594e750d2fb18f5b5cd58decfc03de9ab9449fdf56bea6f"
+    }
+  },
+  "standard": {
+    "expected": "REJECT",
+    "interpretation": "Bound Profile Package and transaction binding remain Standard RSP regression properties."
+  },
+  "status": "PASS"
+}

@@ -1,5 +1,0 @@
-{"event": "initiateAuthentication", "transactionId": "536753F38232860589F408098FECF34D", "ts": 1785412558.6573026}
-{"event": "authenticateClient", "proof_bytes": 1975, "proof_verify_ms": 1280.7893790013622, "transactionId": "536753F38232860589F408098FECF34D", "ts": 1785412562.7377164}
-{"ciphertext_bytes": 12223, "event": "getBoundProfilePackage", "server_crypto_ms": 0.266, "transactionId": "536753F38232860589F408098FECF34D", "ts": 1785412562.7572408}
-{"event": "handleNotification", "transactionId": "536753F38232860589F408098FECF34D", "ts": 1785412562.7718713}
-{"event": "authenticateClientReplay", "proof_verify_ms": 1311.546382989036, "transactionId": "536753F38232860589F408098FECF34D", "ts": 1785412564.098528}

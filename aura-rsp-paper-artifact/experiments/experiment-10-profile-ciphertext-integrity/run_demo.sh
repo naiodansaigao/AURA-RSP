@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-AURA_ROOT="$(CDPATH= cd -- "$ROOT/../../aura-rsp" && pwd)"
-VENV="${AURA_RSP_VENV:-$HOME/.venvs/aura-rsp}"
-PYTHON="${PYTHON:-$VENV/bin/python}"
+EXPERIMENT_ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+INTEGRATION_ROOT="$(CDPATH= cd -- "$EXPERIMENT_ROOT/../../pysim-aura-integration" && pwd)"
+source "$INTEGRATION_ROOT/integration-scripts/common.sh"
+PYTHON="${PYTHON:-$AURA_PYTHON}"
 
 if [[ ! -x "$PYTHON" ]]; then
-  echo "找不到AURA Python环境: $PYTHON" >&2
-  echo "请先运行: bash \"$AURA_ROOT/scripts/install_deps.sh\"" >&2
+  echo "AURA Python not found: $PYTHON" >&2
+  echo "Run: bash '$INTEGRATION_ROOT/integration-scripts/install_deps.sh'" >&2
   exit 2
 fi
 
-"$PYTHON" "$ROOT/demo.py" \
-  --config "$ROOT/config.json" \
-  --output "$ROOT/results/latest" \
+export PYTHONPATH="$INTEGRATION_ROOT${PYTHONPATH:+:$PYTHONPATH}"
+"$PYTHON" "$EXPERIMENT_ROOT/demo.py" \
+  --config "$EXPERIMENT_ROOT/config.json" \
+  --output "$EXPERIMENT_ROOT/results/latest" \
   "$@"
-
