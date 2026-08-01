@@ -1,7 +1,0 @@
-runtime/
-logs/
-build/
-.venv/
-*.pyc
-__pycache__/
-third_party/openeuicc/local.properties

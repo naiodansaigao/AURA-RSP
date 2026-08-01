@@ -1,0 +1,5 @@
+﻿sample,client_mean_ms,client_p95_ms,server_mean_ms,server_p95_ms,n
+aura_ablation_cross_device,1271.303,1290.943,1172.024,1192.035,10
+aura_cross_device_honest_client,1120.678,1141.801,,,10
+aura_owner_control,1262.389,1279.739,1173.934,1190.491,10
+forced_invalid_transfer_submission,1268.847,1295.851,1040.833,1049.838,10

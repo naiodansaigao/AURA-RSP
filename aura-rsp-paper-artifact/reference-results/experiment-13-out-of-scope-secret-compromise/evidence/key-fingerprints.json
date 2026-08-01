@@ -1,0 +1,6 @@
+{
+  "eum_public_key_sha256": "4209f678c96d320c2bbdaed9eaa3b4e16807d321dd04fb8bb2c23d1b09f8a7aa",
+  "mno_public_key_sha256": "bf2145b41fd63ed6b6c00a905f7ed02b99ed62335b454859ed285feb6556ee55",
+  "profile_binding_public_key_sha256": "8ff5b52487f5e62b53b093cfad8520c7ecdbe00a5d1b9e0571dd49e8de290c9e",
+  "server_auth_public_key_sha256": "0615029c4d6f8b7440769d93f154b106dc34b14ea83e50c6f396def8d6adaa78"
+}

@@ -1,6 +1,8 @@
 {
   "experiment_name": "experiment-05-malicious-smdpp-framing",
   "seed": 20260729,
+  "attacks_per_field": 1000,
+  "challenge_counts": [1, 2, 4, 8, 16, 32, 64, 128],
   "honest_device_eid": "89049032123451234512345678905001",
   "aura": {
     "sid": "aura-smdpp.exp05.test",

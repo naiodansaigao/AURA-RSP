@@ -1,7 +1,0 @@
-﻿场景,子测试,最终状态,结果
-old_receipt_replay_and_latest_idempotency,6A,disabled,通过
-receipt_field_tampering,6B,installed,通过
-concurrent_enable_delete_fork,6C,pending-delete,通过
-lost_rprep_response,6D,pending-delete,通过
-lost_commit_receipt_or_final_ack,6E,tombstone,通过
-commit_after_delete_ticket_expiry,6F,tombstone,通过

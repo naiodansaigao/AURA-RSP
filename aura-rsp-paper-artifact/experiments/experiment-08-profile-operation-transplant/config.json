@@ -1,9 +1,10 @@
 {
   "experiment_name": "experiment-08-profile-operation-transplant",
   "seed": 20260729,
-  "profile_a_path": "../../rsp-baseline/runtime/software-euicc-output/8949449999999990007f.upp.der",
-  "profile_a_fallback_path": "../../rsp-baseline/third_party/pysim/smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
-  "profile_b_path": "../../rsp-baseline/third_party/pysim/smdpp-data/upp/TS48V1-A-UNIQUE.der",
+  "profile_a_path": "../../pysim-aura-integration/smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
+  "profile_a_fallback_path": "../../pysim-aura-integration/smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
+  "profile_b_path": "../../pysim-aura-integration/smdpp-data/upp/TS48V1-A-UNIQUE.der",
+  "profile_b_matching_id": "TS48V1-A-UNIQUE",
   "ticket_valid_seconds": 3600,
   "aura": {
     "matching_id": "EXP08-PROFILE-OP",
@@ -11,12 +12,12 @@
     "server_oid": "2.999.80.1",
     "praddr": "pr-exp08.example.test",
     "capabilities": [
-      "aura-classical-p256"
+      "classical-p256"
     ]
   },
   "standard": {
-    "osmo_source": "../../rsp-baseline/third_party/pysim/osmo-smdpp.py",
-    "bpp_source": "../../rsp-baseline/third_party/pysim/pySim/esim/bsp.py",
-    "client_source": "../../rsp-baseline/third_party/pysim/contrib/es9p_client.py"
+    "osmo_source": "../../pysim-aura-integration/osmo-smdpp.py",
+    "bpp_source": "../../pysim-aura-integration/pySim/esim/bsp.py",
+    "client_source": "../../pysim-aura-integration/contrib/es9p_client.py"
   }
 }

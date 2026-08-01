@@ -1,17 +1,11 @@
 * text=auto
-
 *.sh text eol=lf
 *.py text eol=lf
 *.json text eol=lf
 *.jsonl text eol=lf
 *.csv text eol=lf
 *.md text eol=lf
-
-*.der binary
 *.png binary
-*.jpg binary
-*.jpeg binary
-*.pdf binary
+*.der binary
 *.docx binary
-*.svg text eol=lf
 

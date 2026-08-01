@@ -1,20 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
-AURA_ROOT="$(CDPATH= cd -- "$ROOT/../../aura-rsp" && pwd)"
-VENV="${AURA_RSP_VENV:-$HOME/.venvs/aura-rsp}"
-PYTHON="${PYTHON:-$VENV/bin/python}"
+EXPERIMENT_ROOT="$(CDPATH= cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+INTEGRATION_ROOT="$(CDPATH= cd -- "$EXPERIMENT_ROOT/../../pysim-aura-integration" && pwd)"
 
-if [[ ! -x "$PYTHON" ]]; then
-  echo "找不到 AURA Python 环境: $PYTHON" >&2
-  echo "请先运行: bash \"$AURA_ROOT/scripts/install_deps.sh\"" >&2
-  exit 2
-fi
+# Reuse exactly the interpreter and dependency resolution of the integrated
+# pySim/osmo-smdpp implementation.
+source "$INTEGRATION_ROOT/integration-scripts/common.sh"
 
-export PYTHONPATH="$AURA_ROOT/src${PYTHONPATH:+:$PYTHONPATH}"
-
-"$PYTHON" "$ROOT/demo.py" \
-  --config "$ROOT/config.json" \
-  --output "$ROOT/results/latest" \
+"$PYTHON" "$EXPERIMENT_ROOT/demo.py" \
+  --config "$EXPERIMENT_ROOT/config.json" \
+  --output "$EXPERIMENT_ROOT/results/latest" \
   "$@"

@@ -1,0 +1,6 @@
+{
+  "all_eight_illegal_reinstall_subtests_rejected": true,
+  "exact_latest_retry_idempotent": true,
+  "legal_tombstone_to_installed": true,
+  "old_receipt_rejected_after_chain_advance": true
+}

@@ -1,0 +1,16 @@
+{
+  "ablation_accepts_cross_device_transfers": true,
+  "aura_full_accepts_all_owner_controls": true,
+  "aura_full_delivers_no_profile_to_transfer_attacks": true,
+  "aura_full_rejects_all_cross_device_transfers": true,
+  "concurrency_outcomes_match_expected": true,
+  "concurrency_uses_multiple_processes": true,
+  "experiment_only_ablation_proofs_verify": true,
+  "forced_invalid_submissions_rejected_by_production_verifier": true,
+  "matrix_contains_all_four_configurations": true,
+  "process_pool_warmup_outcomes_match_expected": true,
+  "production_cross_device_proofs_not_constructible": true,
+  "production_owner_proofs_verify": true,
+  "standard_prebound_rejects_cross_device_transfers": true,
+  "standard_unbound_code_is_transferable": true
+}

@@ -1,1 +1,0 @@
-Figure 1 reports machine-checked outcomes for 6A-6F. Historical receipts are rejected while the latest receipt is idempotent; all seven tampering cases leave state unchanged; concurrent enable/delete yields one successor; and two-phase deletion recovers from message loss and ticket expiry. Figure 2 shows the three deletion-recovery paths.

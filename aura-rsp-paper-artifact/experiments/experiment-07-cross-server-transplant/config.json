@@ -1,8 +1,8 @@
 {
   "experiment_name": "experiment-07-cross-server-transplant",
   "seed": 20260729,
-  "profile_path": "../../rsp-baseline/runtime/software-euicc-output/8949449999999990007f.upp.der",
-  "fallback_profile_path": "../../rsp-baseline/third_party/pysim/smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
+  "profile_path": "../../pysim-aura-integration/smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
+  "fallback_profile_path": "../../pysim-aura-integration/smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
   "aura_server_a": {
     "label": "SM-DP+-A",
     "matching_id": "EXP07-A",
@@ -10,7 +10,7 @@
     "server_oid": "2.999.70.1",
     "praddr": "pr-a.example.test",
     "capabilities": [
-      "aura-classical-p256"
+      "classical-p256"
     ]
   },
   "aura_server_b": {
@@ -20,17 +20,17 @@
     "server_oid": "2.999.70.2",
     "praddr": "pr-b.example.test",
     "capabilities": [
-      "aura-classical-p256-b"
+      "classical-p256"
     ]
   },
   "ticket_valid_seconds": 3600,
   "standard": {
     "server_a_hostname": "testsmdpplus1.example.com",
     "server_b_hostname": "testsmdpplus4.example.com",
-    "server_a_tls_cert": "../../rsp-baseline/third_party/pysim/smdpp-data/certs/DPtls/CERT_S_SM_DP_TLS_NIST.der",
-    "server_b_tls_cert": "../../rsp-baseline/third_party/pysim/smdpp-data/certs/DPtls/CERT_S_SM_DP4_TLS.der",
-    "ci_cert": "../../rsp-baseline/third_party/pysim/smdpp-data/certs/CertificateIssuer/CERT_CI_ECDSA_NIST.pem",
-    "osmo_source": "../../rsp-baseline/third_party/pysim/osmo-smdpp.py",
-    "client_source": "../../rsp-baseline/third_party/pysim/contrib/es9p_client.py"
+    "server_a_tls_cert": "../../pysim-aura-integration/smdpp-data/generated/DPtls/CERT_S_SM_DP_TLS_NIST.der",
+    "server_b_tls_cert": "../../pysim-aura-integration/smdpp-data/generated/DPtls/CERT_S_SM_DP4_TLS.der",
+    "ci_cert": "../../pysim-aura-integration/smdpp-data/generated/CertificateIssuer/CERT_CI_ECDSA_NIST.pem",
+    "osmo_source": "../../pysim-aura-integration/osmo-smdpp.py",
+    "client_source": "../../pysim-aura-integration/contrib/es9p_client.py"
   }
 }

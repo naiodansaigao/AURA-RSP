@@ -1,19 +1,17 @@
 {
   "experiment_name": "experiment-09-capability-downgrade",
   "seed": 20260729,
-  "profile_path": "../../rsp-baseline/runtime/software-euicc-output/8949449999999990007f.upp.der",
-  "profile_fallback_path": "../../rsp-baseline/third_party/pysim/smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
-  "sid": "sid:exp09:smdpp",
-  "server_oid": "2.999.90.1",
-  "praddr": "pr-exp09.example.test",
-  "hybrid_capability": "HYBRID-P256-MLKEM768-HKDF-SHA256-AES256GCM",
-  "classical_capability": "ECDHE-P256-HKDF-SHA256-AES256GCM",
-  "ml_kem": "ML-KEM-768",
+  "hybrid_capability": "hybrid-p256-mlkem768",
+  "classical_capability": "classical-p256",
+  "aura": {
+    "sid": "sid:exp09:smdpp",
+    "server_oid": "2.999.90.1",
+    "praddr": "pr-exp09.example.test"
+  },
   "aura_source": {
-    "server": "../../aura-rsp/src/aura_rsp/server.py",
-    "client": "../../aura-rsp/src/aura_rsp/client.py",
-    "primitives": "../../aura-rsp/src/aura_rsp/primitives.py",
-    "config": "../../aura-rsp/config/aura.json"
+    "server": "../../pysim-aura-integration/pySim/esim/aura/service.py",
+    "client": "../../pysim-aura-integration/pySim/esim/aura/client.py",
+    "key_agreement": "../../pysim-aura-integration/pySim/esim/aura/key_agreement.py",
+    "config": "../../pysim-aura-integration/config/aura.json"
   }
 }
-

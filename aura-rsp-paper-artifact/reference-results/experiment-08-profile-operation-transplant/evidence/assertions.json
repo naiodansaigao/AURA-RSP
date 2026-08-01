@@ -1,0 +1,8 @@
+{
+  "all_cross_operation_attacks_rejected": true,
+  "all_cross_profile_attacks_rejected": true,
+  "both_profile_positive_controls_authenticate": true,
+  "both_profile_positive_controls_deliver": true,
+  "no_attack_bind_t": true,
+  "no_attack_profile_delivery": true
+}

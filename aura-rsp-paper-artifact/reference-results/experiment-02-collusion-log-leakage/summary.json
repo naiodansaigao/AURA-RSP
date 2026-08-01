@@ -1,0 +1,300 @@
+{
+  "experiment": "mno-smdpp-collusion-and-log-leakage",
+  "status": "PASS",
+  "method": "implementation_derived_protocol_visible_log_experiment",
+  "design": {
+    "seed": 20260730,
+    "device_count": 250,
+    "mnos": [
+      "MNO-A",
+      "MNO-B",
+      "MNO-C",
+      "MNO-D"
+    ],
+    "colluding_mnos": [
+      "MNO-A",
+      "MNO-B"
+    ],
+    "profiles_per_device": 4,
+    "transactions_per_protocol": 1000,
+    "complete_network_downloads_executed": false,
+    "lifecycle_scope": "integrated_authenticated_state_chain_logs",
+    "unique_test_account_per_order": true,
+    "profile_source_sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422",
+    "profile_bytes": 12207,
+    "implementation_audit": {
+      "implementation": "pysim-aura-integration",
+      "protocol": "AURA-RSP-v14-pysim-integration",
+      "source_directory": "pysim-aura-integration",
+      "production_modules": [
+        "pySim/esim/aura/models.py",
+        "pySim/esim/aura/context.py",
+        "pySim/esim/aura/proof.py",
+        "pySim/esim/aura/binding.py",
+        "pySim/esim/aura/receipt.py",
+        "pySim/esim/aura/lifecycle.py"
+      ],
+      "production_source_sha256": {
+        "pySim/esim/aura/models.py": "c4b9c126f0510edc301c6674145da2dcee8f978bcb910391d09dad848dd518a9",
+        "pySim/esim/aura/context.py": "0364efb27635f76bf90c8eaeaf7a7accba98dc03e3d8413c87b696f10510b22a",
+        "pySim/esim/aura/proof.py": "93caa7a32d1ea81d8ea5fbaf7f7bf7acb7f580c1b262e0580b8b5a92481ec0cf",
+        "pySim/esim/aura/binding.py": "e1a1545add75e317a3e8dce042b77624f6969b2642263426c41348ab64de5b22",
+        "pySim/esim/aura/receipt.py": "b24012e5afd1b66103ea083f4e63593143ec79a49ac97b6a86bddf1a82a5d501",
+        "pySim/esim/aura/lifecycle.py": "e75a436f35a1b6c7db16173ee57c7049f4fab226a30e3f049e885e336b9edb00"
+      },
+      "capabilities": [
+        "classical-p256"
+      ],
+      "bulk_method": "production_public_log_and_state_receipt_construction",
+      "full_https_download_per_transaction": false,
+      "full_randomized_pairing_proof_per_transaction": false,
+      "proof_scope": "production ctx_t, BLS12-381 nu/lph, gamma/c, tau_auth, binding context, install receipt and enable state receipt; randomized BBS+ proof body omitted"
+    }
+  },
+  "subexperiment_2a_collusion": {
+    "standard_rsp": {
+      "protocol_mode": "standard_rsp",
+      "colluding_mnos": [
+        "MNO-A",
+        "MNO-B"
+      ],
+      "orders_in_scope": 500,
+      "joined_orders": 500,
+      "order_join_rate": 1.0,
+      "transaction_count": 500,
+      "attacker_visible_cluster_count": 250,
+      "mean_profiles_per_cluster": 2.0,
+      "median_profiles_per_cluster": 2.0,
+      "max_profiles_per_cluster": 2,
+      "multi_mno_cluster_rate": 1.0,
+      "cross_profile_pair_link_rate": 1.0,
+      "false_link_rate": 0.0,
+      "exact_device_history_recovery_rate": 1.0,
+      "mean_profiles_recovered_per_true_device": 2.0,
+      "mean_history_exposure_fraction": 1.0
+    },
+    "aura_rsp": {
+      "protocol_mode": "aura_rsp",
+      "colluding_mnos": [
+        "MNO-A",
+        "MNO-B"
+      ],
+      "orders_in_scope": 500,
+      "joined_orders": 500,
+      "order_join_rate": 1.0,
+      "transaction_count": 500,
+      "attacker_visible_cluster_count": 500,
+      "mean_profiles_per_cluster": 1.0,
+      "median_profiles_per_cluster": 1.0,
+      "max_profiles_per_cluster": 1,
+      "multi_mno_cluster_rate": 0.0,
+      "cross_profile_pair_link_rate": 0.0,
+      "false_link_rate": 0.0,
+      "exact_device_history_recovery_rate": 0.0,
+      "mean_profiles_recovered_per_true_device": 1.0,
+      "mean_history_exposure_fraction": 0.5
+    }
+  },
+  "subexperiment_2b_log_leakage": {
+    "standard_rsp": {
+      "transaction_count": 1000,
+      "attacker_visible_cluster_count": 250,
+      "mean_profiles_per_cluster": 4.0,
+      "median_profiles_per_cluster": 4.0,
+      "max_profiles_per_cluster": 4,
+      "multi_mno_cluster_rate": 1.0,
+      "cross_profile_pair_link_rate": 1.0,
+      "false_link_rate": 0.0,
+      "exact_device_history_recovery_rate": 1.0,
+      "mean_profiles_recovered_per_true_device": 4.0,
+      "mean_history_exposure_fraction": 1.0,
+      "leaked_download_records": 1000,
+      "leaked_lifecycle_records": 3000,
+      "within_profile_lifecycle_link_rate": 1.0,
+      "lifecycle_events_per_profile": 3,
+      "lifecycle_scope": "integrated_authenticated_state_chain_logs",
+      "mean_download_records_per_cluster": 4,
+      "mean_mnos_per_cluster": 4,
+      "mean_lifecycle_records_per_cluster": 12
+    },
+    "aura_rsp": {
+      "transaction_count": 1000,
+      "attacker_visible_cluster_count": 1000,
+      "mean_profiles_per_cluster": 1.0,
+      "median_profiles_per_cluster": 1.0,
+      "max_profiles_per_cluster": 1,
+      "multi_mno_cluster_rate": 0.0,
+      "cross_profile_pair_link_rate": 0.0,
+      "false_link_rate": 0.0,
+      "exact_device_history_recovery_rate": 0.0,
+      "mean_profiles_recovered_per_true_device": 1.0,
+      "mean_history_exposure_fraction": 0.25,
+      "leaked_download_records": 1000,
+      "leaked_lifecycle_records": 3000,
+      "within_profile_lifecycle_link_rate": 1.0,
+      "lifecycle_events_per_profile": 3,
+      "lifecycle_scope": "integrated_authenticated_state_chain_logs",
+      "mean_download_records_per_cluster": 1,
+      "mean_mnos_per_cluster": 1,
+      "mean_lifecycle_records_per_cluster": 3
+    }
+  },
+  "reproducibility_hashes": {
+    "mno_logs_sha256": "74a26218d92f3f4e2c305ccfccbf762c88824e5d09d0bb94526e4cafd9589369",
+    "smdpp_logs_sha256": "35511b1026541b706819f961044045f5cfa23cd54a608169fcabe13bd038e9e6",
+    "lifecycle_logs_sha256": "7a4fdd8f3c1ef2ebea6c5edbfaceb230012390c13954c465f696cefb0bbd6c63",
+    "ground_truth_sha256": "e3a62fbb9bbde339a048c69d333dbed9f683c5d14c4d4aab2d59c2c92bb002ee"
+  },
+  "assertions": [
+    {
+      "name": "transaction_count_per_mode",
+      "passed": true,
+      "actual": 1000,
+      "expected": "1000 per protocol"
+    },
+    {
+      "name": "all_test_accounts_unique",
+      "passed": true,
+      "actual": {
+        "records": 2000,
+        "unique": 2000
+      },
+      "expected": "one unique account per order and protocol"
+    },
+    {
+      "name": "ground_truth_separated",
+      "passed": true,
+      "actual": [
+        "Bind_t_hash",
+        "I_ac",
+        "I_t",
+        "N_S",
+        "N_U",
+        "PRaddr",
+        "authentication_result",
+        "authorization_kind",
+        "cap",
+        "counter",
+        "download_result",
+        "eid",
+        "euicc_certificate_fingerprint",
+        "euicc_public_key_fingerprint",
+        "euicc_signature_hash",
+        "event",
+        "event_index",
+        "event_time_unix",
+        "install_result",
+        "last_hash",
+        "lifecycle_link",
+        "lph",
+        "matching_id",
+        "mno",
+        "network_egress",
+        "nu",
+        "op",
+        "opid",
+        "order_id",
+        "order_status",
+        "order_time_unix",
+        "pid_h",
+        "profile_hash",
+        "profile_id",
+        "profile_size",
+        "proof_hash",
+        "protocol_mode",
+        "receipt_hash",
+        "semantic_scope",
+        "serverOID",
+        "server_challenge",
+        "session_public_key",
+        "sid",
+        "smdpp",
+        "state",
+        "test_account_id",
+        "transaction_id",
+        "vk_t"
+      ],
+      "expected": "ground-truth fields absent from public logs"
+    },
+    {
+      "name": "generator_reproducible",
+      "passed": true,
+      "actual": true,
+      "expected": "true"
+    },
+    {
+      "name": "2a_standard_rsp_order_join_complete",
+      "passed": true,
+      "actual": 1.0,
+      "expected": ">= 1.0"
+    },
+    {
+      "name": "2a_aura_rsp_order_join_complete",
+      "passed": true,
+      "actual": 1.0,
+      "expected": ">= 1.0"
+    },
+    {
+      "name": "2a_standard_cross_mno_history_recovered",
+      "passed": true,
+      "actual": 1.0,
+      "expected": ">= 0.99"
+    },
+    {
+      "name": "2a_aura_no_cross_profile_device_link",
+      "passed": true,
+      "actual": 0.0,
+      "expected": "<= 0.01"
+    },
+    {
+      "name": "2b_standard_leak_radius_is_device_history",
+      "passed": true,
+      "actual": 4.0,
+      "expected": "4.0"
+    },
+    {
+      "name": "2b_aura_leak_radius_is_single_profile",
+      "passed": true,
+      "actual": 1.0,
+      "expected": "1.0"
+    },
+    {
+      "name": "2b_aura_within_profile_lifecycle_visible",
+      "passed": true,
+      "actual": 1.0,
+      "expected": "1.0"
+    },
+    {
+      "name": "2b_exposure_radius_aggregates_consistent",
+      "passed": true,
+      "actual": {
+        "standard_downloads": 4,
+        "aura_downloads": 1,
+        "standard_mnos": 4,
+        "aura_mnos": 1,
+        "standard_lifecycle": 12,
+        "aura_lifecycle": 3
+      },
+      "expected": {
+        "standard_downloads": 4.0,
+        "aura_downloads": 1.0,
+        "standard_mnos": 4.0,
+        "aura_mnos": 1.0,
+        "standard_lifecycle": 12.0,
+        "aura_lifecycle": 3.0
+      }
+    },
+    {
+      "name": "no_false_device_links",
+      "passed": true,
+      "actual": {
+        "2a_standard": 0.0,
+        "2a_aura": 0.0,
+        "2b_standard": 0.0,
+        "2b_aura": 0.0
+      },
+      "expected": "all zero"
+    }
+  ],
+  "execution_ms": 40791.197
+}

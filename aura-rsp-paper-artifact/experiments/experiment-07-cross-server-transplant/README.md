@@ -8,7 +8,7 @@
 在 WSL2 Ubuntu 中执行：
 
 ```bash
-cd /path/to/aura-rsp-paper-artifact/experiments/experiment-07-cross-server-transplant
+cd experiments/experiment-07-cross-server-transplant
 bash ./run_demo.sh
 ```
 

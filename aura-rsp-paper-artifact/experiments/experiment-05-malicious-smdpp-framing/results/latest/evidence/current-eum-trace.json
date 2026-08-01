@@ -1,7 +1,0 @@
-{
-  "eid_recovered": false,
-  "invalid_evidence_count": 0,
-  "recovered_eid": null,
-  "trace_result": "insufficient_valid_evidence",
-  "valid_distinct_evidence_count": 1
-}

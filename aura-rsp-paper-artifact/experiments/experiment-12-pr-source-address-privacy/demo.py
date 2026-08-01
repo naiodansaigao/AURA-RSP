@@ -512,23 +512,23 @@ def source_audit(
         ),
         "relay_upstream_post": (
             "relay",
-            "response = self.http.post(",
+            "return self.http.post(",
         ),
-        "relay_mtls_identity": (
+        "relay_tls_peer_verification": (
             "relay",
-            'str(pki / "relay-client.pem")',
+            "self.http.verify = str(",
         ),
-        "relay_size_logging": (
+        "relay_authenticated_identity": (
             "relay",
-            '"request_bytes": len(body)',
+            '"X-AURA-PR-AUTH": tag',
         ),
-        "server_peer_certificate": (
+        "server_pr_authentication_entry": (
             "server",
-            "peer_cert = self.connection.getpeercert()",
+            "def _aura_pr_identity(",
         ),
-        "server_pr_identity": (
+        "server_pr_hmac_verification": (
             "server",
-            "pr_identity = cert_common_name(peer_cert)",
+            "if not hmac.compare_digest(expected, supplied):",
         ),
     }
     sources: dict[str, tuple[Path, list[str]]] = {}
@@ -564,9 +564,10 @@ def source_audit(
             for name, (path, _) in sources.items()
         },
         "interpretation": (
-            "The production relay creates the upstream HTTPS connection; "
-            "the SM-DP+ authenticates the relay identity, not a downstream "
-            "device source address."
+            "The integrated relay creates the upstream TLS connection and "
+            "authenticates PRaddr with a nonce-bound HMAC; the SM-DP+ sees "
+            "the relay source and authenticated relay identity, not a "
+            "downstream device source address."
         ),
     }
 

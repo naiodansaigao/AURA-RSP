@@ -1,0 +1,7 @@
+{
+  "ciphertext_and_tag_tampering_rejected": true,
+  "cross_session_replay_rejected": true,
+  "no_attack_install_or_receipt": true,
+  "positive_controls_decrypt": true,
+  "wrong_plaintext_rejected_by_order_digest": true
+}

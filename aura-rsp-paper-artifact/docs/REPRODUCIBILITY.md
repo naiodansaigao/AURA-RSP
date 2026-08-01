@@ -1,106 +1,40 @@
-# Reproducibility guide
+# Reproducibility Guide
 
-## 1. Environment
+## Recommended environment
 
-The reference environment is WSL2 Ubuntu 24.04 with Python 3.12. The scripts
-create isolated virtual environments under:
+- Windows 11 with WSL2;
+- Ubuntu 24.04;
+- Python 3.12;
+- at least 4 CPU cores and 8 GiB RAM for the large matrix/load experiments.
 
-```text
-$HOME/.venvs/rsp-baseline
-$HOME/.venvs/aura-rsp
-```
-
-No virtual environment is stored in the Git repository.
-
-## 2. Install
+## Clean setup
 
 ```bash
-bash scripts/setup_wsl.sh
+bash ./scripts/setup_wsl.sh
+python3 ./scripts/verify_artifact.py
 ```
 
-The command installs system packages, Standard RSP Python dependencies, AURA
-dependencies, and the ML-KEM dependency used only by Experiment 09.
+The setup script creates the virtual environment under `~/.venvs/pysim-aura-integration`. Generated keys and databases remain inside ignored runtime directories.
 
-Vendored upstream source snapshots are already present. The pinned commits are
-recorded in `rsp-baseline/VERSIONS.md`.
-
-## 3. Standard RSP baseline
+## Protocol demos
 
 ```bash
-bash rsp-baseline/scripts/run_all.sh
+bash ./scripts/run_standard.sh
+bash ./scripts/run_aura.sh
+bash ./scripts/run_benchmark.sh 10
 ```
 
-Expected markers:
+The paper-facing benchmark excludes service startup, uses an untimed warm-up, alternates client order, installs identical Profile bytes and asserts a common Profile SHA-256 digest. Do not mix its values with `benchmark_online.sh`, which uses a narrower online-protocol boundary.
 
-```text
-SOFTWARE_RSP_BASELINE_PASS
-INSTALL_NOTIFICATION_PASS
-TLS_VERIFY_OK
-RSP_BASELINE_ALL_PASS
-```
-
-The baseline runs osmo-smdpp and the pySim software eUICC/LPA download path.
-OpenEUICC/lpac sources are provided for the implementation route and optional
-hardware/Android integration, but the reproducible headless demo uses pySim.
-
-## 4. AURA-RSP
+## Experiments
 
 ```bash
-bash aura-rsp/scripts/run_all.sh
+bash ./scripts/run_experiment.sh 1
+bash ./scripts/run_all_experiments.sh
 ```
 
-Expected markers:
+Each experiment writes its own `results/latest/` directory. The runner stops immediately if an experiment exits non-zero. Fixed seeds and experiment-specific configuration are stored in each `config.json`.
 
-```text
-AURA_CRYPTO_SELFTEST_PASS
-AURA_RSP_DOWNLOAD_PASS
-AURA_PROFILE_DOWNLOAD_EVIDENCE_OK
-AURA_RSP_ALL_PASS
-```
+## Reference results
 
-Runtime keys, SQLite databases, downloaded Profiles, and logs are generated
-locally and are intentionally excluded from the public artifact.
-
-## 5. Performance comparison
-
-Keep the Standard SM-DP+ running, then execute:
-
-```bash
-bash scripts/run_benchmark.sh 10
-```
-
-The comparison uses the same 12,207-byte Profile. Service startup and offline
-ticket issuance are excluded; TLS and the complete online download path are
-included.
-
-## 6. Security experiments
-
-```bash
-bash scripts/run_all_experiments.sh
-```
-
-Each experiment resets its own state and writes into its own `results/latest/`.
-Recorded results shipped with this artifact are evidence snapshots, not a
-substitute for rerunning the code.
-
-Experiment 13:
-
-```bash
-bash experiments/experiment-13-out-of-scope-secret-compromise/run_demo.sh \
-  --backend production
-```
-
-Use the production backend for BBS+ evidence. The portable fallback is clearly
-labelled and must not be cited as a BBS+ implementation result.
-
-## 7. Verification
-
-```bash
-python3 scripts/verify_artifact.py
-sha256sum -c MANIFEST.sha256
-```
-
-The verifier checks directory completeness, Python syntax, JSON parsing,
-experiment entry points, dependency manifests, and the absence of generated
-runtime secrets outside the explicitly vendored pySim test fixtures.
-
+`reference-results/` is a compact snapshot from the verified local runs. It is included for paper audit, not as a substitute for rerunning the code. Large raw JSONL/CSV logs are intentionally omitted from the GitHub artifact.

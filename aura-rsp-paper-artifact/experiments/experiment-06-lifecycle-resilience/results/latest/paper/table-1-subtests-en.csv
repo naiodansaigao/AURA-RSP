@@ -1,7 +1,0 @@
-﻿Final state,Result,Scenario,Subtest
-disabled,PASS,old_receipt_replay_and_latest_idempotency,6A
-installed,PASS,receipt_field_tampering,6B
-pending-delete,PASS,concurrent_enable_delete_fork,6C
-pending-delete,PASS,lost_rprep_response,6D
-tombstone,PASS,lost_commit_receipt_or_final_ack,6E
-tombstone,PASS,commit_after_delete_ticket_expiry,6F

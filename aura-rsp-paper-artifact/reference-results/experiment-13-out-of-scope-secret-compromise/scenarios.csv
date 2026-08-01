@@ -1,0 +1,7 @@
+﻿scenario,leaked_asset,standalone_sufficient,attack_succeeded,required_additional_material,affected_property,classification
+euicc_x,eUICC long-term x,False,True,"k, issued credential, signed ticket, eta, d",endpoint holder-state clone resistance,EXPECTED OUT-OF-SCOPE COMPROMISE
+ticket_eta_d,"ticket witnesses eta,d",False,True,"matching x/k, device credential, signed ticket",ticket holder-state confidentiality,EXPECTED OUT-OF-SCOPE COMPROMISE
+eum_signing_key,EUM credential issuing private key,True,True,attacker-chosen credential messages,device credential unforgeability,EXPECTED OUT-OF-SCOPE COMPROMISE
+mno_signing_key,MNO ticket issuing private key,True,True,attacker-chosen ticket messages,operation ticket unforgeability,EXPECTED OUT-OF-SCOPE COMPROMISE
+smdpp_signing_keys,SM-DP+ authentication and binding private keys,True,True,chosen server transcript,server authenticity and Profile Binding,EXPECTED OUT-OF-SCOPE COMPROMISE
+eum_trace_database,EUM trace_index database,True,True,database read access,conditional identity-map confidentiality,EXPECTED OUT-OF-SCOPE COMPROMISE

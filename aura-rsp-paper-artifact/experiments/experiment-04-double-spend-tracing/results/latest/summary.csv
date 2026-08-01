@@ -1,4 +1,0 @@
-﻿business_execution_count,eid_exposed,false_trace_count,profile_installed,scenario,second_business_execution,trace_success
-1,False,0,True,4A_normal_single_use,False,False
-1,False,0,True,4B_exact_replay,False,False
-1,True,0,True,4C_true_double_spend,False,True

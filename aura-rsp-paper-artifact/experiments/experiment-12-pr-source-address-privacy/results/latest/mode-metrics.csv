@@ -1,5 +1,0 @@
-﻿mode,observed_source_addresses,ip_pairwise_roc_auc,ip_pairwise_balanced_accuracy,ip_pairwise_precision,same_device_pair_recall,different_device_pair_recall,exact_device_history_recovery,mean_device_anonymity_set,median_device_anonymity_set,expected_ip_identification_rate,matched_records,correct_matches,incorrect_matches,match_accuracy,false_match_rate,full_device_history_recovery,partial_device_history_recovery,median_time_residual_ms,median_size_residual_bytes,interpretation
-12A_direct,100,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,,,,,,,,,,
-12B_shared_pr,1,0.5,0.5,0.007519,1.0,0.0,0.0,100.0,100,0.01,,,,,,,,,,
-12C_time_only,,,,,,,,,,,400,326,74,0.815,0.185,0.47,0.53,22.955,7.0,EXPECTED_BOUNDARY_FAILURE
-12C_time_and_size,,,,,,,,,,,400,398,2,0.995,0.005,0.98,0.02,25.903,6.0,EXPECTED_BOUNDARY_FAILURE

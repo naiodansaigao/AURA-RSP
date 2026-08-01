@@ -8,16 +8,10 @@
     "MNO-C",
     "MNO-D"
   ],
-  "shared_smdpp": "shared-smdpp.test",
+  "shared_smdpp": "testsmdpplus1.example.com",
   "shared_network_egress": "198.51.100.10",
-  "aura_sid": "aura-smdpp.test",
-  "aura_praddr": "aura-pr.test",
-  "aura_server_oid": "2.999.10",
-  "aura_capabilities": [
-    "AURA-BBSPLUS-BLS12381-SHA256",
-    "ECDHE-P256-HKDF-SHA256-AES256GCM"
-  ],
-  "profile_source": "../../rsp-baseline/third_party/pysim/smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
+  "integration_root": "../../pysim-aura-integration",
+  "profile_source": "../../pysim-aura-integration/smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
   "time_window_seconds": 604800,
   "pair_cv_folds": 5,
   "graph_device_limit": 4,

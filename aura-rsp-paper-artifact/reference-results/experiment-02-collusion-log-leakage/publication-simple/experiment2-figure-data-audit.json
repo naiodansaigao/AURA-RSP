@@ -1,0 +1,80 @@
+{
+  "status": "PASS",
+  "source": "reference-results/experiment-02-collusion-log-leakage/summary.json",
+  "source_sha256": "48c9d996ba10ac2271664b71c251042e713ec4be1e7585075f314a4b633678de",
+  "method": "implementation_derived_protocol_visible_log_experiment",
+  "design": {
+    "seed": 20260730,
+    "device_count": 250,
+    "mnos": [
+      "MNO-A",
+      "MNO-B",
+      "MNO-C",
+      "MNO-D"
+    ],
+    "colluding_mnos": [
+      "MNO-A",
+      "MNO-B"
+    ],
+    "profiles_per_device": 4,
+    "transactions_per_protocol": 1000,
+    "complete_network_downloads_executed": false,
+    "lifecycle_scope": "integrated_authenticated_state_chain_logs",
+    "unique_test_account_per_order": true,
+    "profile_source_sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422",
+    "profile_bytes": 12207,
+    "implementation_audit": {
+      "implementation": "pysim-aura-integration",
+      "protocol": "AURA-RSP-v14-pysim-integration",
+      "source_directory": "pysim-aura-integration",
+      "production_modules": [
+        "pySim/esim/aura/models.py",
+        "pySim/esim/aura/context.py",
+        "pySim/esim/aura/proof.py",
+        "pySim/esim/aura/binding.py",
+        "pySim/esim/aura/receipt.py",
+        "pySim/esim/aura/lifecycle.py"
+      ],
+      "production_source_sha256": {
+        "pySim/esim/aura/models.py": "c4b9c126f0510edc301c6674145da2dcee8f978bcb910391d09dad848dd518a9",
+        "pySim/esim/aura/context.py": "0364efb27635f76bf90c8eaeaf7a7accba98dc03e3d8413c87b696f10510b22a",
+        "pySim/esim/aura/proof.py": "93caa7a32d1ea81d8ea5fbaf7f7bf7acb7f580c1b262e0580b8b5a92481ec0cf",
+        "pySim/esim/aura/binding.py": "e1a1545add75e317a3e8dce042b77624f6969b2642263426c41348ab64de5b22",
+        "pySim/esim/aura/receipt.py": "b24012e5afd1b66103ea083f4e63593143ec79a49ac97b6a86bddf1a82a5d501",
+        "pySim/esim/aura/lifecycle.py": "e75a436f35a1b6c7db16173ee57c7049f4fab226a30e3f049e885e336b9edb00"
+      },
+      "capabilities": [
+        "classical-p256"
+      ],
+      "bulk_method": "production_public_log_and_state_receipt_construction",
+      "full_https_download_per_transaction": false,
+      "full_randomized_pairing_proof_per_transaction": false,
+      "proof_scope": "production ctx_t, BLS12-381 nu/lph, gamma/c, tau_auth, binding context, install receipt and enable state receipt; randomized BBS+ proof body omitted"
+    }
+  },
+  "plotted_data": {
+    "log_leakage_radius": {
+      "categories": [
+        "Download records\nper cluster",
+        "Distinct profiles\nper cluster",
+        "Distinct MNOs\nper cluster",
+        "Lifecycle records\nper cluster"
+      ],
+      "standard_rsp": [
+        4,
+        4.0,
+        4,
+        12
+      ],
+      "aura_rsp": [
+        1,
+        1.0,
+        1,
+        3
+      ]
+    }
+  },
+  "figure": {
+    "experiment2-log-leakage-radius-en-600dpi.png": "24b9b7b5b72ec0a18912caea2ae63671df76251461c9a7cb05dfb13126fbc87f"
+  }
+}

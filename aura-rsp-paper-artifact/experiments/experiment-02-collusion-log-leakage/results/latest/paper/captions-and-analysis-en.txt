@@ -1,7 +1,0 @@
-Figure 1. Collusion between MNO/Reseller logs and a shared SM-DP+. In both modes, an order authorization handle links an MNO order to its current download. Standard RSP additionally exposes stable EID, eUICC-certificate, and public-key values that recover cross-MNO device history; AURA-RSP does not form a device cluster across distinct profile lifecycles.
-
-Figure 2. History impact radius after SM-DP+ log leakage. Each leaked Standard RSP device cluster contains 4.0 profiles on average. Each AURA-RSP lph cluster contains only 1.0 profile on average, reducing the leakage radius from device-level history to an order and a single profile lifecycle.
-
-Figure 3. Example relationship reconstruction from leaked logs. AURA-RSP does not hide that a specific order completed a download, nor does it prevent events under the same lph from being linked. It prevents distinct tickets and profile lifecycles from being merged into one physical-eUICC history.
-
-Note: this is a controlled protocol-visible log experiment; it does not execute 1000 complete network downloads per protocol. Lifecycle rows evaluate linkage semantics because the current AURA demo does not implement the paper's complete lifecycle state machine.

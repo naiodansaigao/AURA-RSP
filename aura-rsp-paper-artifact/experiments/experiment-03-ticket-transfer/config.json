@@ -1,29 +1,32 @@
 {
-  "experiment_name": "experiment-03-ticket-transfer",
-  "seed": 20260729,
-  "aura": {
-    "matching_id": "EXP03-AURA-MATCHING-ID",
-    "sid": "aura-smdpp.exp03.test",
-    "server_oid": "2.999.10.3",
-    "praddr": "aura-pr.exp03.test",
-    "capabilities": [
-      "AURA-BBSPLUS-BLS12381-SHA256",
-      "ECDHE-P256-HKDF-SHA256-AES256GCM"
-    ],
-    "credential_valid_seconds": 86400,
-    "ticket_valid_seconds": 3600
+  "experiment_name": "experiment-03-ticket-transfer-matrix",
+  "seed": 20260731,
+  "scale": {
+    "devices": 50,
+    "rounds": 10
   },
-  "standard": {
-    "smdpp": "standard-smdpp.exp03.test",
-    "activation_code": "LPA:1$standard-smdpp.exp03.test$EXP03-STOLEN-CODE"
+  "configurations": [
+    "aura_full",
+    "aura_no_secret_binding",
+    "standard_prebound_eid",
+    "standard_unbound_activation_code"
+  ],
+  "performance": {
+    "concurrency_levels": [1, 8, 32, 64, 128],
+    "requests_per_level": "one request per logical concurrent client",
+    "process_workers": "auto",
+    "process_start_method": "fork",
+    "pool_policy": "one persistent verifier process per available logical CPU, capped by the largest concurrency level"
   },
-  "assertions": {
-    "aura_owner_authentication_must_pass": true,
-    "aura_transfer_must_be_rejected": true,
-    "aura_rejection_http_status": 401,
-    "aura_bind_t_must_not_exist": true,
-    "aura_profile_must_not_be_delivered": true,
-    "standard_prebound_transfer_must_be_rejected": true,
-    "standard_unbound_transfer_may_succeed": true
-  }
+  "measurement": {
+    "matrix": "all ticket-device pairs in every round",
+    "cryptographic_samples_per_round": {
+      "owner_control": 1,
+      "honest_cross_device_attempt": 1,
+      "ablation_cross_device_attempt": 1,
+      "forced_invalid_server_submission": 1
+    },
+    "profile_delivery": "authorization-gate outcome; identical Profile ciphertext generation is not repeated for every matrix cell"
+  },
+  "ablation_warning": "AURA-RSP w/o secret binding is an experiment-only control and is not the normal protocol implementation."
 }

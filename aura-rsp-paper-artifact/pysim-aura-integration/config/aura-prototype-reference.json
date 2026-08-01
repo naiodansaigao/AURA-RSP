@@ -1,0 +1,18 @@
+{
+  "protocol": "AURA-RSP-v14-research-demo",
+  "matching_id": "TS48V2-SAIP2-1-NOBERTLV-UNIQUE",
+  "sid": "aura-smdpp.test",
+  "server_oid": "2.999.10",
+  "praddr": "aura-pr.test",
+  "backend_url": "https://127.0.0.1:9443",
+  "relay_url": "https://127.0.0.1:9444",
+  "backend_port": 9443,
+  "relay_port": 9444,
+  "profile_source": "../smdpp-data/upp/TS48V2-SAIP2-1-NOBERTLV-UNIQUE.der",
+  "capabilities": [
+    "AURA-BBSPLUS-BLS12381-SHA256",
+    "ECDHE-P256-HKDF-SHA256-AES256GCM"
+  ],
+  "credential_valid_days": 365,
+  "ticket_valid_minutes": 30
+}

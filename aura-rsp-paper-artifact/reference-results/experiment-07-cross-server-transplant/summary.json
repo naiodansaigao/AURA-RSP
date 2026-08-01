@@ -1,0 +1,105 @@
+{
+  "assertions": {
+    "all_cross_server_transplants_rejected": true,
+    "no_attack_bind_t": true,
+    "no_attack_profile_delivery": true,
+    "positive_server_a_authenticates": true,
+    "positive_server_b_authenticates": true
+  },
+  "aura": {
+    "attacks": [
+      {
+        "accepted": false,
+        "bind_t_generated": false,
+        "profile_delivered": false,
+        "protocol": "AURA-RSP",
+        "reason": "UNKNOWN_TRANSACTION",
+        "scenario": "direct_replay_to_server_b",
+        "stage": "authenticateClient"
+      },
+      {
+        "accepted": false,
+        "bind_t_generated": false,
+        "profile_delivered": false,
+        "protocol": "AURA-RSP",
+        "reason": "UNKNOWN_TRANSACTION",
+        "scenario": "replace_target_address_only",
+        "stage": "authenticateClient"
+      },
+      {
+        "accepted": false,
+        "bind_t_generated": false,
+        "profile_delivered": false,
+        "protocol": "AURA-RSP",
+        "reason": "GAMMA_CONTEXT_MISMATCH",
+        "scenario": "replace_transaction_for_server_b",
+        "stage": "authenticateClient"
+      },
+      {
+        "accepted": false,
+        "bind_t_generated": false,
+        "profile_delivered": false,
+        "protocol": "AURA-RSP",
+        "reason": "GAMMA_CONTEXT_MISMATCH",
+        "scenario": "server_b_sid_context",
+        "stage": "authenticateClient"
+      },
+      {
+        "accepted": false,
+        "bind_t_generated": false,
+        "profile_delivered": false,
+        "protocol": "AURA-RSP",
+        "reason": "GAMMA_CONTEXT_MISMATCH",
+        "scenario": "server_b_server_oid_context",
+        "stage": "authenticateClient"
+      },
+      {
+        "accepted": false,
+        "bind_t_generated": false,
+        "profile_delivered": false,
+        "protocol": "AURA-RSP",
+        "reason": "GAMMA_CONTEXT_MISMATCH",
+        "scenario": "server_b_capability_context",
+        "stage": "authenticateClient"
+      },
+      {
+        "accepted": false,
+        "bind_t_generated": false,
+        "profile_delivered": false,
+        "protocol": "AURA-RSP",
+        "reason": "PR_IDENTITY_MISMATCH",
+        "scenario": "replace_praddr",
+        "stage": "transport"
+      }
+    ],
+    "positive_controls": {
+      "server_a": true,
+      "server_b": true
+    }
+  },
+  "execution_ms": 5613.582,
+  "experiment": "experiment-07-cross-server-transplant",
+  "implementation": "pysim-osmo-smdpp-integrated-aura",
+  "metrics": {
+    "attacks": 7,
+    "rejected": 7,
+    "valid_attack_bind_t": 0
+  },
+  "migration_comparison": {
+    "conclusion_unchanged": true,
+    "previous_status": "PASS"
+  },
+  "source_audit": {
+    "modules": {
+      "pySim/esim/aura/binding.py": "e1a1545add75e317a3e8dce042b77624f6969b2642263426c41348ab64de5b22",
+      "pySim/esim/aura/context.py": "0364efb27635f76bf90c8eaeaf7a7accba98dc03e3d8413c87b696f10510b22a",
+      "pySim/esim/aura/proof.py": "93caa7a32d1ea81d8ea5fbaf7f7bf7acb7f580c1b262e0580b8b5a92481ec0cf",
+      "pySim/esim/aura/service.py": "b2a33b08ec9c52184594e750d2fb18f5b5cd58decfc03de9ab9449fdf56bea6f"
+    }
+  },
+  "standard": {
+    "expected": "REJECT",
+    "interpretation": "Correct server certificate and transaction binding are Standard RSP regression properties, not a claimed Standard vulnerability."
+  },
+  "status": "PASS"
+}

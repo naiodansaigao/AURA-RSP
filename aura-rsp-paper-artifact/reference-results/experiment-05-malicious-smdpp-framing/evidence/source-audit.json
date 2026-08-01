@@ -1,0 +1,12 @@
+{
+  "context_conflict_exception_present": true,
+  "finding": "read_side_guard_active",
+  "full_auth_request_stored": true,
+  "local_ticket_log_sha256": "54584ef4e2c01557fc90653498e19636c242c29cf240ecd31308fe517f23581e",
+  "lookup_before_create_auth_proof": true,
+  "source_files": [
+    "pysim-aura-integration/pySim/esim/aura/client.py",
+    "pysim-aura-integration/pySim/esim/aura/local_ticket_log.py"
+  ],
+  "source_sha256": "4554e095bd2010c1e7c94d49b730a2bd5a61b8c8db45806bd3b1bf1a6df24916"
+}

@@ -1,0 +1,154 @@
+{
+  "I_t": {
+    "full_aura": {
+      "new_valid_response": false,
+      "outcome": "local_ticket_context_conflict"
+    },
+    "key_only_cache_no_context_check": {
+      "cached_response_returned": true,
+      "trace_result": "insufficient_valid_evidence",
+      "valid_under_modified_context": false,
+      "verification_reason": "gamma/context mismatch"
+    },
+    "without_local_ticket_log": {
+      "correct_honest_eid_recovered": true,
+      "proof_generate_ms": 1268.365,
+      "proof_generated": true,
+      "proof_reason": "ok",
+      "proof_valid": true,
+      "recovered_eid": "89049032123451234512345678905001",
+      "trace_result": "identity_recovered"
+    }
+  },
+  "N_S": {
+    "full_aura": {
+      "new_valid_response": false,
+      "outcome": "local_ticket_context_conflict"
+    },
+    "key_only_cache_no_context_check": {
+      "cached_response_returned": true,
+      "trace_result": "insufficient_valid_evidence",
+      "valid_under_modified_context": false,
+      "verification_reason": "gamma/context mismatch"
+    },
+    "without_local_ticket_log": {
+      "correct_honest_eid_recovered": true,
+      "proof_generate_ms": 1260.364,
+      "proof_generated": true,
+      "proof_reason": "ok",
+      "proof_valid": true,
+      "recovered_eid": "89049032123451234512345678905001",
+      "trace_result": "identity_recovered"
+    }
+  },
+  "PRaddr": {
+    "full_aura": {
+      "new_valid_response": false,
+      "outcome": "server_authentication_context_mismatch"
+    },
+    "key_only_cache_no_context_check": {
+      "cached_response_returned": false,
+      "trace_result": "insufficient_valid_evidence",
+      "valid_under_modified_context": false
+    },
+    "without_local_ticket_log": {
+      "proof_generated": false,
+      "proof_valid": false,
+      "recovered_eid": null,
+      "trace_result": "insufficient_valid_evidence"
+    }
+  },
+  "cap": {
+    "full_aura": {
+      "new_valid_response": false,
+      "outcome": "local_ticket_context_conflict"
+    },
+    "key_only_cache_no_context_check": {
+      "cached_response_returned": true,
+      "trace_result": "insufficient_valid_evidence",
+      "valid_under_modified_context": false,
+      "verification_reason": "gamma/context mismatch"
+    },
+    "without_local_ticket_log": {
+      "correct_honest_eid_recovered": true,
+      "proof_generate_ms": 1246.642,
+      "proof_generated": true,
+      "proof_reason": "ok",
+      "proof_valid": true,
+      "recovered_eid": "89049032123451234512345678905001",
+      "trace_result": "identity_recovered"
+    }
+  },
+  "op": {
+    "full_aura": {
+      "new_valid_response": false,
+      "outcome": "invalid_mno_ticket_signature"
+    },
+    "key_only_cache_no_context_check": {
+      "cached_response_returned": false,
+      "trace_result": "insufficient_valid_evidence",
+      "valid_under_modified_context": false
+    },
+    "without_local_ticket_log": {
+      "proof_generated": false,
+      "proof_valid": false,
+      "recovered_eid": null,
+      "trace_result": "insufficient_valid_evidence"
+    }
+  },
+  "pid_h": {
+    "full_aura": {
+      "new_valid_response": false,
+      "outcome": "invalid_mno_ticket_signature"
+    },
+    "key_only_cache_no_context_check": {
+      "cached_response_returned": false,
+      "trace_result": "insufficient_valid_evidence",
+      "valid_under_modified_context": false
+    },
+    "without_local_ticket_log": {
+      "proof_generated": false,
+      "proof_valid": false,
+      "recovered_eid": null,
+      "trace_result": "insufficient_valid_evidence"
+    }
+  },
+  "serverOID": {
+    "full_aura": {
+      "new_valid_response": false,
+      "outcome": "local_ticket_context_conflict"
+    },
+    "key_only_cache_no_context_check": {
+      "cached_response_returned": true,
+      "trace_result": "insufficient_valid_evidence",
+      "valid_under_modified_context": false,
+      "verification_reason": "gamma/context mismatch"
+    },
+    "without_local_ticket_log": {
+      "correct_honest_eid_recovered": true,
+      "proof_generate_ms": 1244.458,
+      "proof_generated": true,
+      "proof_reason": "ok",
+      "proof_valid": true,
+      "recovered_eid": "89049032123451234512345678905001",
+      "trace_result": "identity_recovered"
+    }
+  },
+  "sid": {
+    "full_aura": {
+      "new_valid_response": false,
+      "outcome": "server_authentication_context_mismatch"
+    },
+    "key_only_cache_no_context_check": {
+      "cached_response_returned": false,
+      "trace_result": "insufficient_valid_evidence",
+      "valid_under_modified_context": false
+    },
+    "without_local_ticket_log": {
+      "proof_generated": false,
+      "proof_valid": false,
+      "recovered_eid": null,
+      "trace_result": "insufficient_valid_evidence"
+    }
+  }
+}

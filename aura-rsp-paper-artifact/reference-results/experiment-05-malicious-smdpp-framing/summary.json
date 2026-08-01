@@ -1,0 +1,1361 @@
+{
+  "ablation_summary": {
+    "full_aura": {
+      "accepted_trace_evidence": 0,
+      "attacks": 8000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 4000,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "mean_distinct_valid_responses": 1.0,
+      "new_c_computations": 0,
+      "outcomes": {
+        "client_order_context_reject": 2000,
+        "local_context_conflict_abort": 4000,
+        "mno_ticket_signature_reject": 2000
+      },
+      "processing_p50_us": 5.5,
+      "processing_p95_us": 7.6,
+      "trace_requests": 0
+    },
+    "key_only_cache_no_context_check": {
+      "accepted_trace_evidence": 0,
+      "attacks": 8000,
+      "cached_responses": 4000,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "mean_distinct_valid_responses": 1.0,
+      "new_c_computations": 0,
+      "outcomes": {
+        "cached_response_invalid_for_modified_context": 4000,
+        "client_order_context_reject": 2000,
+        "mno_ticket_signature_reject": 2000
+      },
+      "processing_p50_us": 5.15,
+      "processing_p95_us": 11.5,
+      "trace_requests": 4000
+    },
+    "without_local_ticket_log": {
+      "accepted_trace_evidence": 4000,
+      "attacks": 8000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.5,
+      "false_traces": 4000,
+      "mean_distinct_valid_responses": 1.5,
+      "new_c_computations": 4000,
+      "outcomes": {
+        "client_order_context_reject": 2000,
+        "mno_ticket_signature_reject": 2000,
+        "second_valid_response_false_trace": 4000
+      },
+      "processing_p50_us": 3.8,
+      "processing_p95_us": 8.6,
+      "trace_requests": 4000
+    }
+  },
+  "assertions": [
+    {
+      "actual": "ok",
+      "expected": "ok",
+      "name": "base_anonymous_proof_is_valid",
+      "passed": true
+    },
+    {
+      "actual": [],
+      "expected": [],
+      "name": "current_source_rejects_all_modified_contexts_before_proof",
+      "passed": true
+    },
+    {
+      "actual": {
+        "byte_identical": true,
+        "proof_valid": true,
+        "same_gamma_c": true
+      },
+      "expected": {
+        "byte_identical": true,
+        "proof_valid": true,
+        "same_gamma_c": true
+      },
+      "name": "current_source_exact_replay_returns_identical_cached_request",
+      "passed": true
+    },
+    {
+      "actual": {
+        "false_trace": false,
+        "trace_result": "insufficient_valid_evidence"
+      },
+      "expected": {
+        "false_trace": false,
+        "trace_result": "insufficient_valid_evidence"
+      },
+      "name": "current_source_eum_rejects_insufficient_evidence",
+      "passed": true
+    },
+    {
+      "actual": {
+        "context_conflict_exception_present": true,
+        "finding": "read_side_guard_active",
+        "full_auth_request_stored": true,
+        "local_ticket_log_sha256": "54584ef4e2c01557fc90653498e19636c242c29cf240ecd31308fe517f23581e",
+        "lookup_before_create_auth_proof": true,
+        "source_files": [
+          "pysim-aura-integration/pySim/esim/aura/client.py",
+          "pysim-aura-integration/pySim/esim/aura/local_ticket_log.py"
+        ],
+        "source_sha256": "4554e095bd2010c1e7c94d49b730a2bd5a61b8c8db45806bd3b1bf1a6df24916"
+      },
+      "expected": "lookup before proof, full request cache, and conflict abort",
+      "name": "source_audit_confirms_read_side_guard",
+      "passed": true
+    },
+    {
+      "actual": true,
+      "expected": true,
+      "name": "aura_source_fix_is_explicitly_reported",
+      "passed": true
+    },
+    {
+      "actual": 24000,
+      "expected": 24000,
+      "name": "bulk_trial_count_is_8_fields_x_1000_x_3_modes",
+      "passed": true
+    },
+    {
+      "actual": {
+        "accepted_trace_evidence": 0,
+        "attacks": 8000,
+        "cached_responses": 0,
+        "context_conflict_aborts": 4000,
+        "false_trace_rate": 0.0,
+        "false_traces": 0,
+        "mean_distinct_valid_responses": 1.0,
+        "new_c_computations": 0,
+        "outcomes": {
+          "client_order_context_reject": 2000,
+          "local_context_conflict_abort": 4000,
+          "mno_ticket_signature_reject": 2000
+        },
+        "processing_p50_us": 5.5,
+        "processing_p95_us": 7.6,
+        "trace_requests": 0
+      },
+      "expected": "distinct=1, false_traces=0, new_c=0",
+      "name": "full_aura_never_generates_second_valid_response_or_false_trace",
+      "passed": true
+    },
+    {
+      "actual": {
+        "accepted_trace_evidence": 4000,
+        "attacks": 8000,
+        "cached_responses": 0,
+        "context_conflict_aborts": 0,
+        "false_trace_rate": 0.5,
+        "false_traces": 4000,
+        "mean_distinct_valid_responses": 1.5,
+        "new_c_computations": 4000,
+        "outcomes": {
+          "client_order_context_reject": 2000,
+          "mno_ticket_signature_reject": 2000,
+          "second_valid_response_false_trace": 4000
+        },
+        "processing_p50_us": 3.8,
+        "processing_p95_us": 8.6,
+        "trace_requests": 4000
+      },
+      "expected": "false_traces=new_c=4000",
+      "name": "no_log_ablation_exposes_only_server_mutable_fields",
+      "passed": true
+    },
+    {
+      "actual": {
+        "accepted_trace_evidence": 0,
+        "attacks": 8000,
+        "cached_responses": 4000,
+        "context_conflict_aborts": 0,
+        "false_trace_rate": 0.0,
+        "false_traces": 0,
+        "mean_distinct_valid_responses": 1.0,
+        "new_c_computations": 0,
+        "outcomes": {
+          "cached_response_invalid_for_modified_context": 4000,
+          "client_order_context_reject": 2000,
+          "mno_ticket_signature_reject": 2000
+        },
+        "processing_p50_us": 5.15,
+        "processing_p95_us": 11.5,
+        "trace_requests": 4000
+      },
+      "expected": "cached=4000, false_traces=0, accepted_evidence=0",
+      "name": "key_only_cache_returns_stale_response_but_does_not_create_trace_evidence",
+      "passed": true
+    },
+    {
+      "actual": [
+        "N_S",
+        "I_t",
+        "cap",
+        "serverOID"
+      ],
+      "expected": [
+        "N_S",
+        "I_t",
+        "cap",
+        "serverOID"
+      ],
+      "name": "real_bbs_calibration_recovers_honest_eid_without_local_log",
+      "passed": true
+    },
+    {
+      "actual": [
+        {
+          "cached_responses": 0,
+          "context_conflict_aborts": 1,
+          "distinct_valid_responses": 1,
+          "false_trace": 0,
+          "malicious_challenges": 1,
+          "mode": "full_aura",
+          "new_c_computations": 0
+        },
+        {
+          "cached_responses": 0,
+          "context_conflict_aborts": 0,
+          "distinct_valid_responses": 2,
+          "false_trace": 1,
+          "malicious_challenges": 1,
+          "mode": "without_local_ticket_log",
+          "new_c_computations": 1
+        },
+        {
+          "cached_responses": 1,
+          "context_conflict_aborts": 0,
+          "distinct_valid_responses": 1,
+          "false_trace": 0,
+          "malicious_challenges": 1,
+          "mode": "key_only_cache_no_context_check",
+          "new_c_computations": 0
+        },
+        {
+          "cached_responses": 0,
+          "context_conflict_aborts": 2,
+          "distinct_valid_responses": 1,
+          "false_trace": 0,
+          "malicious_challenges": 2,
+          "mode": "full_aura",
+          "new_c_computations": 0
+        },
+        {
+          "cached_responses": 0,
+          "context_conflict_aborts": 0,
+          "distinct_valid_responses": 3,
+          "false_trace": 1,
+          "malicious_challenges": 2,
+          "mode": "without_local_ticket_log",
+          "new_c_computations": 2
+        },
+        {
+          "cached_responses": 2,
+          "context_conflict_aborts": 0,
+          "distinct_valid_responses": 1,
+          "false_trace": 0,
+          "malicious_challenges": 2,
+          "mode": "key_only_cache_no_context_check",
+          "new_c_computations": 0
+        },
+        {
+          "cached_responses": 0,
+          "context_conflict_aborts": 4,
+          "distinct_valid_responses": 1,
+          "false_trace": 0,
+          "malicious_challenges": 4,
+          "mode": "full_aura",
+          "new_c_computations": 0
+        },
+        {
+          "cached_responses": 0,
+          "context_conflict_aborts": 0,
+          "distinct_valid_responses": 5,
+          "false_trace": 1,
+          "malicious_challenges": 4,
+          "mode": "without_local_ticket_log",
+          "new_c_computations": 4
+        },
+        {
+          "cached_responses": 4,
+          "context_conflict_aborts": 0,
+          "distinct_valid_responses": 1,
+          "false_trace": 0,
+          "malicious_challenges": 4,
+          "mode": "key_only_cache_no_context_check",
+          "new_c_computations": 0
+        },
+        {
+          "cached_responses": 0,
+          "context_conflict_aborts": 8,
+          "distinct_valid_responses": 1,
+          "false_trace": 0,
+          "malicious_challenges": 8,
+          "mode": "full_aura",
+          "new_c_computations": 0
+        },
+        {
+          "cached_responses": 0,
+          "context_conflict_aborts": 0,
+          "distinct_valid_responses": 9,
+          "false_trace": 1,
+          "malicious_challenges": 8,
+          "mode": "without_local_ticket_log",
+          "new_c_computations": 8
+        },
+        {
+          "cached_responses": 8,
+          "context_conflict_aborts": 0,
+          "distinct_valid_responses": 1,
+          "false_trace": 0,
+          "malicious_challenges": 8,
+          "mode": "key_only_cache_no_context_check",
+          "new_c_computations": 0
+        },
+        {
+          "cached_responses": 0,
+          "context_conflict_aborts": 16,
+          "distinct_valid_responses": 1,
+          "false_trace": 0,
+          "malicious_challenges": 16,
+          "mode": "full_aura",
+          "new_c_computations": 0
+        },
+        {
+          "cached_responses": 0,
+          "context_conflict_aborts": 0,
+          "distinct_valid_responses": 17,
+          "false_trace": 1,
+          "malicious_challenges": 16,
+          "mode": "without_local_ticket_log",
+          "new_c_computations": 16
+        },
+        {
+          "cached_responses": 16,
+          "context_conflict_aborts": 0,
+          "distinct_valid_responses": 1,
+          "false_trace": 0,
+          "malicious_challenges": 16,
+          "mode": "key_only_cache_no_context_check",
+          "new_c_computations": 0
+        },
+        {
+          "cached_responses": 0,
+          "context_conflict_aborts": 32,
+          "distinct_valid_responses": 1,
+          "false_trace": 0,
+          "malicious_challenges": 32,
+          "mode": "full_aura",
+          "new_c_computations": 0
+        },
+        {
+          "cached_responses": 0,
+          "context_conflict_aborts": 0,
+          "distinct_valid_responses": 33,
+          "false_trace": 1,
+          "malicious_challenges": 32,
+          "mode": "without_local_ticket_log",
+          "new_c_computations": 32
+        },
+        {
+          "cached_responses": 32,
+          "context_conflict_aborts": 0,
+          "distinct_valid_responses": 1,
+          "false_trace": 0,
+          "malicious_challenges": 32,
+          "mode": "key_only_cache_no_context_check",
+          "new_c_computations": 0
+        },
+        {
+          "cached_responses": 0,
+          "context_conflict_aborts": 64,
+          "distinct_valid_responses": 1,
+          "false_trace": 0,
+          "malicious_challenges": 64,
+          "mode": "full_aura",
+          "new_c_computations": 0
+        },
+        {
+          "cached_responses": 0,
+          "context_conflict_aborts": 0,
+          "distinct_valid_responses": 65,
+          "false_trace": 1,
+          "malicious_challenges": 64,
+          "mode": "without_local_ticket_log",
+          "new_c_computations": 64
+        },
+        {
+          "cached_responses": 64,
+          "context_conflict_aborts": 0,
+          "distinct_valid_responses": 1,
+          "false_trace": 0,
+          "malicious_challenges": 64,
+          "mode": "key_only_cache_no_context_check",
+          "new_c_computations": 0
+        },
+        {
+          "cached_responses": 0,
+          "context_conflict_aborts": 128,
+          "distinct_valid_responses": 1,
+          "false_trace": 0,
+          "malicious_challenges": 128,
+          "mode": "full_aura",
+          "new_c_computations": 0
+        },
+        {
+          "cached_responses": 0,
+          "context_conflict_aborts": 0,
+          "distinct_valid_responses": 129,
+          "false_trace": 1,
+          "malicious_challenges": 128,
+          "mode": "without_local_ticket_log",
+          "new_c_computations": 128
+        },
+        {
+          "cached_responses": 128,
+          "context_conflict_aborts": 0,
+          "distinct_valid_responses": 1,
+          "false_trace": 0,
+          "malicious_challenges": 128,
+          "mode": "key_only_cache_no_context_check",
+          "new_c_computations": 0
+        }
+      ],
+      "expected": "full/key-only remain 1; no-log reaches 129",
+      "name": "challenge_scaling_matches_local_log_invariants",
+      "passed": true
+    }
+  ],
+  "assertions_passed": true,
+  "attack_fields": [
+    "N_S",
+    "I_t",
+    "cap",
+    "serverOID",
+    "sid",
+    "pid_h",
+    "op",
+    "PRaddr"
+  ],
+  "challenge_scaling": [
+    {
+      "cached_responses": 0,
+      "context_conflict_aborts": 1,
+      "distinct_valid_responses": 1,
+      "false_trace": 0,
+      "malicious_challenges": 1,
+      "mode": "full_aura",
+      "new_c_computations": 0
+    },
+    {
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "distinct_valid_responses": 2,
+      "false_trace": 1,
+      "malicious_challenges": 1,
+      "mode": "without_local_ticket_log",
+      "new_c_computations": 1
+    },
+    {
+      "cached_responses": 1,
+      "context_conflict_aborts": 0,
+      "distinct_valid_responses": 1,
+      "false_trace": 0,
+      "malicious_challenges": 1,
+      "mode": "key_only_cache_no_context_check",
+      "new_c_computations": 0
+    },
+    {
+      "cached_responses": 0,
+      "context_conflict_aborts": 2,
+      "distinct_valid_responses": 1,
+      "false_trace": 0,
+      "malicious_challenges": 2,
+      "mode": "full_aura",
+      "new_c_computations": 0
+    },
+    {
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "distinct_valid_responses": 3,
+      "false_trace": 1,
+      "malicious_challenges": 2,
+      "mode": "without_local_ticket_log",
+      "new_c_computations": 2
+    },
+    {
+      "cached_responses": 2,
+      "context_conflict_aborts": 0,
+      "distinct_valid_responses": 1,
+      "false_trace": 0,
+      "malicious_challenges": 2,
+      "mode": "key_only_cache_no_context_check",
+      "new_c_computations": 0
+    },
+    {
+      "cached_responses": 0,
+      "context_conflict_aborts": 4,
+      "distinct_valid_responses": 1,
+      "false_trace": 0,
+      "malicious_challenges": 4,
+      "mode": "full_aura",
+      "new_c_computations": 0
+    },
+    {
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "distinct_valid_responses": 5,
+      "false_trace": 1,
+      "malicious_challenges": 4,
+      "mode": "without_local_ticket_log",
+      "new_c_computations": 4
+    },
+    {
+      "cached_responses": 4,
+      "context_conflict_aborts": 0,
+      "distinct_valid_responses": 1,
+      "false_trace": 0,
+      "malicious_challenges": 4,
+      "mode": "key_only_cache_no_context_check",
+      "new_c_computations": 0
+    },
+    {
+      "cached_responses": 0,
+      "context_conflict_aborts": 8,
+      "distinct_valid_responses": 1,
+      "false_trace": 0,
+      "malicious_challenges": 8,
+      "mode": "full_aura",
+      "new_c_computations": 0
+    },
+    {
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "distinct_valid_responses": 9,
+      "false_trace": 1,
+      "malicious_challenges": 8,
+      "mode": "without_local_ticket_log",
+      "new_c_computations": 8
+    },
+    {
+      "cached_responses": 8,
+      "context_conflict_aborts": 0,
+      "distinct_valid_responses": 1,
+      "false_trace": 0,
+      "malicious_challenges": 8,
+      "mode": "key_only_cache_no_context_check",
+      "new_c_computations": 0
+    },
+    {
+      "cached_responses": 0,
+      "context_conflict_aborts": 16,
+      "distinct_valid_responses": 1,
+      "false_trace": 0,
+      "malicious_challenges": 16,
+      "mode": "full_aura",
+      "new_c_computations": 0
+    },
+    {
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "distinct_valid_responses": 17,
+      "false_trace": 1,
+      "malicious_challenges": 16,
+      "mode": "without_local_ticket_log",
+      "new_c_computations": 16
+    },
+    {
+      "cached_responses": 16,
+      "context_conflict_aborts": 0,
+      "distinct_valid_responses": 1,
+      "false_trace": 0,
+      "malicious_challenges": 16,
+      "mode": "key_only_cache_no_context_check",
+      "new_c_computations": 0
+    },
+    {
+      "cached_responses": 0,
+      "context_conflict_aborts": 32,
+      "distinct_valid_responses": 1,
+      "false_trace": 0,
+      "malicious_challenges": 32,
+      "mode": "full_aura",
+      "new_c_computations": 0
+    },
+    {
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "distinct_valid_responses": 33,
+      "false_trace": 1,
+      "malicious_challenges": 32,
+      "mode": "without_local_ticket_log",
+      "new_c_computations": 32
+    },
+    {
+      "cached_responses": 32,
+      "context_conflict_aborts": 0,
+      "distinct_valid_responses": 1,
+      "false_trace": 0,
+      "malicious_challenges": 32,
+      "mode": "key_only_cache_no_context_check",
+      "new_c_computations": 0
+    },
+    {
+      "cached_responses": 0,
+      "context_conflict_aborts": 64,
+      "distinct_valid_responses": 1,
+      "false_trace": 0,
+      "malicious_challenges": 64,
+      "mode": "full_aura",
+      "new_c_computations": 0
+    },
+    {
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "distinct_valid_responses": 65,
+      "false_trace": 1,
+      "malicious_challenges": 64,
+      "mode": "without_local_ticket_log",
+      "new_c_computations": 64
+    },
+    {
+      "cached_responses": 64,
+      "context_conflict_aborts": 0,
+      "distinct_valid_responses": 1,
+      "false_trace": 0,
+      "malicious_challenges": 64,
+      "mode": "key_only_cache_no_context_check",
+      "new_c_computations": 0
+    },
+    {
+      "cached_responses": 0,
+      "context_conflict_aborts": 128,
+      "distinct_valid_responses": 1,
+      "false_trace": 0,
+      "malicious_challenges": 128,
+      "mode": "full_aura",
+      "new_c_computations": 0
+    },
+    {
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "distinct_valid_responses": 129,
+      "false_trace": 1,
+      "malicious_challenges": 128,
+      "mode": "without_local_ticket_log",
+      "new_c_computations": 128
+    },
+    {
+      "cached_responses": 128,
+      "context_conflict_aborts": 0,
+      "distinct_valid_responses": 1,
+      "false_trace": 0,
+      "malicious_challenges": 128,
+      "mode": "key_only_cache_no_context_check",
+      "new_c_computations": 0
+    }
+  ],
+  "crypto_calibration": {
+    "I_t": {
+      "full_aura": {
+        "new_valid_response": false,
+        "outcome": "local_ticket_context_conflict"
+      },
+      "key_only_cache_no_context_check": {
+        "cached_response_returned": true,
+        "trace_result": "insufficient_valid_evidence",
+        "valid_under_modified_context": false,
+        "verification_reason": "gamma/context mismatch"
+      },
+      "without_local_ticket_log": {
+        "correct_honest_eid_recovered": true,
+        "proof_generate_ms": 1268.365,
+        "proof_generated": true,
+        "proof_reason": "ok",
+        "proof_valid": true,
+        "recovered_eid": "89049032123451234512345678905001",
+        "trace_result": "identity_recovered"
+      }
+    },
+    "N_S": {
+      "full_aura": {
+        "new_valid_response": false,
+        "outcome": "local_ticket_context_conflict"
+      },
+      "key_only_cache_no_context_check": {
+        "cached_response_returned": true,
+        "trace_result": "insufficient_valid_evidence",
+        "valid_under_modified_context": false,
+        "verification_reason": "gamma/context mismatch"
+      },
+      "without_local_ticket_log": {
+        "correct_honest_eid_recovered": true,
+        "proof_generate_ms": 1260.364,
+        "proof_generated": true,
+        "proof_reason": "ok",
+        "proof_valid": true,
+        "recovered_eid": "89049032123451234512345678905001",
+        "trace_result": "identity_recovered"
+      }
+    },
+    "PRaddr": {
+      "full_aura": {
+        "new_valid_response": false,
+        "outcome": "server_authentication_context_mismatch"
+      },
+      "key_only_cache_no_context_check": {
+        "cached_response_returned": false,
+        "trace_result": "insufficient_valid_evidence",
+        "valid_under_modified_context": false
+      },
+      "without_local_ticket_log": {
+        "proof_generated": false,
+        "proof_valid": false,
+        "recovered_eid": null,
+        "trace_result": "insufficient_valid_evidence"
+      }
+    },
+    "cap": {
+      "full_aura": {
+        "new_valid_response": false,
+        "outcome": "local_ticket_context_conflict"
+      },
+      "key_only_cache_no_context_check": {
+        "cached_response_returned": true,
+        "trace_result": "insufficient_valid_evidence",
+        "valid_under_modified_context": false,
+        "verification_reason": "gamma/context mismatch"
+      },
+      "without_local_ticket_log": {
+        "correct_honest_eid_recovered": true,
+        "proof_generate_ms": 1246.642,
+        "proof_generated": true,
+        "proof_reason": "ok",
+        "proof_valid": true,
+        "recovered_eid": "89049032123451234512345678905001",
+        "trace_result": "identity_recovered"
+      }
+    },
+    "op": {
+      "full_aura": {
+        "new_valid_response": false,
+        "outcome": "invalid_mno_ticket_signature"
+      },
+      "key_only_cache_no_context_check": {
+        "cached_response_returned": false,
+        "trace_result": "insufficient_valid_evidence",
+        "valid_under_modified_context": false
+      },
+      "without_local_ticket_log": {
+        "proof_generated": false,
+        "proof_valid": false,
+        "recovered_eid": null,
+        "trace_result": "insufficient_valid_evidence"
+      }
+    },
+    "pid_h": {
+      "full_aura": {
+        "new_valid_response": false,
+        "outcome": "invalid_mno_ticket_signature"
+      },
+      "key_only_cache_no_context_check": {
+        "cached_response_returned": false,
+        "trace_result": "insufficient_valid_evidence",
+        "valid_under_modified_context": false
+      },
+      "without_local_ticket_log": {
+        "proof_generated": false,
+        "proof_valid": false,
+        "recovered_eid": null,
+        "trace_result": "insufficient_valid_evidence"
+      }
+    },
+    "serverOID": {
+      "full_aura": {
+        "new_valid_response": false,
+        "outcome": "local_ticket_context_conflict"
+      },
+      "key_only_cache_no_context_check": {
+        "cached_response_returned": true,
+        "trace_result": "insufficient_valid_evidence",
+        "valid_under_modified_context": false,
+        "verification_reason": "gamma/context mismatch"
+      },
+      "without_local_ticket_log": {
+        "correct_honest_eid_recovered": true,
+        "proof_generate_ms": 1244.458,
+        "proof_generated": true,
+        "proof_reason": "ok",
+        "proof_valid": true,
+        "recovered_eid": "89049032123451234512345678905001",
+        "trace_result": "identity_recovered"
+      }
+    },
+    "sid": {
+      "full_aura": {
+        "new_valid_response": false,
+        "outcome": "server_authentication_context_mismatch"
+      },
+      "key_only_cache_no_context_check": {
+        "cached_response_returned": false,
+        "trace_result": "insufficient_valid_evidence",
+        "valid_under_modified_context": false
+      },
+      "without_local_ticket_log": {
+        "proof_generated": false,
+        "proof_valid": false,
+        "recovered_eid": null,
+        "trace_result": "insufficient_valid_evidence"
+      }
+    }
+  },
+  "current_source": {
+    "distinct_valid_responses": 1,
+    "eum_trace": {
+      "eid_recovered": false,
+      "invalid_evidence_count": 0,
+      "recovered_eid": null,
+      "trace_result": "insufficient_valid_evidence",
+      "valid_distinct_evidence_count": 1
+    },
+    "exact_replay": {
+      "action": "cached",
+      "byte_identical": true,
+      "new_proof_generated": false,
+      "proof_generate_ms": 0.0,
+      "proof_reason": "ok",
+      "proof_valid": true,
+      "same_gamma_and_c": true
+    },
+    "false_trace": false,
+    "field_results": {
+      "I_t": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "proof_generate_ms": 0.0,
+        "proof_generated": false,
+        "proof_valid": false,
+        "raw_generation_error": "same (v, opid) was used with a different authentication context",
+        "reason": "local_ticket_context_conflict",
+        "server_signature_valid": true
+      },
+      "N_S": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "proof_generate_ms": 0.0,
+        "proof_generated": false,
+        "proof_valid": false,
+        "raw_generation_error": "same (v, opid) was used with a different authentication context",
+        "reason": "local_ticket_context_conflict",
+        "server_signature_valid": true
+      },
+      "PRaddr": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "proof_generate_ms": 0.0,
+        "proof_generated": false,
+        "proof_valid": false,
+        "raw_generation_error": "",
+        "reason": "server_authentication_context_mismatch",
+        "server_signature_valid": true
+      },
+      "cap": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "proof_generate_ms": 0.0,
+        "proof_generated": false,
+        "proof_valid": false,
+        "raw_generation_error": "same (v, opid) was used with a different authentication context",
+        "reason": "local_ticket_context_conflict",
+        "server_signature_valid": true
+      },
+      "op": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": false,
+        "new_valid_response": false,
+        "proof_generate_ms": 0.0,
+        "proof_generated": false,
+        "proof_valid": false,
+        "raw_generation_error": "",
+        "reason": "invalid_mno_ticket_signature",
+        "server_signature_valid": true
+      },
+      "pid_h": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": false,
+        "new_valid_response": false,
+        "proof_generate_ms": 0.0,
+        "proof_generated": false,
+        "proof_valid": false,
+        "raw_generation_error": "",
+        "reason": "invalid_mno_ticket_signature",
+        "server_signature_valid": true
+      },
+      "serverOID": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "proof_generate_ms": 0.0,
+        "proof_generated": false,
+        "proof_valid": false,
+        "raw_generation_error": "same (v, opid) was used with a different authentication context",
+        "reason": "local_ticket_context_conflict",
+        "server_signature_valid": true
+      },
+      "sid": {
+        "action": "rejected",
+        "mno_ticket_signature_valid": true,
+        "new_valid_response": false,
+        "proof_generate_ms": 0.0,
+        "proof_generated": false,
+        "proof_valid": false,
+        "raw_generation_error": "",
+        "reason": "server_authentication_context_mismatch",
+        "server_signature_valid": true
+      }
+    },
+    "g7_implementation_result": "PASS"
+  },
+  "execution_ms": 35448.145,
+  "experiment": "experiment-05-malicious-smdpp-framing",
+  "experiment_design": {
+    "ablation_boundary": "experiment-only; not supported AURA-RSP operating modes",
+    "attacks_per_field_per_mode": 1000,
+    "attacks_per_mode": 8000,
+    "bulk_layer": "production-check-derived state-machine trials calibrated by real BBS+ proofs",
+    "challenge_counts": [
+      1,
+      2,
+      4,
+      8,
+      16,
+      32,
+      64,
+      128
+    ],
+    "crypto_calibration": "one real production proof outcome per field/mechanism class",
+    "fields": 8,
+    "total_bulk_trials": 24000
+  },
+  "experiment_execution": "PASS",
+  "per_field_results": [
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 1000,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "N_S",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "full_aura",
+      "new_c_computations": 0,
+      "outcome": "local_context_conflict_abort",
+      "processing_p50_us": 6.1,
+      "processing_p95_us": 9.5,
+      "trace_requests": 0
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 1000,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "I_t",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "full_aura",
+      "new_c_computations": 0,
+      "outcome": "local_context_conflict_abort",
+      "processing_p50_us": 6.0,
+      "processing_p95_us": 8.3,
+      "trace_requests": 0
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 1000,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "cap",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "full_aura",
+      "new_c_computations": 0,
+      "outcome": "local_context_conflict_abort",
+      "processing_p50_us": 6.1,
+      "processing_p95_us": 10.0,
+      "trace_requests": 0
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 1000,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "serverOID",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "full_aura",
+      "new_c_computations": 0,
+      "outcome": "local_context_conflict_abort",
+      "processing_p50_us": 6.2,
+      "processing_p95_us": 10.0,
+      "trace_requests": 0
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "sid",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "full_aura",
+      "new_c_computations": 0,
+      "outcome": "client_order_context_reject",
+      "processing_p50_us": 0.1,
+      "processing_p95_us": 0.1,
+      "trace_requests": 0
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "pid_h",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "full_aura",
+      "new_c_computations": 0,
+      "outcome": "mno_ticket_signature_reject",
+      "processing_p50_us": 0.1,
+      "processing_p95_us": 0.2,
+      "trace_requests": 0
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "op",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "full_aura",
+      "new_c_computations": 0,
+      "outcome": "mno_ticket_signature_reject",
+      "processing_p50_us": 0.1,
+      "processing_p95_us": 0.1,
+      "trace_requests": 0
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "PRaddr",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "full_aura",
+      "new_c_computations": 0,
+      "outcome": "client_order_context_reject",
+      "processing_p50_us": 0.1,
+      "processing_p95_us": 0.1,
+      "trace_requests": 0
+    },
+    {
+      "accepted_trace_evidence": 1000,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 1.0,
+      "false_traces": 1000,
+      "field": "N_S",
+      "mean_distinct_valid_responses": 2.0,
+      "mode": "without_local_ticket_log",
+      "new_c_computations": 1000,
+      "outcome": "second_valid_response_false_trace",
+      "processing_p50_us": 7.1,
+      "processing_p95_us": 9.6,
+      "trace_requests": 1000
+    },
+    {
+      "accepted_trace_evidence": 1000,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 1.0,
+      "false_traces": 1000,
+      "field": "I_t",
+      "mean_distinct_valid_responses": 2.0,
+      "mode": "without_local_ticket_log",
+      "new_c_computations": 1000,
+      "outcome": "second_valid_response_false_trace",
+      "processing_p50_us": 7.0,
+      "processing_p95_us": 9.0,
+      "trace_requests": 1000
+    },
+    {
+      "accepted_trace_evidence": 1000,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 1.0,
+      "false_traces": 1000,
+      "field": "cap",
+      "mean_distinct_valid_responses": 2.0,
+      "mode": "without_local_ticket_log",
+      "new_c_computations": 1000,
+      "outcome": "second_valid_response_false_trace",
+      "processing_p50_us": 7.0,
+      "processing_p95_us": 9.9,
+      "trace_requests": 1000
+    },
+    {
+      "accepted_trace_evidence": 1000,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 1.0,
+      "false_traces": 1000,
+      "field": "serverOID",
+      "mean_distinct_valid_responses": 2.0,
+      "mode": "without_local_ticket_log",
+      "new_c_computations": 1000,
+      "outcome": "second_valid_response_false_trace",
+      "processing_p50_us": 7.1,
+      "processing_p95_us": 10.1,
+      "trace_requests": 1000
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "sid",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "without_local_ticket_log",
+      "new_c_computations": 0,
+      "outcome": "client_order_context_reject",
+      "processing_p50_us": 0.1,
+      "processing_p95_us": 0.1,
+      "trace_requests": 0
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "pid_h",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "without_local_ticket_log",
+      "new_c_computations": 0,
+      "outcome": "mno_ticket_signature_reject",
+      "processing_p50_us": 0.1,
+      "processing_p95_us": 0.1,
+      "trace_requests": 0
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "op",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "without_local_ticket_log",
+      "new_c_computations": 0,
+      "outcome": "mno_ticket_signature_reject",
+      "processing_p50_us": 0.1,
+      "processing_p95_us": 0.1,
+      "trace_requests": 0
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "PRaddr",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "without_local_ticket_log",
+      "new_c_computations": 0,
+      "outcome": "client_order_context_reject",
+      "processing_p50_us": 0.1,
+      "processing_p95_us": 0.1,
+      "trace_requests": 0
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 1000,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "N_S",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "key_only_cache_no_context_check",
+      "new_c_computations": 0,
+      "outcome": "cached_response_invalid_for_modified_context",
+      "processing_p50_us": 10.1,
+      "processing_p95_us": 13.9,
+      "trace_requests": 1000
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 1000,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "I_t",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "key_only_cache_no_context_check",
+      "new_c_computations": 0,
+      "outcome": "cached_response_invalid_for_modified_context",
+      "processing_p50_us": 10.1,
+      "processing_p95_us": 12.0,
+      "trace_requests": 1000
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 1000,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "cap",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "key_only_cache_no_context_check",
+      "new_c_computations": 0,
+      "outcome": "cached_response_invalid_for_modified_context",
+      "processing_p50_us": 10.1,
+      "processing_p95_us": 15.0,
+      "trace_requests": 1000
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 1000,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "serverOID",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "key_only_cache_no_context_check",
+      "new_c_computations": 0,
+      "outcome": "cached_response_invalid_for_modified_context",
+      "processing_p50_us": 10.2,
+      "processing_p95_us": 14.5,
+      "trace_requests": 1000
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "sid",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "key_only_cache_no_context_check",
+      "new_c_computations": 0,
+      "outcome": "client_order_context_reject",
+      "processing_p50_us": 0.1,
+      "processing_p95_us": 0.1,
+      "trace_requests": 0
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "pid_h",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "key_only_cache_no_context_check",
+      "new_c_computations": 0,
+      "outcome": "mno_ticket_signature_reject",
+      "processing_p50_us": 0.1,
+      "processing_p95_us": 0.1,
+      "trace_requests": 0
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "op",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "key_only_cache_no_context_check",
+      "new_c_computations": 0,
+      "outcome": "mno_ticket_signature_reject",
+      "processing_p50_us": 0.1,
+      "processing_p95_us": 0.1,
+      "trace_requests": 0
+    },
+    {
+      "accepted_trace_evidence": 0,
+      "attacks": 1000,
+      "cached_responses": 0,
+      "context_conflict_aborts": 0,
+      "false_trace_rate": 0.0,
+      "false_traces": 0,
+      "field": "PRaddr",
+      "mean_distinct_valid_responses": 1.0,
+      "mode": "key_only_cache_no_context_check",
+      "new_c_computations": 0,
+      "outcome": "client_order_context_reject",
+      "processing_p50_us": 0.1,
+      "processing_p95_us": 0.1,
+      "trace_requests": 0
+    }
+  ],
+  "profile": {
+    "sha256": "38c7d4b90141e1886d045603bbfd938b64449247f097baa328f8356c0bcd2422"
+  },
+  "results_directory": "reference-results/experiment-05-malicious-smdpp-framing",
+  "scope": {
+    "change": "production LocalTicketLog read-side guard added without changing the paper protocol or the Standard RSP baseline",
+    "crypto": "real BBS+ credential, ticket, proof generation and verification",
+    "existing_protocol_source_modified": true,
+    "malicious_server": "holds a valid SM-DP+ signing key and re-signs modified server context"
+  },
+  "seed": 20260729,
+  "source_audit": {
+    "context_conflict_exception_present": true,
+    "finding": "read_side_guard_active",
+    "full_auth_request_stored": true,
+    "local_ticket_log_sha256": "54584ef4e2c01557fc90653498e19636c242c29cf240ecd31308fe517f23581e",
+    "lookup_before_create_auth_proof": true,
+    "source_files": [
+      "pysim-aura-integration/pySim/esim/aura/client.py",
+      "pysim-aura-integration/pySim/esim/aura/local_ticket_log.py"
+    ],
+    "source_sha256": "4554e095bd2010c1e7c94d49b730a2bd5a61b8c8db45806bd3b1bf1a6df24916"
+  },
+  "status": "PASS"
+}

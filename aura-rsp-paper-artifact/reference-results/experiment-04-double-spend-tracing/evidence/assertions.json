@@ -1,0 +1,15 @@
+{
+  "all_double_spends_detected": true,
+  "all_exact_replays_are_idempotent": true,
+  "all_first_uses_execute_once": true,
+  "all_recovered_eids_correct": true,
+  "all_scale_eids_correct": true,
+  "all_scale_outcomes_correct": true,
+  "no_exact_replay_false_positive": true,
+  "no_false_trace": true,
+  "no_second_business_execution": true,
+  "production_eid_recovery_correct": true,
+  "production_k_recovery_correct": true,
+  "production_transcripts_both_valid": true,
+  "single_transcript_does_not_expose_eid": true
+}

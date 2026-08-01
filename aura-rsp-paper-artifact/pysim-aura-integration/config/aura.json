@@ -1,0 +1,16 @@
+{
+  "protocol": "AURA-RSP-v14-pysim-integration",
+  "matching_id": "TS48V2-SAIP2-1-NOBERTLV-UNIQUE",
+  "sid": "testsmdpplus1.example.com",
+  "server_oid": "2.999.10",
+  "praddr": "aura-pr.test",
+  "backend_url": "https://testsmdpplus1.example.com:9443",
+  "relay_url": "https://127.0.0.1:9444",
+  "backend_port": 9443,
+  "relay_port": 9444,
+  "capabilities": [
+    "classical-p256"
+  ],
+  "credential_valid_days": 365,
+  "ticket_valid_minutes": 30
+}

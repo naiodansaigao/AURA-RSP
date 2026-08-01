@@ -1,8 +1,0 @@
-﻿actor,authentication,bind_t_generated,event_index,execution_ms,http_status,order_consumed,profile_delivered,proof_bytes,proof_generate_ms,proof_verify_wall_ms,protocol_mode,reason,request_bytes,result,scenario,server_raw_reason,stable_eid_exposed,step
-Device-A,True,True,1,,200,,False,1975,1402.928,1316.831,aura_rsp,ok,,accepted,owner_control,,False,anonymous_authentication
-Device-B,False,False,2,1197.855,,,False,,,,aura_rsp,randomized BBS+ pairing check failed,,rejected,ticket_transfer,,False,honest_prover_generation
-malicious-Device-B,False,False,3,,401,,False,1975,301.996,1098.006,aura_rsp,credential_ticket_secret_mismatch,3132,rejected,ticket_transfer,BBS+ randomized signature pairing failed,False,forced_server_submission
-malicious-Device-B,False,False,4,,409,,False,,,,aura_rsp,SESSION_NOT_AUTHENTICATED,,rejected,ticket_transfer,,False,profile_request_after_rejection
-standard_smdpp,False,False,5,,,False,False,,,,standard_rsp,eid_mismatch,,rejected,eid_prebound_order,,True,device_identity_check
-Device-B,True,False,6,,,True,True,,,,standard_rsp,ok,,accepted,unbound_activation_code,,True,attacker_first_consumption
-Device-A,False,False,7,,,True,False,,,,standard_rsp,activation_code_already_consumed,,rejected,unbound_activation_code,,True,legitimate_owner_after_theft

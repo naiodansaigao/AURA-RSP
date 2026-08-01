@@ -1,0 +1,40 @@
+{
+  "all_checkpoints_found": true,
+  "checkpoints": {
+    "relay_authenticated_identity": {
+      "file": "../../pysim-aura-integration/pySim/esim/aura/relay.py",
+      "line": 72,
+      "pattern": "\"X-AURA-PR-AUTH\": tag"
+    },
+    "relay_session": {
+      "file": "../../pysim-aura-integration/pySim/esim/aura/relay.py",
+      "line": 30,
+      "pattern": "self.http = requests.Session()"
+    },
+    "relay_tls_peer_verification": {
+      "file": "../../pysim-aura-integration/pySim/esim/aura/relay.py",
+      "line": 32,
+      "pattern": "self.http.verify = str("
+    },
+    "relay_upstream_post": {
+      "file": "../../pysim-aura-integration/pySim/esim/aura/relay.py",
+      "line": 64,
+      "pattern": "return self.http.post("
+    },
+    "server_pr_authentication_entry": {
+      "file": "../../pysim-aura-integration/osmo-smdpp.py",
+      "line": 477,
+      "pattern": "def _aura_pr_identity("
+    },
+    "server_pr_hmac_verification": {
+      "file": "../../pysim-aura-integration/osmo-smdpp.py",
+      "line": 506,
+      "pattern": "if not hmac.compare_digest(expected, supplied):"
+    }
+  },
+  "interpretation": "The integrated relay creates the upstream TLS connection and authenticates PRaddr with a nonce-bound HMAC; the SM-DP+ sees the relay source and authenticated relay identity, not a downstream device source address.",
+  "source_sha256": {
+    "relay": "3010dc919820a7c26d829cd32d33710e43bd8e5c21a3b23971af8ce62cbd2f21",
+    "server": "a50e57e8ca7a2af28bb2849d332e7740ef5ec63ecac1147be3252c87c35e82cf"
+  }
+}

@@ -1,0 +1,11 @@
+﻿workload,concurrency,requests,configured_process_workers,effective_parallel_workers,worker_processes_used,mean_latency_ms,p95_latency_ms,mean_service_ms,p95_service_ms,mean_queue_wait_ms,p95_queue_wait_ms,throughput_req_s
+normal_authentication,1,1,20,1,1,1167.673,1167.673,1167.388,1167.388,0.284,0.284,0.856
+forced_invalid_ticket_transfer,1,1,20,1,1,1030.367,1030.367,1030.104,1030.104,0.262,0.262,0.97
+normal_authentication,8,8,20,8,8,1690.067,1719.831,1689.5,1719.231,0.566,0.728,4.645
+forced_invalid_ticket_transfer,8,8,20,8,8,1543.021,1582.845,1542.542,1582.337,0.478,0.667,5.027
+normal_authentication,32,32,20,20,20,3389.167,4618.342,2410.507,2780.012,978.66,2627.979,6.903
+forced_invalid_ticket_transfer,32,32,20,20,20,3415.728,4575.657,2425.043,2930.637,990.685,2715.952,6.955
+normal_authentication,64,64,20,20,20,5562.647,9027.068,2574.172,2778.629,2988.475,7462.213,6.96
+forced_invalid_ticket_transfer,64,64,20,20,20,5456.924,8642.203,2477.719,2830.09,2979.205,7193.247,7.259
+normal_authentication,128,128,20,20,20,10892.689,18828.09,2829.803,3282.766,8062.886,16889.009,6.767
+forced_invalid_ticket_transfer,128,128,20,20,20,9510.066,16461.808,2476.84,2888.304,7033.226,14708.589,7.743

@@ -1,18 +1,10 @@
 cff-version: 1.2.0
-message: "If you use this artifact, please cite the associated paper."
-title: "AURA-RSP Paper Artifact"
+message: "If you use this artifact, please cite the associated AURA-RSP paper."
+title: "AURA-RSP pySim/osmo-smdpp Research Artifact"
 type: software
 authors:
-  - family-names: "<FAMILY NAME>"
-    given-names: "<GIVEN NAME>"
+  - family-names: "REPLACE_WITH_AUTHOR_FAMILY_NAME"
+    given-names: "REPLACE_WITH_AUTHOR_GIVEN_NAME"
+repository-code: "https://github.com/naiodansaigao/AURA-RSP"
 version: "1.0.0"
-date-released: "2026-07-30"
-repository-code: "<REPOSITORY URL>"
-preferred-citation:
-  type: article
-  title: "<PAPER TITLE>"
-  authors:
-    - family-names: "<FAMILY NAME>"
-      given-names: "<GIVEN NAME>"
-  year: 2026
-
+date-released: "REPLACE_WITH_RELEASE_DATE"

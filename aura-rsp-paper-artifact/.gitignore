@@ -1,39 +1,40 @@
-# Python
+# Python and editor artifacts
 __pycache__/
 *.py[cod]
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
-.venv/
-venv/
-
-# Runtime state and secrets
-**/runtime/
-**/logs/
-*.pid
-*.sqlite
-*.sqlite-shm
-*.sqlite-wal
-*.db
-*.pem
-*.key
-*.p12
-*.pfx
-
-# Build outputs
-**/build/
-**/.gradle/
-**/dist/
-**/target/
-*.apk
-
-# IDE and OS
 .idea/
 .vscode/
-.DS_Store
-Thumbs.db
 
-# Experiment reruns
-**/results/qa-*/
-**/results/tmp-*/
-/results/
+# Virtual environments and build products
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+
+# Shared implementation runtime material
+pysim-aura-integration/runtime/
+pysim-aura-integration/logs/
+pysim-aura-integration/results/
+pysim-aura-integration/smdpp-data/generated/
+pysim-aura-integration/smdpp-data/sm-dp-sessions*/
+
+# Experiment outputs
+experiments/*/results/
+experiments/*/runtime/
+
+# Keys, databases, logs and process files generated outside expected paths
+*.key
+*.pem
+*.p12
+*.pfx
+*.sqlite
+*.sqlite3
+*.db
+*.log
+*.pid
+
+# Keep curated, non-secret reference results tracked
+!reference-results/**

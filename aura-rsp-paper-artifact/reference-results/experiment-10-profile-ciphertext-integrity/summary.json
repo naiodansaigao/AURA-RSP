@@ -1,0 +1,63 @@
+{
+  "assertions": {
+    "ciphertext_and_tag_tampering_rejected": true,
+    "cross_session_replay_rejected": true,
+    "no_attack_install_or_receipt": true,
+    "positive_controls_decrypt": true,
+    "wrong_plaintext_rejected_by_order_digest": true
+  },
+  "boundary": "Joint MNO/SM-DP+ authorization of the wrong plaintext as pid_h is outside the protocol guarantee.",
+  "execution_ms": 5900.021,
+  "experiment": "experiment-10-profile-ciphertext-integrity",
+  "implementation": "pysim-osmo-smdpp-integrated-aura",
+  "metrics": {
+    "attack_installs": 0,
+    "attacks": 4,
+    "rejected": 4
+  },
+  "migration_comparison": {
+    "conclusion_unchanged": true,
+    "previous_status": "PASS",
+    "production_fix": "shared verify_profile_plaintext check"
+  },
+  "scenarios": [
+    {
+      "accepted": false,
+      "installed": false,
+      "reason": "InvalidTag",
+      "receipt_generated": false,
+      "scenario": "10A_ciphertext_byte_flip"
+    },
+    {
+      "accepted": false,
+      "installed": false,
+      "reason": "InvalidTag",
+      "receipt_generated": false,
+      "scenario": "10A_aead_tag_tamper"
+    },
+    {
+      "accepted": false,
+      "installed": false,
+      "reason": "ValueError",
+      "receipt_generated": false,
+      "scenario": "10B_session_a_ciphertext_to_session_b"
+    },
+    {
+      "accepted": false,
+      "installed": false,
+      "reason": "PROFILE_ORDER_DIGEST_MISMATCH",
+      "receipt_generated": false,
+      "scenario": "10C_legitimate_server_wrong_plaintext"
+    }
+  ],
+  "source_audit": {
+    "modules": {
+      "pySim/esim/aura/client.py": "4554e095bd2010c1e7c94d49b730a2bd5a61b8c8db45806bd3b1bf1a6df24916",
+      "pySim/esim/aura/key_agreement.py": "5cd7a878aa2e4b6c7946eda0288335038a1d191085c2393ecfbc52a21f294598",
+      "pySim/esim/aura/lifecycle_client.py": "a467d5514dc447808482370fc4139e5c81040228fb9c457a2d898df81baf46f3",
+      "pySim/esim/aura/profile_validation.py": "ef062932144a244d01bae6e93dc8259f6e46992787479578de0af61c9e9a8658",
+      "pySim/esim/aura/service.py": "b2a33b08ec9c52184594e750d2fb18f5b5cd58decfc03de9ab9449fdf56bea6f"
+    }
+  },
+  "status": "PASS"
+}

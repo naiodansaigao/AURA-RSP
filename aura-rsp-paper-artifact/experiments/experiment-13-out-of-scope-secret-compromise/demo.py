@@ -365,15 +365,15 @@ def production_bbs_backend(
 ) -> tuple[dict[str, Any], list[dict[str, Any]], dict[str, str]]:
     from py_ecc.optimized_bls12_381 import G2, curve_order, multiply
 
-    from aura_rsp.bbs import (
+    from pySim.esim.aura.bbs import (
         blind_sign,
         create_blind_commitment,
         finalize_blind_signature,
         public_key_to_dict,
         verify_signature,
     )
-    from aura_rsp.codec import canonical as aura_canonical
-    from aura_rsp.proof import (
+    from pySim.esim.aura.codec import canonical as aura_canonical
+    from pySim.esim.aura.proof import (
         CRED_PARAMS,
         TOKEN_PARAMS,
         credential_messages,
@@ -545,11 +545,11 @@ def choose_issuer_backend(
 ) -> tuple[dict[str, Any], list[dict[str, Any]], dict[str, str]]:
     production_available = (
         importlib.util.find_spec("py_ecc") is not None
-        and importlib.util.find_spec("aura_rsp") is not None
+        and importlib.util.find_spec("pySim.esim.aura") is not None
     )
     if requested == "production" and not production_available:
         raise RuntimeError(
-            "production backend requires py-ecc and aura_rsp; "
+            "production backend requires py-ecc and integrated pySim AURA; "
             "run with the AURA WSL virtual environment"
         )
     if requested == "portable" or not production_available:
@@ -722,15 +722,15 @@ def source_audit(
         ),
         "trace_index_write": (
             "bootstrap",
-            "INSERT INTO trace_index(k,eid,r_tr)",
+            "store.put_trace_index(k_value, entry[\"eid\"], entry[\"r_tr\"])",
         ),
         "ticket_hidden_eta": (
             "ticket",
-            "device[\"eta\"] = scalar_to_b64(eta)",
+            '"eta": scalar_to_b64(eta)',
         ),
         "ticket_hidden_d": (
             "ticket",
-            "device[\"d\"] = scalar_to_b64(d_value)",
+            '"d": scalar_to_b64(d_value)',
         ),
         "shared_x_witness": (
             "proof",
@@ -738,19 +738,19 @@ def source_audit(
         ),
         "server_auth_signature": (
             "server",
-            '"serverSignature": p256_sign(self.server_auth_key, payload)',
+            '"serverSignature": p256_sign(self.server_auth_key, server_auth)',
         ),
         "binding_signature": (
             "server",
-            "bind_t = p256_sign(",
+            "bind_t = sign_binding(",
         ),
         "trace_lookup": (
             "server",
-            '"SELECT eid FROM trace_index WHERE k=?"',
+            "trace_lookup=self.store.lookup_trace",
         ),
         "trace_schema": (
             "storage",
-            "CREATE TABLE IF NOT EXISTS trace_index",
+            "def put_trace_index(",
         ),
     }
     sources: dict[str, tuple[Path, list[str]]] = {}

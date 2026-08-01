@@ -4,10 +4,8 @@
 
 共享 SM-DP+ 能否仅凭正常可见的认证与下载记录，把不同 MNO、不同订单、不同 Profile 的事务归并到同一物理 eUICC？
 
-本目录是一个独立最小 demo，不修改：
-
-- `rsp-baseline/`
-- `aura-rsp/`
+本目录是一个独立最小 demo，直接复用发布包中的
+`pysim-aura-integration/`，不会修改其他实验目录。
 
 ## 实验口径
 
@@ -35,7 +33,7 @@
 在 WSL2 Ubuntu 中：
 
 ```bash
-cd /path/to/aura-rsp-paper-artifact/experiments/experiment-01-shared-smdpp-linkability
+cd experiments/experiment-01-shared-smdpp-linkability
 chmod +x run_demo.sh
 ./run_demo.sh
 ```
@@ -169,7 +167,9 @@ results/latest/publication/
 python3 plot_experiment1_simple.py
 ```
 
-该脚本生成两张相互独立的4200×3000像素、600 DPI白底图片：
+该脚本生成两张相互独立的600 DPI白底图片，并按实际绘图内容自动紧凑
+裁边。当前ROC图为3047×1998像素，横向分组柱状图为2929×1979像素；
+字体、线宽和数值标注针对论文小尺寸插图进行了放大：
 
 ```text
 results/latest/publication-simple/
@@ -213,3 +213,18 @@ results/latest/publication-simple/
 - 可抵抗 PR 与 SM-DP+ 合谋或入口/出口全局流量观察；
 - 已完成真实硬件、真实证书和大量网络下载测试；
 - AURA 的全部生命周期协议均已实现或验证。
+## pySim/osmo-smdpp 集成版迁移说明
+
+当前实验的数据生成层以
+`../../pysim-aura-integration/pySim/esim/aura/` 为唯一AURA实现来源。
+它直接复用集成版的 `AuraOrderContext`、规范化 `ctx_t`、BLS12-381
+nullifier、Profile生命周期假名 `lph`、`gamma/c`、Ed25519一次性认证密钥、
+P-256会话公钥和Profile Binding上下文构造。旧实验自建的HMAC式 `lph`
+和任意长度随机协议字段已经删除。
+
+这是受控的批量公开转录关联实验，不是80次完整HTTPS下载性能测试。
+为避免把约80次昂贵的随机BBS+证明生成混入隐私分类实验，批量数据使用
+生产实现的公开关系字段和上下文，但不重复生成完整随机配对证明体；完整
+证明的生成、验证和网络交付由 `pysim-aura-integration` 回归测试负责。
+`results/latest/summary.json` 的 `design.implementation_audit` 保存实际
+使用模块及SHA-256，可用于确认实验使用的是当前集成实现。

@@ -1,9 +1,0 @@
-﻿修改字段,当前源码-处理结果,当前源码-是否生成新有效响应,论文参考防护-处理结果,论文参考防护-是否生成新有效响应
-N_S,local_ticket_context_conflict,否,local_ticket_context_conflict,否
-I_t,local_ticket_context_conflict,否,local_ticket_context_conflict,否
-cap,local_ticket_context_conflict,否,local_ticket_context_conflict,否
-serverOID,local_ticket_context_conflict,否,local_ticket_context_conflict,否
-sid,server_authentication_context_mismatch,否,server_authentication_context_mismatch,否
-pid_h,invalid_mno_ticket_signature,否,invalid_mno_ticket_signature,否
-op,invalid_mno_ticket_signature,否,invalid_mno_ticket_signature,否
-PRaddr,server_authentication_context_mismatch,否,server_authentication_context_mismatch,否

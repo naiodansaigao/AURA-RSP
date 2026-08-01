@@ -1,39 +1,13 @@
-# Security and threat-model scope
+# Security and Threat-Model Scope
 
-## In scope
+The experiments distinguish three categories:
 
-- Stable EID/certificate/public-key linkability visible to a shared SM-DP+.
-- MNO/Reseller and SM-DP+ log analysis or collusion.
-- Stolen activation material and AURA operation tickets used by another honest
-  eUICC.
-- Exact replay, true ticket double spending, and conditional EUM tracing.
-- Active SM-DP+ manipulation of transaction context.
-- Cross-server, cross-Profile, cross-operation, and cross-session transplant.
-- Capability downgrade and mode-splicing attacks.
-- Profile ciphertext modification, replay, and malicious plaintext substitution.
-- Lifecycle replay, fork, illegal reinstall, and delete recovery under loss.
-- Source-address observation at SM-DP+ and PR–SM-DP+ collusion as a privacy
-  boundary experiment.
+1. **Privacy comparison:** Standard RSP normally exposes stable device authentication identifiers to the shared SM-DP+, while AURA-RSP limits visibility to the current order/Profile lifecycle.
+2. **Security regression:** message, Profile, operation, server and session transplantation must be rejected by both a correct Standard RSP implementation and AURA-RSP. These are not described as Standard RSP vulnerabilities.
+3. **Expected boundaries:** PR–SM-DP+ collusion/global traffic observation and compromise of root signing keys or honest eUICC secrets are outside AURA-RSP's guarantee.
 
-## Outside the claimed guarantee
+In-scope adversaries may analyze or leak MNO/Reseller and SM-DP+ logs, collude across service roles, replay/tamper/transpose protocol messages, or operate a malicious but correctly keyed SM-DP+ within the experiment definition.
 
-- Compromise of the EUM credential-issuing key.
-- Compromise of the MNO ticket-issuing key.
-- Compromise of SM-DP+ authentication or Profile Binding private keys.
-- Compromise of GSMA root keys.
-- Extraction of honest eUICC internal secrets or complete holder state.
-- Disclosure of the EUM trace database.
-- Pure message-blocking denial of service.
-- A jointly malicious MNO and SM-DP+ defining an unauthorized Profile digest as
-  the authorized order itself.
-- PR and SM-DP+ collusion, or a global observer simultaneously seeing ingress
-  and egress traffic, for source-address anonymity.
+The following compromises are explicitly out of scope: EUM signing key, MNO ticket signing key, SM-DP+ signing key, GSMA root key, honest eUICC long-term secret, and confidentiality of the EUM tracing database. Pure message-blocking denial of service is not counted as a confidentiality or authentication failure.
 
-Experiment 13 intentionally demonstrates several of these failures and labels
-them `EXPECTED OUT-OF-SCOPE COMPROMISE`. Experiment 12C labels PR–SM-DP+
-collusion `EXPECTED_BOUNDARY_FAILURE`.
-
-Standard RSP security controls that already reject tampered or transplanted
-messages are treated as regression controls. The main privacy comparison is the
-stable device identity exposed in normal Standard RSP authentication and logs.
-
+Experiment 12C and Experiment 13 therefore report `EXPECTED ...` outcomes. Their purpose is to make the protection boundary explicit rather than to claim that the protocol should resist those compromises.

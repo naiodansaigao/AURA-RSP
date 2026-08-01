@@ -35,7 +35,7 @@
     "collusion_min_time_size_accuracy": 0.65
   },
   "aura_source": {
-    "relay": "../../aura-rsp/src/aura_rsp/relay.py",
-    "server": "../../aura-rsp/src/aura_rsp/server.py"
+    "relay": "../../pysim-aura-integration/pySim/esim/aura/relay.py",
+    "server": "../../pysim-aura-integration/osmo-smdpp.py"
   }
 }

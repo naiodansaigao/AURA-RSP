@@ -4,8 +4,9 @@
 
 > Lifecycle Resilience under Replay, Concurrency, and Message Loss
 
-本实验独立验证AURA-RSP匿名Profile生命周期的状态连续性，不修改Standard RSP baseline。
-实验直接调用`aura_rsp.lifecycle`生产核心，使用真实HMAC、SQLite事务和原子CAS。
+本实验独立验证 AURA-RSP 匿名 Profile 生命周期的状态连续性。
+实验直接调用 `pysim-aura-integration/pySim/esim/aura/lifecycle.py` 集成实现，
+使用真实 HMAC、SQLite 事务和原子 CAS。
 
 ## 子测试
 
@@ -19,7 +20,7 @@
 ## 运行
 
 ```bash
-cd /path/to/aura-rsp-paper-artifact/experiments/experiment-06-lifecycle-resilience
+cd experiments/experiment-06-lifecycle-resilience
 bash ./run_demo.sh
 ```
 
@@ -53,7 +54,7 @@ pending-delete记录和有效`Rprep`，不重新要求原删除票据仍在有�
 
 ## Standard对照边界
 
-当前`rsp-baseline`只执行下载、BPP处理和安装通知，没有可调用的enable、disable、
+集成代码的 Standard 模式只执行下载、BPP处理和安装通知，没有可调用的enable、disable、
 两阶段delete或生命周期状态链测试接口。因此Standard在本实验中报告`UNSUPPORTED`，
 而不是被描述为“接受重放”或“存在标准协议漏洞”。
 

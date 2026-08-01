@@ -1,0 +1,5 @@
+﻿configuration,legal_acceptance_rate,transfer_proof_generation_rate,transfer_authentication_acceptance_rate,transfer_profile_delivery_rate,transfer_attack_attempts
+AURA-RSP,1.0,0.0,0.0,0.0,24500
+AURA-RSP w/o secret binding,1.0,1.0,1.0,1.0,24500
+Standard RSP (EID pre-bound),1.0,,0.0,0.0,24500
+Standard RSP (unbound code),1.0,,1.0,1.0,24500
