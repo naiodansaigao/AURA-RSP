@@ -1,0 +1,272 @@
+theory AURA_RSP_Assume_Guarantee_Composition
+begin
+
+/*
+  Machine-checkable assume-guarantee composition of the six AURA-RSP models.
+
+  Each Contract_* rule is justified by already verified lemmas in exactly one
+  source theory.  Contract facts are private multiset-rewriting facts: the
+  Dolev-Yao attacker cannot manufacture a module output or bypass a phase.
+
+  Contract_Server_Authentication
+    <- server_authentication_agreement
+       server_authentication_order_binding
+       capability_transcript_binding
+
+  Contract_Anonymous_Authentication
+    <- anonymous_authentication_soundness
+       ticket_non_transferability
+       minimal_authorization_context_binding
+       nullifier_single_business_acceptance
+
+  Contract_Profile_Binding
+    <- profile_binding_agreement
+       binding_uses_accepted_anonymous_context
+       binding_cannot_cross_contexts
+
+  Contract_Classic_Key_Agreement / Contract_Hybrid_Key_Agreement
+    <- key_agreement_mode_and_transcript_agreement
+       *_acceptance_requires_*_capability_transcript
+       no_cross_mode_key_acceptance
+       key_secrecy
+
+  Contract_Encrypted_Download
+    <- key_agreement_device_to_server
+       installation_receipt_authenticity
+       installation_receipt_is_bound_to_profile_binding
+       profile_confidentiality
+       session_key_secrecy
+
+  Contract_Conditional_Trace
+    <- tracing_requires_two_distinct_valid_responses
+       trace_resolves_issued_device
+       same_opid_is_non_frameable
+       exact_replay_does_not_create_trace
+       no_trace_from_single_accepted_response
+
+  This theory proves interface compatibility, field preservation, phase
+  ordering, one-time completion, mode preservation, and trace preconditions.
+  It does not re-prove the cryptography of the six source theories.
+*/
+
+builtins: hashing
+
+functions:
+  capability/2,
+  nullifier/1
+
+rule Initialize_Classic_Transaction:
+  let Mode = 'classic'
+      Cap  = capability('caps-classic','classic')
+      Nf   = nullifier(~eta)
+  in
+  [ Fr(~eid), Fr(~x), Fr(~k), Fr(~eta),
+    Fr(~Iac), Fr(~sid), Fr(~pidh), Fr(~exp), Fr(~PRaddr),
+    Fr(~Ctx), Fr(~Lph), Fr(~Bind), Fr(~profile) ]
+--[ OrderCreated(~Iac,~sid,~pidh,'download',~exp,~PRaddr,Mode,Cap),
+    CredentialIssued(~eid,~x,~k),
+    TicketIssued(~eid,~x,~Iac,~sid,~pidh,'download',~exp,~PRaddr,Nf),
+    CompositionTransactionStarted(~eid,~Iac,Mode,Nf) ]->
+  [ ServerAuthContractInput(~eid,~x,~k,~Iac,~sid,~pidh,'download',
+                            ~exp,~PRaddr,Mode,Cap,~Ctx,~Lph,~Bind,
+                            ~profile,Nf),
+    UnusedNullifier(Nf),
+    !TraceOwner(~k,~eid) ]
+
+rule Initialize_Hybrid_Transaction:
+  let Mode = 'hybrid'
+      Cap  = capability('caps-hybrid','hybrid')
+      Nf   = nullifier(~eta)
+  in
+  [ Fr(~eid), Fr(~x), Fr(~k), Fr(~eta),
+    Fr(~Iac), Fr(~sid), Fr(~pidh), Fr(~exp), Fr(~PRaddr),
+    Fr(~Ctx), Fr(~Lph), Fr(~Bind), Fr(~profile) ]
+--[ OrderCreated(~Iac,~sid,~pidh,'download',~exp,~PRaddr,Mode,Cap),
+    CredentialIssued(~eid,~x,~k),
+    TicketIssued(~eid,~x,~Iac,~sid,~pidh,'download',~exp,~PRaddr,Nf),
+    CompositionTransactionStarted(~eid,~Iac,Mode,Nf) ]->
+  [ ServerAuthContractInput(~eid,~x,~k,~Iac,~sid,~pidh,'download',
+                            ~exp,~PRaddr,Mode,Cap,~Ctx,~Lph,~Bind,
+                            ~profile,Nf),
+    UnusedNullifier(Nf),
+    !TraceOwner(~k,~eid) ]
+
+rule Contract_Server_Authentication:
+  [ ServerAuthContractInput(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                            Mode,Cap,Ctx,Lph,Bind,profile,Nf) ]
+--[ ServerAuthenticationGuaranteed(eid,Iac,sid,pidh,op,exp,PRaddr,
+                                    Mode,Cap,Ctx,Nf) ]->
+  [ AnonymousAuthContractInput(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                               Mode,Cap,Ctx,Lph,Bind,profile,Nf) ]
+
+rule Contract_Anonymous_Authentication:
+  [ AnonymousAuthContractInput(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                               Mode,Cap,Ctx,Lph,Bind,profile,Nf),
+    UnusedNullifier(Nf) ]
+--[ AnonymousAuthenticationGuaranteed(eid,x,k,Iac,sid,pidh,op,exp,
+                                       PRaddr,Mode,Cap,Ctx,Lph,Nf),
+    BusinessAccepted(Nf,Ctx) ]->
+  [ ProfileBindingContractInput(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                                Mode,Cap,Ctx,Lph,Bind,profile,Nf),
+    !FirstValidResponse(eid,k,Iac,Nf,Ctx) ]
+
+rule Contract_Profile_Binding:
+  [ ProfileBindingContractInput(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                                Mode,Cap,Ctx,Lph,Bind,profile,Nf) ]
+--[ ProfileBindingGuaranteed(eid,Iac,sid,pidh,Mode,Ctx,Lph,Bind,Nf) ]->
+  [ KeyAgreementContractInput(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                              Mode,Cap,Ctx,Lph,Bind,profile,Nf) ]
+
+rule Contract_Classic_Key_Agreement:
+  [ KeyAgreementContractInput(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                              'classic',Cap,Ctx,Lph,Bind,profile,Nf),
+    Fr(~CtxK), Fr(~SessionKey) ]
+--[ ClassicKeyAgreementGuaranteed(eid,Iac,sid,pidh,Cap,Ctx,~CtxK,Nf),
+    KeyAgreementGuaranteed(eid,Iac,sid,pidh,'classic',Cap,Ctx,~CtxK,Nf) ]->
+  [ DownloadContractInput(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                          'classic',Cap,Ctx,Lph,Bind,~CtxK,~SessionKey,
+                          profile,Nf) ]
+
+rule Contract_Hybrid_Key_Agreement:
+  [ KeyAgreementContractInput(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                              'hybrid',Cap,Ctx,Lph,Bind,profile,Nf),
+    Fr(~CtxK), Fr(~SessionKey) ]
+--[ HybridKeyAgreementGuaranteed(eid,Iac,sid,pidh,Cap,Ctx,~CtxK,Nf),
+    KeyAgreementGuaranteed(eid,Iac,sid,pidh,'hybrid',Cap,Ctx,~CtxK,Nf) ]->
+  [ DownloadContractInput(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                          'hybrid',Cap,Ctx,Lph,Bind,~CtxK,~SessionKey,
+                          profile,Nf) ]
+
+rule Contract_Encrypted_Download:
+  [ DownloadContractInput(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                          Mode,Cap,Ctx,Lph,Bind,CtxK,SessionKey,profile,Nf),
+    Fr(~Rid) ]
+--[ ProfileInstalled(eid,Iac,sid,pidh,Mode,Ctx,Lph,Bind,CtxK,profile,Nf),
+    InstallReceiptAccepted(eid,Iac,sid,pidh,Mode,Ctx,Lph,Bind,~Rid,Nf),
+    EndToEndDownloadComplete(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                             Mode,Cap,Ctx,Lph,Bind,CtxK,~Rid,Nf) ]->
+  [ CompletedTransaction(Nf,Mode,Ctx,~Rid) ]
+
+rule Process_Exact_Replay:
+  [ !FirstValidResponse(eid,k,Iac,Nf,Ctx) ]
+--[ ExactReplayProcessed(eid,Nf,Ctx) ]->
+  [ ]
+
+rule Produce_Distinct_Second_Response:
+  [ !FirstValidResponse(eid,k,Iac,Nf,Ctx1), Fr(~Ctx2) ]
+--[ DistinctSecondValidResponse(eid,Nf,Ctx1,~Ctx2) ]->
+  [ TraceContractInput(eid,k,Nf,Ctx1,~Ctx2) ]
+
+rule Contract_Conditional_Trace:
+  [ TraceContractInput(eid,k,Nf,Ctx1,Ctx2),
+    !TraceOwner(k,eid) ]
+--[ TwoDistinctResponsesRequired(eid,Nf,Ctx1,Ctx2),
+    IdentityResolved(eid,Nf,k),
+    ConditionalTraceComplete(eid,Nf,k) ]->
+  [ ]
+
+lemma exists_complete_classic_composition:
+  exists-trace
+  "Ex eid x k Iac sid pidh op exp PRaddr Cap Ctx Lph Bind CtxK Rid Nf #i.
+     EndToEndDownloadComplete(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                              'classic',Cap,Ctx,Lph,Bind,CtxK,Rid,Nf) @ #i"
+
+lemma exists_complete_hybrid_composition:
+  exists-trace
+  "Ex eid x k Iac sid pidh op exp PRaddr Cap Ctx Lph Bind CtxK Rid Nf #i.
+     EndToEndDownloadComplete(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                              'hybrid',Cap,Ctx,Lph,Bind,CtxK,Rid,Nf) @ #i"
+
+lemma exists_composed_conditional_trace:
+  exists-trace
+  "Ex eid Nf k #i. ConditionalTraceComplete(eid,Nf,k) @ #i"
+
+lemma complete_flow_has_all_module_guarantees:
+  "All eid x k Iac sid pidh op exp PRaddr Mode Cap Ctx Lph Bind
+       CtxK Rid Nf #i.
+     EndToEndDownloadComplete(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                              Mode,Cap,Ctx,Lph,Bind,CtxK,Rid,Nf) @ #i
+     ==> (Ex profile #s #a #b #ka #p.
+            ServerAuthenticationGuaranteed(eid,Iac,sid,pidh,op,exp,PRaddr,
+                                            Mode,Cap,Ctx,Nf) @ #s
+          & AnonymousAuthenticationGuaranteed(eid,x,k,Iac,sid,pidh,op,exp,
+                                               PRaddr,Mode,Cap,Ctx,Lph,Nf) @ #a
+          & ProfileBindingGuaranteed(eid,Iac,sid,pidh,Mode,Ctx,
+                                     Lph,Bind,Nf) @ #b
+          & KeyAgreementGuaranteed(eid,Iac,sid,pidh,Mode,Cap,Ctx,CtxK,Nf) @ #ka
+          & ProfileInstalled(eid,Iac,sid,pidh,Mode,Ctx,Lph,Bind,
+                             CtxK,profile,Nf) @ #p
+          & #s < #a & #a < #b & #b < #ka & #ka < #p & #p = #i)"
+
+lemma authorization_fields_preserved_end_to_end:
+  "All eid x k Iac sid pidh op exp PRaddr Mode Cap Ctx Lph Bind
+       CtxK Rid Nf #i.
+     EndToEndDownloadComplete(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                              Mode,Cap,Ctx,Lph,Bind,CtxK,Rid,Nf) @ #i
+     ==> (Ex #o #t.
+            OrderCreated(Iac,sid,pidh,op,exp,PRaddr,Mode,Cap) @ #o
+          & TicketIssued(eid,x,Iac,sid,pidh,op,exp,PRaddr,Nf) @ #t
+          & #o < #i & #t < #i)"
+
+lemma negotiated_capability_preserved:
+  "All eid x k Iac sid pidh op exp PRaddr Mode Cap Ctx Lph Bind
+       CtxK Rid Nf #i.
+     EndToEndDownloadComplete(eid,x,k,Iac,sid,pidh,op,exp,PRaddr,
+                              Mode,Cap,Ctx,Lph,Bind,CtxK,Rid,Nf) @ #i
+     ==> ((Mode = 'classic'
+           & Cap = capability('caps-classic','classic'))
+          | (Mode = 'hybrid'
+             & Cap = capability('caps-hybrid','hybrid')))"
+
+lemma nullifier_has_single_business_acceptance:
+  "All Nf Ctx1 Ctx2 #i #j.
+     BusinessAccepted(Nf,Ctx1) @ #i
+   & BusinessAccepted(Nf,Ctx2) @ #j
+     ==> #i = #j"
+
+lemma nullifier_has_single_end_to_end_completion:
+  "All eid1 eid2 x1 x2 k1 k2 Iac1 Iac2 sid1 sid2 pidh1 pidh2
+       op1 op2 exp1 exp2 PRaddr1 PRaddr2 Mode1 Mode2 Cap1 Cap2
+       Ctx1 Ctx2 Lph1 Lph2 Bind1 Bind2 CtxK1 CtxK2 Rid1 Rid2 Nf #i #j.
+     EndToEndDownloadComplete(eid1,x1,k1,Iac1,sid1,pidh1,op1,exp1,
+                              PRaddr1,Mode1,Cap1,Ctx1,Lph1,Bind1,
+                              CtxK1,Rid1,Nf) @ #i
+   & EndToEndDownloadComplete(eid2,x2,k2,Iac2,sid2,pidh2,op2,exp2,
+                              PRaddr2,Mode2,Cap2,Ctx2,Lph2,Bind2,
+                              CtxK2,Rid2,Nf) @ #j
+     ==> #i = #j"
+
+lemma no_cross_mode_completion:
+  "All eid1 eid2 x1 x2 k1 k2 Iac1 Iac2 sid1 sid2 pidh1 pidh2
+       op1 op2 exp1 exp2 PRaddr1 PRaddr2 Cap1 Cap2 Ctx1 Ctx2
+       Lph1 Lph2 Bind1 Bind2 CtxK1 CtxK2 Rid1 Rid2 Nf #i #j.
+     EndToEndDownloadComplete(eid1,x1,k1,Iac1,sid1,pidh1,op1,exp1,
+                              PRaddr1,'classic',Cap1,Ctx1,Lph1,Bind1,
+                              CtxK1,Rid1,Nf) @ #i
+   & EndToEndDownloadComplete(eid2,x2,k2,Iac2,sid2,pidh2,op2,exp2,
+                              PRaddr2,'hybrid',Cap2,Ctx2,Lph2,Bind2,
+                              CtxK2,Rid2,Nf) @ #j
+     ==> F"
+
+lemma trace_requires_distinct_second_response:
+  "All eid Nf k #i.
+     IdentityResolved(eid,Nf,k) @ #i
+     ==> (Ex Ctx1 Ctx2 #j.
+            DistinctSecondValidResponse(eid,Nf,Ctx1,Ctx2) @ #j
+          & #j < #i)"
+
+lemma trace_resolves_registered_owner:
+  "All eid Nf k #i.
+     IdentityResolved(eid,Nf,k) @ #i
+     ==> (Ex x #j. CredentialIssued(eid,x,k) @ #j & #j < #i)"
+
+lemma exact_replay_alone_does_not_trace:
+  "All eid Nf Ctx #i.
+     ExactReplayProcessed(eid,Nf,Ctx) @ #i
+     ==> not (Ex k #j.
+                IdentityResolved(eid,Nf,k) @ #j
+              & not (Ex Ctx2 #m.
+                       DistinctSecondValidResponse(eid,Nf,Ctx,Ctx2) @ #m
+                     & #m < #j))"
+
+end
