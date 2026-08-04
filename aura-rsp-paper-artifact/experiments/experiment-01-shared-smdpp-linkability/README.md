@@ -4,12 +4,14 @@
 
 共享 SM-DP+ 能否仅凭正常可见的认证与下载记录，把不同 MNO、不同订单、不同 Profile 的事务归并到同一物理 eUICC？
 
-本目录是一个独立最小 demo，直接复用发布包中的
-`pysim-aura-integration/`，不会修改其他实验目录。
+本目录是一个独立最小 demo，不修改：
+
+- `rsp-baseline/`
+- `aura-rsp/`
 
 ## 实验口径
 
-该 demo 是**受控协议可见转录实验**，不是 80 次 Standard 网络下载加 80 次 AURA 网络下载。它复用现有源码的字段语义，生成 SM-DP+ 在各协议中可见的最小记录，然后真实执行关联分析。
+该 demo 是**受控协议可见转录实验**，不是 400 次 Standard 网络下载加 400 次 AURA 网络下载。它复用现有源码的字段语义，生成 SM-DP+ 在各协议中可见的最小记录，然后真实执行关联分析。
 
 - Standard：每台模拟 eUICC 固定一个 EID、证书指纹和证书公钥指纹；这符合当前 osmo-smdpp 在 `authenticateClient` 中接收 eUICC 证书、保存证书并提取 EID 的行为。
 - AURA：每个事务使用新的 `I_ac`、`nu`、`opid`、一次性 `vk_t` 和会话公钥；每个 Profile 使用不同 `pid_h` 与 `lph`。当前 AURA 源码把论文中的 nullifier `ν` 命名为字段 `v`，本实验报告统一写作 `nu`。
@@ -21,19 +23,19 @@
 
 ## 默认规模
 
-- 20 个模拟 eUICC
+- 100 个模拟 eUICC
 - 4 个 MNO
 - 每台 eUICC 从每个 MNO 获取一个不同 Profile
-- 每种协议 80 条事务
+- 每种协议 400 条事务
 
-这是比 50 台/200 条更轻的 demo，但仍有足够的正负样本进行 5 折交叉验证。可使用 `--devices` 临时调整。
+该规模提供600个同设备跨MNO正样本，并匹配600个不同设备负样本，共1200个平衡事务对用于5折交叉验证。可使用 `--devices` 临时调整。
 
 ## 一键运行
 
 在 WSL2 Ubuntu 中：
 
 ```bash
-cd experiments/experiment-01-shared-smdpp-linkability
+cd /mnt/d/学习/自己论文/ESIM/仿真/experiments/experiment-01-shared-smdpp-linkability
 chmod +x run_demo.sh
 ./run_demo.sh
 ```

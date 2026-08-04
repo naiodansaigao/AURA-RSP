@@ -201,7 +201,7 @@ def draw_figure(
     tr = {
         "zh": {
             "title": "共享 SM-DP+ 下的跨 Profile 关联能力",
-            "subtitle": "20 个 eUICC × 4 个 MNO；每种协议 80 次事务；仅使用 SM-DP+ 可见公开转录",
+            "subtitle": f'{summary["design"]["device_count"]} 个 eUICC × {len(summary["design"]["mnos"])} 个 MNO；每种协议 {summary["design"]["transaction_count_per_mode"]} 次事务；仅使用 SM-DP+ 可见公开转录',
             "roc_panel": "(a) 成对关联 ROC 曲线",
             "metric_panel": "(b) 关联与设备历史恢复指标",
             "x_axis": "假阳性率",
@@ -215,12 +215,12 @@ def draw_figure(
                 "完整设备历史恢复率",
                 "跨 Profile 直接关联率",
             ],
-            "footer": "固定种子 20260729；5 折交叉验证；240 个平衡测试对；误差区间为 ROC-AUC 分层自助法 95% CI",
+            "footer": f'固定种子 {summary["design"]["seed"]}；5 折交叉验证；{summary["modes"]["standard_rsp"]["pairwise_classifier"]["test_pairs"]} 个平衡测试对；误差区间为 ROC-AUC 分层自助法 95% CI',
             "near_chance": "接近随机猜测",
         },
         "en": {
             "title": "Cross-Profile Linkability at a Shared SM-DP+",
-            "subtitle": "20 eUICCs × 4 MNOs; 80 transactions per mode; public transcripts visible to the SM-DP+ only",
+            "subtitle": f'{summary["design"]["device_count"]} eUICCs × {len(summary["design"]["mnos"])} MNOs; {summary["design"]["transaction_count_per_mode"]} transactions per mode; public transcripts visible to the SM-DP+ only',
             "roc_panel": "(a) Pairwise linkage ROC curves",
             "metric_panel": "(b) Linkage and device-history recovery",
             "x_axis": "False positive rate",
@@ -234,7 +234,7 @@ def draw_figure(
                 "Exact device-history\nrecovery",
                 "Direct cross-profile\nlinkage",
             ],
-            "footer": "Seed 20260729; 5-fold cross-validation; 240 balanced test pairs; error ranges are stratified-bootstrap 95% CIs for ROC-AUC",
+            "footer": f'Seed {summary["design"]["seed"]}; 5-fold cross-validation; {summary["modes"]["standard_rsp"]["pairwise_classifier"]["test_pairs"]} balanced test pairs; error ranges are stratified-bootstrap 95% CIs for ROC-AUC',
             "near_chance": "near chance",
         },
     }[language]

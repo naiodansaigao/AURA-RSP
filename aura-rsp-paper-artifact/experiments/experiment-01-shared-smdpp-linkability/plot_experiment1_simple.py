@@ -16,6 +16,7 @@ import argparse
 import csv
 import hashlib
 import json
+import math
 from decimal import Decimal, ROUND_HALF_UP
 from pathlib import Path
 
@@ -287,15 +288,6 @@ def draw_bar_figure(
             align="right",
         )
 
-    label(
-        draw,
-        ((left + right) // 2, 1895),
-        "Metric value",
-        112,
-        bold=True,
-        anchor="ma",
-    )
-
     legend_y = 105
     draw.rectangle((850, legend_y - 40, 930, legend_y + 40), fill=STANDARD)
     label(draw, (970, legend_y), "Standard RSP", 96, bold=True, anchor="lm")
@@ -348,9 +340,11 @@ def main() -> int:
     expected_aura_auc = summary["modes"]["aura_rsp"]["pairwise_classifier"][
         "roc_auc"
     ]
-    if abs(standard_auc - expected_standard_auc) > 1e-9:
+    # summary.json stores ROC-AUC rounded to six decimal places; compare at
+    # that serialization precision instead of requiring bit-identical floats.
+    if not math.isclose(standard_auc, expected_standard_auc, abs_tol=1e-6):
         raise AssertionError("Standard RSP AUC mismatch")
-    if abs(aura_auc - expected_aura_auc) > 1e-9:
+    if not math.isclose(aura_auc, expected_aura_auc, abs_tol=1e-6):
         raise AssertionError("AURA-RSP AUC mismatch")
 
     standard_ci = stratified_bootstrap_auc(

@@ -1,7 +1,7 @@
 {
   "experiment_name": "shared-smdpp-cross-profile-linkability",
   "seed": 20260729,
-  "device_count": 20,
+  "device_count": 100,
   "mnos": [
     "MNO-A",
     "MNO-B",
